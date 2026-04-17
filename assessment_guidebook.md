@@ -164,6 +164,63 @@ Sadlerは、形成的評価が機能するための3条件を示した:
 
 > Sadler, D. R. (1989). Formative assessment and the design of instructional systems. *Instructional Science*, 18, 119–144.
 
+### 評価の3つの目的 ── of / for / as Learning
+
+ここまで7つの海外理論を紹介してきたが、これらの理論を**日々の授業でどう使い分けるか**を考えるとき、最も実用的な整理の枠組みが「評価の3つの���的」である。初任者はまずこの3つを理解することで、7つの理論がどこに位置づくかが一気に見通せるようになる。
+
+#### 初任者のためのたとえ話
+
+「評価」と聞くと「テストで点数をつけること」をイメージしがちだが、それは評価の一面にすぎない。評価には**3つの使い方**がある。料理にたとえるなら:
+
+- **Assessment of Learning** = 料理が完成した後に「おいしいかどうか」を判定する（**味見係による最終判定**）
+- **Assessment for Learning** = 料理の途中で味見して「もう少し塩を足そう」と調整する（**料理人自身の途中の味見**）
+- **Assessment as Learning** = 自分で味見しながら「なぜこの味になったのか」を考え、次の料理に活��す力をつける（**味覚そのものを鍛えること**）
+
+#### 3つの評価の全体像
+
+| | Assessment of Learning（学習の評価） | Assessment for Learning（学習のための評価） | Assessment as Learning（学習としての評価） |
+|---|---|---|---|
+| **ひとことで** | 「どこまでできたか」を**確認する**評価 | 「次にどうすればいいか」を**導く**評�� | 「自分の学びを自分で見つめる」ことが**学びそのもの**になる評価 |
+| **��つ行うか** | 単元の終わり、学期末 | 授業の途中、単元の途中 | 学習のあらゆる場面で |
+| **誰のた��に** | 保護者・学校・社会へ���報告 | 教師が指導を改善するため | 児童生徒自身が成長するため |
+| **主な担い手** | 教師 | 教師（→児童生徒へフィードバック） | **児童生徒自身** |
+| **具体例** | 定期テスト、通��表、学���調査 | 小テスト、机間指導での声かけ、ワークシートへのコメント | 振り返りカード、自己評価シート、学習ポートフォリオ |
+| **対応する3観点** | 3観点すべて（総括的に） | 主に「知識・技能」「思考・判断・表現」 | 特に**「主体的に学習に取り組む態度」** |
+| **関連する理論** | Webb DOK（認知的複雑さの確認） | Black & Wiliam（形成��評価）、Hattie & Timperley（フィードバック）、Sadler（3条件） | Zimmerman（自己調整学習）、Deci & Ryan（自己決定理論） |
+
+#### なぜ3つとも必要なのか？── Earl (2003)
+
+Lorna Earlは著書 *Assessment as Learning* で、3つの評価目的はどれか1つに偏るのではなく、**バランスよく統合する**ことが重��だと述べている。
+
+現実の学校では **Assessment of Learning（テストで成績をつける）に偏りがち** である。しかし、学力向上に最も効果が大きいのは Assessment for Learning（形成���評価）であり（Black & Wiliam, 1998）、そして生涯学び続ける力を育てるのは **Assessment as Learning（学習者自身が評価の主体になること）** である。
+
+> Earl, L. M. (2003). *Assessment as Learning: Using Classroom Assessment to Maximize Student Learning*. Thousand Oaks, CA: Corwin Press.
+
+#### 初任者が明日からできる「3つの評価」の使い分け
+
+| 場面 | やること | 評価の種類 |
+|---|---|---|
+| **単元の始め** | この単元のゴール（ルーブリック）を児童生徒と共有する | for Learning の準備（Sadlerの条件1） |
+| **毎時間の授業中** | 机間指導で「ここまではできているね。次は〇〇を試してみよう」と声をか��る | for Learning（Hattieの Feed-forward） |
+| **毎時間の終わり** | 振り返りカ��ドに「今日の工夫」「次にやりたいこと」を書かせる | **as Learning**（Zimmermanの自己省察段階） |
+| **単元の終わり** | テストやパフォーマンス課題で到達度を確認する | of Learning |
+| **単元の終わり** | 自己評価シートで「目標と現状の���ャップ」「次の単元への作戦」を書かせる | **as Learning**（Sadlerの条件2・3） |
+
+> **よくある誤解:**「Assessment of Learning（テスト）は悪いものだ」―― そうではない。通知表や入試に必要な総括的評価は学校教育に不可欠である。問題は、of Learning **だけ** に偏ることである。for Learning と as Learning を日常的に取り入れることで、of Learning の結果（テストの成績）も自然と向上する。Black & Wiliamの研究では、形成的評価を充��させた学校で**効果量 0.4〜0.7** の学力向上が��告されている。
+
+#### 3つの評価と「主体的に学習に取り組む態度」の関係
+
+本ガイドブックで最も重視する「主体的に学習に取り組む態度」の評価は、**Assessment as Learning の考え方そ��もの**である。
+
+| Assessment as Learning の要素 | ���主体的に学習に取り組む態度」で見取る姿 | 対応する理論 |
+|---|---|---|
+| 自分の学習を**��ニタリング**する | 「今の自分はどこまでわかっているか」を把握している | Zimmerman ── 遂行段階の自己モニタリング |
+| ���標と現状の**ギャッ���を認識**する | ���ここがまだでき��いない」と自覚している | Sadler ── 条件2（ギャップの認識） |
+| ギャップを埋めるために**行動を調整**する | 「別のやり方を試し��みよう」と���略を切り替えている | Zimmerman ── 自己省察段階の適応的修正 |
+| 自分の意志��**学びを駆動**する | 「自分はこれを学びたい」と内発的に動いている | Deci & Ryan ── 自律性の欲求 |
+
+つまり、「主体的に学習に取り組む態度」を���しく評価するとは、**児童生徒が Assessment as Learning を実践できているかどうかを見取ること**に他ならない。振��返りカードや自己評価シートは、そ��ための具体的な手段で���る。
+
 ---
 
 ## 第1部　小学校編
@@ -774,7 +831,10 @@ Zimmermanの自己調整学習モデルを小学校段階に翻訳すると:
 8. **OECD (2005).** *Formative Assessment: Improving Learning in Secondary Classrooms*. Paris: OECD Publishing.  
    → 各国の形成的評価の実践事例と政策分析
 
-9. **Niemiec, C. P., & Ryan, R. M. (2009).** Autonomy, competence, and relatedness in the classroom: Applying self-determination theory to educational practice. *Theory and Research in Education*, 7(2), 133–144.  
+9. **Niemiec, C. P., & Ryan, R. M. (2009).** Autonomy, competence, and relatedness in the classroom: Applying self-determination theory to educational practice. *Theory and Research in Education*, 7(2), 133–144.
+
+10. **Earl, L. M. (2003).** *Assessment as Learning: Using Classroom Assessment to Maximize Student Learning*. Thousand Oaks, CA: Corwin Press.  
+    → Assessment of / for / as Learning の3分類を体系化  
    → 自己決定理論の教育実践への適用
 
 10. **Biggs, J. B., & Collis, K. F. (1982).** *Evaluating the Quality of Learning: The SOLO Taxonomy*. New York: Academic Press.  
