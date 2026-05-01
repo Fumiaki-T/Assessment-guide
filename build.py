@@ -127,10 +127,36 @@ def split_combined_callouts(html: str) -> str:
 
 
 def strip_first_toc(html: str) -> str:
-    """Remove the manually written TOC block (between the H1 and 序章)."""
-    # The markdown has "## 目次" then a list, then "---". Remove that section.
-    pattern = r'<h2>目次</h2>.*?<hr\s*/?>'
-    return re.sub(pattern, "", html, count=1, flags=re.DOTALL)
+    """Remove the manually written TOC block (kept as historical helper).
+
+    Currently disabled: we keep the central TOC visible and rewrite its
+    hrefs to the correct ASCII slugs via fix_central_toc_hrefs().
+    """
+    return html
+
+
+def fix_central_toc_hrefs(html: str) -> str:
+    """Rewrite the manually written TOC's hrefs to point to ASCII slugs.
+
+    The markdown source has links like
+        [序章　なぜ今「評価の質」が問われるのか](#序章なぜ今評価の質が問われるのか)
+    where the slug was hand-typed and does not match the slugs we now
+    generate for headings. Compute the correct slug from each link's
+    visible text and replace the href.
+    """
+
+    def maybe_repl(m):
+        href = m.group(1)
+        text = m.group(2)
+        # Already a sec-... slug → leave alone (these are sidebar TOC links).
+        if href.startswith("sec-"):
+            return m.group(0)
+        # Strip any nested tags from the link text and compute the canonical slug.
+        plain = re.sub(r"<[^>]+>", "", text).strip()
+        slug = slugify(plain)
+        return f'<a href="#{slug}">{text}</a>'
+
+    return re.sub(r'<a href="#([^"]+)">([^<]+)</a>', maybe_repl, html)
 
 
 def build():
@@ -145,6 +171,7 @@ def build():
     body_html = md.convert(md_text)
     body_html = add_anchor_ids(body_html)
     body_html = strip_first_toc(body_html)
+    body_html = fix_central_toc_hrefs(body_html)
 
     toc = extract_toc(md_text)
     toc_html = render_toc_html(toc)
@@ -637,16 +664,19 @@ a:hover { color: var(--accent-3); text-decoration: underline; text-underline-off
     el: document.getElementById(a.dataset.target)
   })).filter(t => t.el);
 
-  // Explicit click handler ensures the jump works regardless of browser
-  // quirks with hash navigation, and gives us smooth scrolling.
-  tocLinks.forEach(link => {
+  // Explicit click handler for ALL internal anchor links (sidebar TOC +
+  // central TOC). Ensures smooth scroll and avoids browser quirks with
+  // hash navigation.
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', function(e) {
-      const el = document.getElementById(this.dataset.target);
+      const id = this.getAttribute('href').slice(1);
+      if (!id) return;
+      const el = document.getElementById(id);
       if (!el) return;
       e.preventDefault();
       const top = el.getBoundingClientRect().top + window.scrollY - 24;
       window.scrollTo({ top, behavior: 'smooth' });
-      history.pushState(null, '', '#' + this.dataset.target);
+      history.pushState(null, '', '#' + id);
     });
   });
 

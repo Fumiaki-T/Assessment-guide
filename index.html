@@ -529,18 +529,18 @@ a:hover { color: var(--accent-3); text-decoration: underline; text-underline-off
 <hr />
 <h2 id="sec-f468002119">目次</h2>
 <ul>
-<li><a href="#序章なぜ今評価の質が問われるのか">序章　なぜ今「評価の質」が問われるのか</a></li>
-<li><a href="#理論編海外の評価研究から学ぶ">理論編　海外の評価研究から学ぶ</a></li>
-<li><a href="#第1部小学校編">第1部　小学校編</a></li>
-<li><a href="#第2部中学校編">第2部　中学校編</a></li>
-<li><a href="#第3部高校編">第3部　高校編</a></li>
-<li><a href="#第4部評価設計を深化させる4つのフレームワーク">第4部　評価設計を深化させる4つのフレームワーク</a></li>
-<li>第8章 DOKで評価課題を診断する</li>
-<li>第9章 認知的厳密性マトリックス（CRM）でブルーム×DOKを統合する</li>
-<li>第10章 自己調整学習で「主体的態度」評価を設計する</li>
-<li>第11章 SAMR×ブルーム・デジタル・タクソノミーでICT課題を評価する</li>
-<li><a href="#終章評価の改善に向けて">終章　評価の改善に向けて</a></li>
-<li><a href="#参考文献">参考文献</a></li>
+<li><a href="#sec-014dcecd62">序章　なぜ今「評価の質」が問われるのか</a></li>
+<li><a href="#sec-3c3730fa70">理論編　海外の評価研究から学ぶ</a></li>
+<li><a href="#sec-1105b6cb5e">第1部　小学校編</a></li>
+<li><a href="#sec-ec13d3cc19">第2部　中学校編</a></li>
+<li><a href="#sec-e43814420f">第3部　高校編</a></li>
+<li><a href="#sec-a15d14ccc2">第4部　評価設計を深化させる4つのフレームワーク</a></li>
+<li><a href="#sec-2e30817323">第8章　DOKで評価課題を診断する</a></li>
+<li><a href="#sec-0519249147">第9章　認知的厳密性マトリックス（CRM）でブルーム×DOKを統合する</a></li>
+<li><a href="#sec-4226147d66">第10章　自己調整学習で「主体的態度」評価を設計する</a></li>
+<li><a href="#sec-992ecaca0f">第11章　SAMR×ブルーム・デジタル・タクソノミーでICT課題を評価する</a></li>
+<li><a href="#sec-2645bd712f">終章　評価の改善に向けて</a></li>
+<li><a href="#sec-fb507f2cb9">参考文献</a></li>
 </ul>
 <hr />
 <h2 id="sec-014dcecd62">序章　なぜ今「評価の質」が問われるのか</h2>
@@ -2322,16 +2322,19 @@ Winne, P. H., &amp; Hadwin, A. F. (1998). Studying as self-regulated learning. I
     el: document.getElementById(a.dataset.target)
   })).filter(t => t.el);
 
-  // Explicit click handler ensures the jump works regardless of browser
-  // quirks with hash navigation, and gives us smooth scrolling.
-  tocLinks.forEach(link => {
+  // Explicit click handler for ALL internal anchor links (sidebar TOC +
+  // central TOC). Ensures smooth scroll and avoids browser quirks with
+  // hash navigation.
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', function(e) {
-      const el = document.getElementById(this.dataset.target);
+      const id = this.getAttribute('href').slice(1);
+      if (!id) return;
+      const el = document.getElementById(id);
       if (!el) return;
       e.preventDefault();
       const top = el.getBoundingClientRect().top + window.scrollY - 24;
       window.scrollTo({ top, behavior: 'smooth' });
-      history.pushState(null, '', '#' + this.dataset.target);
+      history.pushState(null, '', '#' + id);
     });
   });
 
