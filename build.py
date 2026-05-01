@@ -15,11 +15,17 @@ DST = ROOT / "index.html"
 
 
 def slugify(text: str) -> str:
-    """Generate a URL-friendly slug from a heading."""
+    """Generate an ASCII-safe deterministic slug from a heading.
+
+    Unicode IDs work in modern browsers in principle, but some browsers
+    URL-encode the hash before matching, leading to inconsistent jump
+    behavior. Using a hash-based ASCII slug avoids the entire class of
+    issues and keeps the link always-working.
+    """
+    import hashlib
     text = re.sub(r"[#*`>]+", "", text).strip()
-    text = re.sub(r"\s+", "-", text)
-    text = re.sub(r"[/\\:?\"<>|]", "", text)
-    return text
+    h = hashlib.md5(text.encode("utf-8")).hexdigest()[:10]
+    return f"sec-{h}"
 
 
 def extract_toc(md_text: str):
@@ -623,13 +629,26 @@ a:hover { color: var(--accent-3); text-decoration: underline; text-underline-off
 </footer>
 
 <script>
-// Highlight active TOC item on scroll
+// TOC: explicit click → smooth scroll, plus active-section highlight on scroll.
 (function() {
   const tocLinks = document.querySelectorAll('.toc a[data-target]');
   const targets = Array.from(tocLinks).map(a => ({
     link: a,
     el: document.getElementById(a.dataset.target)
   })).filter(t => t.el);
+
+  // Explicit click handler ensures the jump works regardless of browser
+  // quirks with hash navigation, and gives us smooth scrolling.
+  tocLinks.forEach(link => {
+    link.addEventListener('click', function(e) {
+      const el = document.getElementById(this.dataset.target);
+      if (!el) return;
+      e.preventDefault();
+      const top = el.getBoundingClientRect().top + window.scrollY - 24;
+      window.scrollTo({ top, behavior: 'smooth' });
+      history.pushState(null, '', '#' + this.dataset.target);
+    });
+  });
 
   function onScroll() {
     const y = window.scrollY + 120;
