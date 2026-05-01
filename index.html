@@ -1,1490 +1,2339 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>学習評価ガイドブック ── 3観点の評価を正しく実践するために</title>
-  <style>
-    :root {
-      --bg: #fafaf9;
-      --fg: #1c1917;
-      --accent: #2563eb;
-      --accent-light: #dbeafe;
-      --border: #d6d3d1;
-      --card-bg: #ffffff;
-      --bad-bg: #fef2f2;
-      --bad-border: #fca5a5;
-      --good-bg: #f0fdf4;
-      --good-border: #86efac;
-      --theory-bg: #eff6ff;
-      --theory-border: #93c5fd;
-      --note-bg: #fffbeb;
-      --note-border: #fcd34d;
-      --sidebar-bg: #1e293b;
-      --sidebar-fg: #e2e8f0;
-      --sidebar-active: #3b82f6;
-      --code-bg: #f5f5f4;
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    body {
-      font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      line-height: 1.8;
-      font-size: 15px;
-    }
-
-    /* Layout */
-    .layout {
-      display: flex;
-      min-height: 100vh;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 280px;
-      background: var(--sidebar-bg);
-      color: var(--sidebar-fg);
-      padding: 24px 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      overflow-y: auto;
-      z-index: 100;
-      transition: transform 0.3s ease;
-    }
-
-    .sidebar-title {
-      font-size: 14px;
-      font-weight: 700;
-      padding: 0 20px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-      margin-bottom: 12px;
-      line-height: 1.5;
-    }
-
-    .sidebar nav a {
-      display: block;
-      color: var(--sidebar-fg);
-      text-decoration: none;
-      padding: 6px 20px;
-      font-size: 13px;
-      line-height: 1.6;
-      opacity: 0.75;
-      transition: all 0.15s;
-      border-left: 3px solid transparent;
-    }
-
-    .sidebar nav a:hover,
-    .sidebar nav a.active {
-      opacity: 1;
-      background: rgba(255,255,255,0.05);
-      border-left-color: var(--sidebar-active);
-    }
-
-    .sidebar nav .nav-section {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: rgba(255,255,255,0.4);
-      padding: 14px 20px 4px;
-      pointer-events: none;
-    }
-
-    /* Mobile menu toggle */
-    .menu-toggle {
-      display: none;
-      position: fixed;
-      top: 12px;
-      left: 12px;
-      z-index: 200;
-      background: var(--sidebar-bg);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      width: 40px;
-      height: 40px;
-      font-size: 20px;
-      cursor: pointer;
-    }
-
-    /* Main content */
-    .main {
-      margin-left: 280px;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .hero {
-      background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
-      color: white;
-      padding: 60px 48px 48px;
-    }
-
-    .hero h1 {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 12px;
-      line-height: 1.4;
-    }
-
-    .hero p {
-      font-size: 15px;
-      opacity: 0.85;
-      max-width: 640px;
-      line-height: 1.7;
-    }
-
-    .hero .badge {
-      display: inline-block;
-      background: rgba(255,255,255,0.2);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      margin-top: 16px;
-    }
-
-    .content {
-      max-width: 860px;
-      padding: 40px 48px 80px;
-    }
-
-    /* Typography */
-    h2 {
-      font-size: 24px;
-      font-weight: 800;
-      margin-top: 56px;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 3px solid var(--accent);
-      color: var(--accent);
-    }
-
-    h3 {
-      font-size: 20px;
-      font-weight: 700;
-      margin-top: 40px;
-      margin-bottom: 14px;
-      color: #374151;
-    }
-
-    h4 {
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 28px;
-      margin-bottom: 10px;
-      color: #4b5563;
-    }
-
-    p { margin-bottom: 14px; }
-
-    strong { font-weight: 700; }
-
-    ul, ol {
-      margin-bottom: 14px;
-      padding-left: 24px;
-    }
-
-    li { margin-bottom: 4px; }
-
-    /* Tables */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 16px 0 24px;
-      font-size: 14px;
-    }
-
-    th, td {
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      text-align: left;
-      vertical-align: top;
-    }
-
-    th {
-      background: #f1f5f9;
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    /* Cards */
-    .card {
-      border-radius: 10px;
-      padding: 24px;
-      margin: 20px 0;
-      border-left: 5px solid;
-    }
-
-    .card-bad {
-      background: var(--bad-bg);
-      border-left-color: var(--bad-border);
-    }
-
-    .card-good {
-      background: var(--good-bg);
-      border-left-color: var(--good-border);
-    }
-
-    .card-theory {
-      background: var(--theory-bg);
-      border-left-color: var(--theory-border);
-    }
-
-    .card-note {
-      background: var(--note-bg);
-      border-left-color: var(--note-border);
-    }
-
-    .card-title {
-      font-weight: 700;
-      font-size: 15px;
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .card-bad .card-title { color: #dc2626; }
-    .card-good .card-title { color: #16a34a; }
-    .card-theory .card-title { color: #2563eb; }
-    .card-note .card-title { color: #d97706; }
-
-    .card p:last-child { margin-bottom: 0; }
-
-    .card ul { margin-bottom: 8px; }
-
-    /* Rubric tables */
-    .rubric {
-      margin: 16px 0;
-    }
-
-    .rubric th:first-child { width: 20%; }
-
-    .rubric td:first-child {
-      font-weight: 700;
-      font-size: 13px;
-    }
-
-    /* Comparison table */
-    .compare-table th:nth-child(2) { background: #fee2e2; }
-    .compare-table th:nth-child(3) { background: #dcfce7; }
-
-    /* Diagram */
-    .diagram {
-      background: var(--code-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      margin: 16px 0;
-      font-family: "SF Mono", "Fira Code", monospace;
-      font-size: 13px;
-      line-height: 1.6;
-      white-space: pre;
-      overflow-x: auto;
-    }
-
-    /* Sheet mockup */
-    .sheet {
-      background: white;
-      border: 2px solid var(--border);
-      border-radius: 8px;
-      padding: 20px 24px;
-      margin: 16px 0;
-      font-size: 14px;
-    }
-
-    .sheet-title {
-      font-weight: 700;
-      font-size: 15px;
-      text-align: center;
-      margin-bottom: 16px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--border);
-    }
-
-    .sheet-item {
-      margin-bottom: 14px;
-    }
-
-    .sheet-item label {
-      font-weight: 600;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .sheet-item .field {
-      border-bottom: 1px dotted #999;
-      padding: 4px 0;
-      min-height: 24px;
-      color: #999;
-      font-style: italic;
-    }
-
-    /* Checklist */
-    .checklist {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .checklist li {
-      padding: 6px 0 6px 28px;
-      position: relative;
-    }
-
-    .checklist li::before {
-      content: "\2610";
-      position: absolute;
-      left: 0;
-      font-size: 18px;
-      line-height: 1.5;
-    }
-
-    /* Do/Don't table */
-    .do-dont td:first-child { color: #16a34a; font-weight: 600; }
-    .do-dont td:last-child { color: #dc2626; }
-    .do-dont th:first-child { background: #dcfce7; }
-    .do-dont th:last-child { background: #fee2e2; }
-
-    /* Principles */
-    .principle {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 20px 24px;
-      margin: 16px 0;
-    }
-
-    .principle-num {
-      display: inline-block;
-      background: var(--accent);
-      color: white;
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 28px;
-      font-size: 14px;
-      font-weight: 700;
-      margin-right: 8px;
-    }
-
-    .principle h4 {
-      display: inline;
-      margin: 0;
-      color: var(--fg);
-    }
-
-    .principle p {
-      margin-top: 10px;
-      margin-bottom: 0;
-    }
-
-    /* References */
-    .ref-list {
-      list-style: none;
-      padding-left: 0;
-      counter-reset: ref;
-    }
-
-    .ref-list li {
-      counter-increment: ref;
-      padding: 8px 0 8px 36px;
-      position: relative;
-      font-size: 14px;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .ref-list li::before {
-      content: counter(ref);
-      position: absolute;
-      left: 0;
-      background: #e5e7eb;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 24px;
-      font-size: 12px;
-      font-weight: 700;
-      top: 10px;
-    }
-
-    /* Citation */
-    .citation {
-      font-size: 13px;
-      color: #6b7280;
-      margin-top: 12px;
-      padding-top: 8px;
-      border-top: 1px dashed #d1d5db;
-    }
-
-    /* Section part header */
-    .part-header {
-      background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px 32px;
-      margin: 40px 0 24px;
-    }
-
-    .part-header h2 {
-      margin-top: 0;
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .part-header p {
-      margin-bottom: 0;
-      color: #64748b;
-    }
-
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 40px 48px;
-      color: #9ca3af;
-      font-size: 13px;
-      border-top: 1px solid var(--border);
-    }
-
-    /* Back to top */
-    .back-to-top {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
-      font-size: 20px;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.3s;
-      z-index: 50;
-    }
-
-    .back-to-top.visible { opacity: 1; }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .sidebar {
-        transform: translateX(-100%);
-      }
-
-      .sidebar.open {
-        transform: translateX(0);
-      }
-
-      .menu-toggle {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .main {
-        margin-left: 0;
-      }
-
-      .hero {
-        padding: 60px 24px 36px;
-      }
-
-      .hero h1 { font-size: 22px; }
-
-      .content {
-        padding: 24px 20px 60px;
-      }
-
-      table {
-        display: block;
-        overflow-x: auto;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学習評価ガイドブック v3.0 ── 3観点の実践 × 評価設計を深化させる4つのフレームワーク</title>
+<meta name="description" content="小・中・高の3観点評価の実践と、DOK・CRM・SRL・SAMRの4フレームワークを統合した学習評価ガイドブック。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #fafaf7;
+  --fg: #18181b;
+  --fg-soft: #3f3f46;
+  --fg-muted: #71717a;
+  --border: #e4e4e7;
+  --border-soft: #f4f4f5;
+  --card: #ffffff;
+  --accent: #0f172a;
+  --accent-2: #2563eb;
+  --accent-3: #6366f1;
+  --good-bg: #f0fdf4;
+  --good-border: #86efac;
+  --good-fg: #166534;
+  --bad-bg: #fef2f2;
+  --bad-border: #fca5a5;
+  --bad-fg: #991b1b;
+  --note-bg: #fffbeb;
+  --note-border: #fcd34d;
+  --code-bg: #f4f4f5;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 18px -2px rgba(15,23,42,0.06), 0 2px 6px -1px rgba(15,23,42,0.04);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --serif: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+  --sans: 'Inter', 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic', sans-serif;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: var(--sans);
+  color: var(--fg);
+  background: var(--bg);
+  line-height: 1.85;
+  font-feature-settings: "palt";
+  letter-spacing: 0.01em;
+}
+
+a { color: var(--accent-2); text-decoration: none; transition: color 0.15s; }
+a:hover { color: var(--accent-3); text-decoration: underline; text-underline-offset: 4px; }
+
+/* === Header === */
+.site-header {
+  position: relative;
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 60%, #312e81 100%);
+  color: white;
+  padding: 6rem 2rem 5rem;
+  overflow: hidden;
+}
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(99,102,241,0.25), transparent 40%),
+    radial-gradient(circle at 85% 70%, rgba(37,99,235,0.18), transparent 40%);
+  pointer-events: none;
+}
+.site-header-inner {
+  position: relative;
+  max-width: 880px;
+  margin: 0 auto;
+}
+.eyebrow {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  backdrop-filter: blur(8px);
+}
+.site-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4.2vw, 2.8rem);
+  margin: 1.4rem 0 0.6rem;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.site-subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  opacity: 0.85;
+  max-width: 640px;
+}
+.site-meta {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  opacity: 0.75;
+}
+.site-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.tag-row {
+  margin-top: 1.6rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+
+/* === Layout === */
+.layout {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 3rem;
+  padding: 3rem 2rem 6rem;
+}
+
+/* === TOC === */
+.toc {
+  position: sticky;
+  top: 2rem;
+  align-self: start;
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  font-size: 0.85rem;
+  padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.toc::-webkit-scrollbar { width: 6px; }
+.toc::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.toc-title {
+  font-family: var(--serif);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+.toc-list, .toc-sublist {
+  list-style: none;
+  padding-left: 0;
+}
+.toc-sublist {
+  margin: 0.4rem 0 0.8rem 0.7rem;
+  padding-left: 0.7rem;
+  border-left: 1px solid var(--border-soft);
+}
+.toc-item a {
+  display: block;
+  padding: 0.35rem 0.6rem;
+  color: var(--fg-soft);
+  border-radius: 5px;
+  transition: all 0.15s;
+  line-height: 1.5;
+}
+.toc-l2 > a {
+  font-weight: 600;
+  color: var(--fg);
+  margin-top: 0.2rem;
+}
+.toc-l3 > a {
+  font-size: 0.8rem;
+  color: var(--fg-muted);
+}
+.toc-item a:hover {
+  background: var(--border-soft);
+  color: var(--accent-2);
+  text-decoration: none;
+}
+.toc-item a.active {
+  background: var(--accent-2);
+  color: white;
+}
+
+/* === Content === */
+.content {
+  min-width: 0;
+  font-size: 1rem;
+}
+.content h2, .content h3, .content h4, .content h5 {
+  font-family: var(--serif);
+  letter-spacing: 0.02em;
+  scroll-margin-top: 2rem;
+}
+.content h2 {
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin-top: 4.5rem;
+  margin-bottom: 1.6rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 2px solid var(--accent);
+  position: relative;
+  line-height: 1.4;
+}
+.content h2::before {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: var(--accent-3);
+}
+.content > h2:first-child { margin-top: 0; }
+.content h3 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-top: 3rem;
+  margin-bottom: 1.1rem;
+  padding-left: 0.85rem;
+  border-left: 4px solid var(--accent-2);
+  line-height: 1.5;
+}
+.content h4 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 2.2rem;
+  margin-bottom: 0.9rem;
+  color: var(--accent);
+}
+.content h5 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-top: 1.6rem;
+  margin-bottom: 0.7rem;
+  color: var(--fg-soft);
+}
+.content p {
+  margin: 1rem 0;
+  color: var(--fg-soft);
+}
+.content strong {
+  color: var(--fg);
+  font-weight: 700;
+}
+.content ul, .content ol {
+  margin: 1rem 0 1.2rem 1.6rem;
+  color: var(--fg-soft);
+}
+.content li { margin: 0.4rem 0; }
+.content li::marker { color: var(--accent-2); }
+.content hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 4rem 0;
+}
+
+/* === Tables === */
+.content table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.content thead {
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+}
+.content th {
+  text-align: left;
+  font-weight: 700;
+  padding: 0.85rem 1rem;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+.content td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--border-soft);
+  color: var(--fg-soft);
+  vertical-align: top;
+}
+.content tbody tr:last-child td { border-bottom: none; }
+.content tbody tr:hover { background: #fafafa; }
+
+/* === Code === */
+.content code {
+  font-family: 'SF Mono', 'JetBrains Mono', Consolas, monospace;
+  background: var(--code-bg);
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.88em;
+  color: #be123c;
+}
+.content pre {
+  background: #0f172a;
+  color: #e2e8f0;
+  padding: 1.2rem 1.4rem;
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  margin: 1.4rem 0;
+  font-size: 0.85rem;
+  line-height: 1.7;
+  box-shadow: var(--shadow-md);
+}
+.content pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+}
+
+/* === Blockquotes / Callouts === */
+.content blockquote {
+  margin: 1.6rem 0;
+  padding: 1.2rem 1.4rem;
+  background: var(--note-bg);
+  border-left: 4px solid var(--note-border);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--fg-soft);
+  font-size: 0.95rem;
+}
+.content blockquote p { margin: 0.5rem 0; color: inherit; }
+.content blockquote > p:first-child { margin-top: 0; }
+.content blockquote > p:last-child { margin-bottom: 0; }
+
+.content blockquote.callout-bad {
+  background: var(--bad-bg);
+  border-left-color: var(--bad-border);
+}
+.content blockquote.callout-bad strong:first-child { color: var(--bad-fg); }
+.content blockquote.callout-good {
+  background: var(--good-bg);
+  border-left-color: var(--good-border);
+}
+.content blockquote.callout-good strong:first-child { color: var(--good-fg); }
+
+/* Tables inside blockquotes need a tighter style */
+.content blockquote table {
+  font-size: 0.83rem;
+  background: rgba(255,255,255,0.65);
+}
+
+/* === Footer === */
+.site-footer {
+  background: #0f172a;
+  color: #94a3b8;
+  padding: 3rem 2rem;
+  text-align: center;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+.site-footer strong { color: white; }
+.site-footer-inner {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+/* === Responsive === */
+@media (max-width: 980px) {
+  .layout {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2rem 1.2rem 4rem;
+  }
+  .toc {
+    position: static;
+    max-height: none;
+    margin-bottom: 2rem;
+    padding: 1.4rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+  .site-header { padding: 4rem 1.4rem 3.5rem; }
+  .content h2 { font-size: 1.5rem; margin-top: 3rem; }
+  .content h3 { font-size: 1.2rem; }
+  .content table { font-size: 0.82rem; }
+  .content th, .content td { padding: 0.6rem 0.7rem; }
+}
+
+/* === Print === */
+@media print {
+  .toc, .site-header { display: none; }
+  body { background: white; }
+  .content h2 { page-break-after: avoid; }
+  .content table, .content blockquote { page-break-inside: avoid; }
+}
+
+/* === Subtle entrance animation === */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.site-header-inner > * { animation: fade-in 0.6s ease-out backwards; }
+.site-header-inner > *:nth-child(1) { animation-delay: 0.05s; }
+.site-header-inner > *:nth-child(2) { animation-delay: 0.15s; }
+.site-header-inner > *:nth-child(3) { animation-delay: 0.25s; }
+.site-header-inner > *:nth-child(4) { animation-delay: 0.35s; }
+.site-header-inner > *:nth-child(5) { animation-delay: 0.45s; }
+</style>
 </head>
 <body>
 
-<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')" aria-label="Menu">&#9776;</button>
+<header class="site-header">
+  <div class="site-header-inner">
+    <span class="eyebrow">Assessment Guidebook · v3.0</span>
+    <h1 class="site-title">学習評価ガイドブック<br>3観点の実践 × 評価設計を深化させる4つのフレームワーク</h1>
+    <p class="site-subtitle">小学校・中学校・高等学校の3観点評価を、DOK・認知的厳密性マトリックス・自己調整学習・SAMR×ブルーム・デジタル・タクソノミーで深化させる包括ガイド。</p>
+    <div class="site-meta">
+      <span>📘 約87,000字 / 1,200行</span>
+      <span>🎯 小・中・高すべての校種に対応</span>
+      <span>🔬 海外研究19件 + 4フレームワーク</span>
+    </div>
+    <div class="tag-row">
+      <span class="tag">3観点評価</span>
+      <span class="tag">Webb DOK</span>
+      <span class="tag">Cognitive Rigor Matrix</span>
+      <span class="tag">Self-Regulated Learning</span>
+      <span class="tag">SAMR Model</span>
+      <span class="tag">Bloom's Digital Taxonomy</span>
+    </div>
+  </div>
+</header>
 
 <div class="layout">
+  <aside class="toc">
+    <nav class="toc-nav" aria-label="目次">
+<div class="toc-title">目次</div>
+<ol class="toc-list">
+<li class="toc-item toc-l2"><a href="#序章-なぜ今「評価の質」が問われるのか" data-target="序章-なぜ今「評価の質」が問われるのか">序章　なぜ今「評価の質」が問われるのか</a>
+<ol class="toc-sublist">
+<li class="toc-item toc-l3"><a href="#「自主性」と「主体性」の決定的な違い" data-target="「自主性」と「主体性」の決定的な違い">「自主性」と「主体性」の決定的な違い</a></li>
+</ol>
+</li>
+<li class="toc-item toc-l2"><a href="#理論編-海外の評価研究から学ぶ" data-target="理論編-海外の評価研究から学ぶ">理論編　海外の評価研究から学ぶ</a>
+<ol class="toc-sublist">
+<li class="toc-item toc-l3"><a href="#1.-形成的評価（Formative-Assessment）──-Black-&-Wiliam-(1998)" data-target="1.-形成的評価（Formative-Assessment）──-Black-&-Wiliam-(1998)">1. 形成的評価（Formative Assessment）── Black & Wiliam (1998)</a></li>
+<li class="toc-item toc-l3"><a href="#2.-フィードバックの力（The-Power-of-Feedback）──-Hattie-&-Timperley-(2007)" data-target="2.-フィードバックの力（The-Power-of-Feedback）──-Hattie-&-Timperley-(2007)">2. フィードバックの力（The Power of Feedback）── Hattie & Timperley (2007)</a></li>
+<li class="toc-item toc-l3"><a href="#3.-自己調整学習（Self-Regulated-Learning）──-Zimmerman,-Pintrich,-Winne-&-Hadwin" data-target="3.-自己調整学習（Self-Regulated-Learning）──-Zimmerman,-Pintrich,-Winne-&-Hadwin">3. 自己調整学習（Self-Regulated Learning）── Zimmerman, Pintrich, Winne & Hadwin</a></li>
+<li class="toc-item toc-l3"><a href="#4.-自己決定理論（Self-Determination-Theory）──-Deci-&-Ryan-(2000)" data-target="4.-自己決定理論（Self-Determination-Theory）──-Deci-&-Ryan-(2000)">4. 自己決定理論（Self-Determination Theory）── Deci & Ryan (2000)</a></li>
+<li class="toc-item toc-l3"><a href="#5.-逆向き設計（Backward-Design）──-Wiggins-&-McTighe-(2005)" data-target="5.-逆向き設計（Backward-Design）──-Wiggins-&-McTighe-(2005)">5. 逆向き設計（Backward Design）── Wiggins & McTighe (2005)</a></li>
+<li class="toc-item toc-l3"><a href="#6.-知識の深さ（Depth-of-Knowledge）──-Webb-(1997)" data-target="6.-知識の深さ（Depth-of-Knowledge）──-Webb-(1997)">6. 知識の深さ（Depth of Knowledge）── Webb (1997)</a></li>
+<li class="toc-item toc-l3"><a href="#7.-形成的評価の設計原則-──-Sadler-(1989)" data-target="7.-形成的評価の設計原則-──-Sadler-(1989)">7. 形成的評価の設計原則 ── Sadler (1989)</a></li>
+<li class="toc-item toc-l3"><a href="#評価の3つの目的-──-of--for--as-Learning" data-target="評価の3つの目的-──-of--for--as-Learning">評価の3つの目的 ── of / for / as Learning</a></li>
+</ol>
+</li>
+<li class="toc-item toc-l2"><a href="#第1部-小学校編" data-target="第1部-小学校編">第1部　小学校編</a>
+<ol class="toc-sublist">
+<li class="toc-item toc-l3"><a href="#概要" data-target="概要">概要</a></li>
+<li class="toc-item toc-l3"><a href="#1-1.-「知識・技能」の評価（小学校）" data-target="1-1.-「知識・技能」の評価（小学校）">1-1. 「知識・技能」の評価（小学校）</a></li>
+<li class="toc-item toc-l3"><a href="#1-2.-「思考・判断・表現」の評価（小学校）" data-target="1-2.-「思考・判断・表現」の評価（小学校）">1-2. 「思考・判断・表現」の評価（小学校）</a></li>
+<li class="toc-item toc-l3"><a href="#1-3.-「主体的に学習に取り組む態度」の評価（小学校）" data-target="1-3.-「主体的に学習に取り組む態度」の評価（小学校）">1-3. 「主体的に学習に取り組む態度」の評価（小学校）</a></li>
+</ol>
+</li>
+<li class="toc-item toc-l2"><a href="#第2部-中学校編" data-target="第2部-中学校編">第2部　中学校編</a>
+<ol class="toc-sublist">
+<li class="toc-item toc-l3"><a href="#概要" data-target="概要">概要</a></li>
+<li class="toc-item toc-l3"><a href="#2-1.-「知識・技能」の評価（中学校）" data-target="2-1.-「知識・技能」の評価（中学校）">2-1. 「知識・技能」の評価（中学校）</a></li>
+<li class="toc-item toc-l3"><a href="#2-2.-「思考・判断・表現」の評価（中学校）" data-target="2-2.-「思考・判断・表現」の評価（中学校）">2-2. 「思考・判断・表現」の評価（中学校）</a></li>
+<li class="toc-item toc-l3"><a href="#2-3.-「主体的に学習に取り組む態度」の評価（中学校）" data-target="2-3.-「主体的に学習に取り組む態度」の評価（中学校）">2-3. 「主体的に学習に取り組む態度」の評価（中学校）</a></li>
+</ol>
+</li>
+<li class="toc-item toc-l2"><a href="#第3部-高校編" data-target="第3部-高校編">第3部　高校編</a>
+<ol class="toc-sublist">
+<li class="toc-item toc-l3"><a href="#概要" data-target="概要">概要</a></li>
+<li class="toc-item toc-l3"><a href="#3-1.-「知識・技能」の評価（高校）" data-target="3-1.-「知識・技能」の評価（高校）">3-1. 「知識・技能」の評価（高校）</a></li>
+<li class="toc-item toc-l3"><a href="#3-2.-「思考・判断・表現」の評価（高校）" data-target="3-2.-「思考・判断・表現」の評価（高校）">3-2. 「思考・判断・表現」の評価（高校）</a></li>
+<li class="toc-item toc-l3"><a href="#3-3.-「主体的に学習に取り組む態度」の評価（高校）" data-target="3-3.-「主体的に学習に取り組む態度」の評価（高校）">3-3. 「主体的に学習に取り組む態度」の評価（高校）</a></li>
+</ol>
+</li>
+<li class="toc-item toc-l2"><a href="#第4部-評価設計を深化させる4つのフレームワーク" data-target="第4部-評価設計を深化させる4つのフレームワーク">第4部　評価設計を深化させる4つのフレームワーク</a>
+<ol class="toc-sublist">
+<li class="toc-item toc-l3"><a href="#第8章-DOKで評価課題を診断する" data-target="第8章-DOKで評価課題を診断する">第8章　DOKで評価課題を診断する</a></li>
+<li class="toc-item toc-l3"><a href="#第9章-認知的厳密性マトリックス（CRM）でブルーム×DOKを統合する" data-target="第9章-認知的厳密性マトリックス（CRM）でブルーム×DOKを統合する">第9章　認知的厳密性マトリックス（CRM）でブルーム×DOKを統合する</a></li>
+<li class="toc-item toc-l3"><a href="#第10章-自己調整学習で「主体的態度」評価を設計する" data-target="第10章-自己調整学習で「主体的態度」評価を設計する">第10章　自己調整学習で「主体的態度」評価を設計する</a></li>
+<li class="toc-item toc-l3"><a href="#第11章-SAMR×ブルーム・デジタル・タクソノミーでICT課題を評価する" data-target="第11章-SAMR×ブルーム・デジタル・タクソノミーでICT課題を評価する">第11章　SAMR×ブルーム・デジタル・タクソノミーでICT課題を評価する</a></li>
+</ol>
+</li>
+<li class="toc-item toc-l2"><a href="#終章-評価の改善に向けて" data-target="終章-評価の改善に向けて">終章　評価の改善に向けて</a>
+<ol class="toc-sublist">
+<li class="toc-item toc-l3"><a href="#3観点の評価を支える5つの原則" data-target="3観点の評価を支える5つの原則">3観点の評価を支える5つの原則</a></li>
+<li class="toc-item toc-l3"><a href="#校種別の評価設計チェックリスト" data-target="校種別の評価設計チェックリスト">校種別の評価設計チェックリスト</a></li>
+<li class="toc-item toc-l3"><a href="#「主体的に学習に取り組む態度」評価のDo--Don't-一覧" data-target="「主体的に学習に取り組む態度」評価のDo--Don't-一覧">「主体的に学習に取り組む態度」評価のDo / Don't 一覧</a></li>
+</ol>
+</li>
+<li class="toc-item toc-l2"><a href="#参考文献" data-target="参考文献">参考文献</a>
+<ol class="toc-sublist">
+<li class="toc-item toc-l3"><a href="#海外の主要文献" data-target="海外の主要文献">海外の主要文献</a></li>
+<li class="toc-item toc-l3"><a href="#第4部「フレームワーク編」関連文献" data-target="第4部「フレームワーク編」関連文献">第4部「フレームワーク編」関連文献</a></li>
+<li class="toc-item toc-l3"><a href="#国内の関連資料" data-target="国内の関連資料">国内の関連資料</a></li>
+</ol>
+</li>
+</ol>
+</nav>
+  </aside>
 
-<!-- Sidebar -->
-<aside class="sidebar">
-  <div class="sidebar-title">学習評価ガイドブック<br>3観点の評価を正しく実践するために</div>
-  <nav>
-    <a href="#intro">序章　なぜ今「評価の質」が問われるのか</a>
-    <a href="#difference">「自主性」と「主体性」の違い</a>
-
-    <div class="nav-section">理論編</div>
-    <a href="#theory">海外の評価研究から学ぶ</a>
-    <a href="#theory-1">1. 形成的評価 (Black & Wiliam)</a>
-    <a href="#theory-2">2. フィードバックの力 (Hattie & Timperley)</a>
-    <a href="#theory-3">3. 自己調整学習 (Zimmerman)</a>
-    <a href="#theory-4">4. 自己決定理論 (Deci & Ryan)</a>
-    <a href="#theory-5">5. 逆向き設計 (Wiggins & McTighe)</a>
-    <a href="#theory-6">6. 知識の深さ (Webb DOK)</a>
-    <a href="#theory-7">7. 形成的評価の設計原則 (Sadler)</a>
-    <a href="#three-purposes">評価の3つの目的 (of / for / as)</a>
-
-    <div class="nav-section">第1部 小学校編</div>
-    <a href="#es">小学校編 概要</a>
-    <a href="#es-1">1-1. 知識・技能</a>
-    <a href="#es-2">1-2. 思考・判断・表現</a>
-    <a href="#es-3">1-3. 主体的に学習に取り組む態度</a>
-
-    <div class="nav-section">第2部 中学校編</div>
-    <a href="#ms">中学校編 概要</a>
-    <a href="#ms-1">2-1. 知識・技能</a>
-    <a href="#ms-2">2-2. 思考・判断・表現</a>
-    <a href="#ms-3">2-3. 主体的に学習に取り組む態度</a>
-
-    <div class="nav-section">第3部 高校編</div>
-    <a href="#hs">高校編 概要</a>
-    <a href="#hs-1">3-1. 知識・技能</a>
-    <a href="#hs-2">3-2. 思考・判断・表現</a>
-    <a href="#hs-3">3-3. 主体的に学習に取り組む態度</a>
-
-    <div class="nav-section">まとめ</div>
-    <a href="#conclusion">終章　評価の改善に向けて</a>
-    <a href="#principles">5つの原則</a>
-    <a href="#checklist">チェックリスト</a>
-    <a href="#dodont">Do / Don't 一覧</a>
-    <a href="#references">参考文献</a>
-  </nav>
-</aside>
-
-<!-- Main Content -->
-<div class="main">
-
-  <div class="hero">
-    <h1>学習評価ガイドブック</h1>
-    <p>「知識・技能」「思考・判断・表現」「主体的に学習に取り組む態度」の3観点について、国内外の知見に基づいた評価の考え方と具体的方法を示す実践的指針</p>
-    <span class="badge">対象: 小学校・中学校・高等学校</span>
-  </div>
-
-  <div class="content">
-
-    <!-- ===== 序章 ===== -->
-    <h2 id="intro">序章　なぜ今「評価の質」が問われるのか</h2>
-
-    <p>学習指導要領の改訂により、全校種で「知識・技能」「思考・判断・表現」「主体的に学習に取り組む態度」の3観点による評価が求められている。しかし現場では、次のような課題が根強い。</p>
-
-    <ul>
-      <li><strong>「知識・技能」がペーパーテストの点数だけで決まる</strong> ―― 技能の評価が抜け落ちる</li>
-      <li><strong>「思考・判断・表現」の評価が曖昧</strong> ―― 何をもって「思考した」と見なすのか基準が不明確</li>
-      <li><strong>「主体的に学習に取り組む態度」が"挙手の回数"や"ノート提出"で測られる</strong> ―― これは「自主性」の確認であり、「主体性」の評価ではない</li>
-    </ul>
-
-    <p>本ガイドブックでは、海外の評価研究の知見を積極的に取り入れながら、3観点それぞれについて「何を」「どのように」評価すべきかを校種別に具体的に示す。</p>
-
-    <!-- 自主性 vs 主体性 -->
-    <h3 id="difference">「自主性」と「主体性」の決定的な違い</h3>
-
-    <p>本ガイドブックで最も重要な区別の一つが、<strong>自主性（independence）</strong>と<strong>主体性（agency / self-regulation）</strong>の違いである。</p>
-
-    <table class="compare-table">
-      <thead>
-        <tr><th></th><th>自主性（independence）</th><th>主体性（agency / self-regulation）</th></tr>
-      </thead>
-      <tbody>
-        <tr><td><strong>定義</strong></td><td>言われなくても自分からやること</td><td>自分の学びを自覚的にコントロールし、目的意識をもって行動すること</td></tr>
-        <tr><td><strong>観察される行動</strong></td><td>宿題を出す、挙手する、ノートをとる</td><td>学習目標を自分で設定する、自分の理解度を振り返る、方略を修正する</td></tr>
-        <tr><td><strong>理論的根拠</strong></td><td>行動主義的な「望ましい行動の有無」</td><td>Zimmermanの自己調整学習理論、Deci & Ryanの自己決定理論</td></tr>
-        <tr><td><strong>評価の罠</strong></td><td>従順さや几帳面さを測っているだけになりがち</td><td>学びの深さと学習者の成長過程を捉える</td></tr>
-      </tbody>
-    </table>
-
-    <div class="card card-note">
-      <div class="card-title">&#9888; 重要</div>
-      <p>本ガイドブックでは、「主体的に学習に取り組む態度」は<strong>「主体性」の評価</strong>として一貫して扱う。</p>
-    </div>
-
-    <!-- ===== 理論編 ===== -->
-    <h2 id="theory">理論編　海外の評価研究から学ぶ</h2>
-    <p>本ガイドブックの実践的提案は、以下の海外の主要な評価理論・研究に基づいている。</p>
-
-    <!-- Theory 1 -->
-    <h3 id="theory-1">1. 形成的評価（Formative Assessment）── Black & Wiliam (1998)</h3>
-    <div class="card card-theory">
-      <div class="card-title">&#128218; 理論の概要</div>
-      <p>Black & Wiliamは250以上の研究を分析し、形成的評価が学力向上に極めて大きな効果をもつことを実証した。</p>
-      <ul>
-        <li>形成的評価の効果量は<strong>0.4〜0.7</strong>に達し、教育介入の中でも最大級</li>
-        <li><strong>低学力層への効果が特に大きく、学力格差の縮小に寄与する</strong></li>
-        <li>フィードバックは「課題に焦点化」「タイムリー」「具体的」であるべき</li>
-      </ul>
-      <p><strong>本ガイドブックへの示唆:</strong> 3観点の評価は、成績をつけるための「総括的評価」だけでなく、学びを改善するための「形成的評価」として機能させるべきである。</p>
-      <div class="citation">Black, P., & Wiliam, D. (1998). Assessment and Classroom Learning. <em>Assessment in Education: Principles, Policy & Practice</em>, 5(1), 7–74.</div>
-    </div>
-
-    <!-- Theory 2 -->
-    <h3 id="theory-2">2. フィードバックの力（The Power of Feedback）── Hattie & Timperley (2007)</h3>
-    <div class="card card-theory">
-      <div class="card-title">&#128218; 理論の概要</div>
-      <p>効果的なフィードバックが答えるべき3つの問い:</p>
-      <table>
-        <thead><tr><th>問い</th><th>意味</th><th>対応する機能</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Where am I going?</strong></td><td>学習目標は何か</td><td>Feed-up（目標の明確化）</td></tr>
-          <tr><td><strong>How am I going?</strong></td><td>現在どこまで達成しているか</td><td>Feed-back（現状の把握）</td></tr>
-          <tr><td><strong>Where to next?</strong></td><td>次に何をすべきか</td><td>Feed-forward（次の一歩）</td></tr>
-        </tbody>
-      </table>
-      <p>フィードバックの4つのレベル:</p>
-      <ol>
-        <li><strong>課題レベル（Task）</strong>: 正誤や課題の出来に対するフィードバック</li>
-        <li><strong>プロセスレベル（Process）</strong>: 課題を解くための方略・手順に対するフィードバック</li>
-        <li><strong>自己調整レベル（Self-regulation）</strong>: 学習の計画・監視・修正に対するフィードバック</li>
-        <li><strong>自己レベル（Self）</strong>: 「よくできたね」などの人格への言及（学習効果は最も低い）</li>
-      </ol>
-      <p><strong>本ガイドブックへの示唆:</strong></p>
-      <ul>
-        <li>「知識・技能」の評価 → 主に課題レベルのフィードバック</li>
-        <li>「思考・判断・表現」の評価 → プロセスレベルのフィードバック</li>
-        <li>「主体的に学習に取り組む態度」の評価 → <strong>自己調整レベル</strong>のフィードバックが鍵</li>
-      </ul>
-      <div class="citation">Hattie, J., & Timperley, H. (2007). The Power of Feedback. <em>Review of Educational Research</em>, 77(1), 81–112.</div>
-    </div>
-
-    <!-- Theory 3 -->
-    <h3 id="theory-3">3. 自己調整学習（Self-Regulated Learning）── Zimmerman (2002)</h3>
-    <div class="card card-theory">
-      <div class="card-title">&#128218; 理論の概要</div>
-      <p>Zimmermanは、優れた学習者が経る3つの循環的フェーズを明らかにした。</p>
-      <div class="diagram">┌─────────────┐     ┌─────────────┐     ┌──────────────┐
-│  予見段階    │ ──→ │  遂行段階    │ ──→ │ 自己省察段階  │
+  <main class="content">
+    
+<blockquote>
+<p><strong>対象読者</strong>: 小学校・中学校・高等学校の教員、教育委員会指導主事、教職課程の学生<br />
+<strong>目的</strong>: 「知識・技能」「思考・判断・表現」「主体的に学習に取り組む態度」の3観点について、国内外の知見に基づいた評価の考え方と具体的方法を示す</p>
+</blockquote>
+<hr />
+<h2 id="目次">目次</h2>
+<ul>
+<li><a href="#序章なぜ今評価の質が問われるのか">序章　なぜ今「評価の質」が問われるのか</a></li>
+<li><a href="#理論編海外の評価研究から学ぶ">理論編　海外の評価研究から学ぶ</a></li>
+<li><a href="#第1部小学校編">第1部　小学校編</a></li>
+<li><a href="#第2部中学校編">第2部　中学校編</a></li>
+<li><a href="#第3部高校編">第3部　高校編</a></li>
+<li><a href="#第4部評価設計を深化させる4つのフレームワーク">第4部　評価設計を深化させる4つのフレームワーク</a></li>
+<li>第8章 DOKで評価課題を診断する</li>
+<li>第9章 認知的厳密性マトリックス（CRM）でブルーム×DOKを統合する</li>
+<li>第10章 自己調整学習で「主体的態度」評価を設計する</li>
+<li>第11章 SAMR×ブルーム・デジタル・タクソノミーでICT課題を評価する</li>
+<li><a href="#終章評価の改善に向けて">終章　評価の改善に向けて</a></li>
+<li><a href="#参考文献">参考文献</a></li>
+</ul>
+<hr />
+<h2 id="序章-なぜ今「評価の質」が問われるのか">序章　なぜ今「評価の質」が問われるのか</h2>
+<p>学習指導要領の改訂により、全校種で「知識・技能」「思考・判断・表現」「主体的に学習に取り組む態度」の3観点による評価が求められている。しかし現場では、次のような課題が根強い。</p>
+<ul>
+<li><strong>「知識・技能」がペーパーテストの点数だけで決まる</strong>――技能の評価が抜け落ちる</li>
+<li><strong>「思考・判断・表現」の評価が曖昧</strong>――何をもって「思考した」と見なすのか基準が不明確</li>
+<li><strong>「主体的に学習に取り組む態度」が"挙手の回数"や"ノート提出"で測られる</strong>――これは「自主性」の確認であり、「主体性」の評価ではない</li>
+</ul>
+<p>本ガイドブックでは、海外の評価研究の知見を積極的に取り入れながら、3観点それぞれについて「何を」「どのように」評価すべきかを校種別に具体的に示す。</p>
+<h3 id="「自主性」と「主体性」の決定的な違い">「自主性」と「主体性」の決定的な違い</h3>
+<p>本ガイドブックで最も重要な区別の一つが、<strong>自主性（independence）</strong> と<strong>主体性（agency / self-regulation）</strong> の違いである。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>自主性（independence）</th>
+<th>主体性（agency / self-regulation）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>定義</strong></td>
+<td>言われなくても自分からやること</td>
+<td>自分の学びを自覚的にコントロールし、目的意識をもって行動すること</td>
+</tr>
+<tr>
+<td><strong>観察される行動</strong></td>
+<td>宿題を出す、挙手する、ノートをとる</td>
+<td>学習目標を自分で設定する、自分の理解度を振り返る、方略を修正する</td>
+</tr>
+<tr>
+<td><strong>理論的根拠</strong></td>
+<td>行動主義的な「望ましい行動の有無」</td>
+<td>Zimmermanの自己調整学習理論、Deci &amp; Ryanの自己決定理論</td>
+</tr>
+<tr>
+<td><strong>評価の罠</strong></td>
+<td>従順さや几帳面さを測っているだけになりがち</td>
+<td>学びの深さと学習者の成長過程を捉える</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>本ガイドブックでは、「主体的に学習に取り組む態度」は「主体性」の評価として一貫して扱う。</strong></p>
+</blockquote>
+<hr />
+<h2 id="理論編-海外の評価研究から学ぶ">理論編　海外の評価研究から学ぶ</h2>
+<p>本ガイドブックの実践的提案は、以下の海外の主要な評価理論・研究に基づいている。</p>
+<h3 id="1.-形成的評価（Formative-Assessment）──-Black-&-Wiliam-(1998)">1. 形成的評価（Formative Assessment）── Black &amp; Wiliam (1998)</h3>
+<p>Black &amp; Wiliamは250以上の研究を分析し、形成的評価が学力向上に極めて大きな効果をもつことを実証した。</p>
+<p><strong>主要な知見:</strong>
+- 形成的評価の効果量は0.4〜0.7に達し、教育介入の中でも最大級
+- <strong>低学力層への効果が特に大きく、学力格差の縮小に寄与する</strong>
+- フィードバックは「課題に焦点化」「タイムリー」「具体的」であるべき</p>
+<p><strong>本ガイドブックへの示唆:</strong><br />
+3観点の評価は、成績をつけるための「総括的評価」だけでなく、学びを改善するための「形成的評価」として機能させるべきである。</p>
+<blockquote>
+<p>Black, P., &amp; Wiliam, D. (1998). Assessment and Classroom Learning. <em>Assessment in Education: Principles, Policy &amp; Practice</em>, 5(1), 7–74.</p>
+</blockquote>
+<h3 id="2.-フィードバックの力（The-Power-of-Feedback）──-Hattie-&-Timperley-(2007)">2. フィードバックの力（The Power of Feedback）── Hattie &amp; Timperley (2007)</h3>
+<p>Hattie &amp; Timplerleyは、効果的なフィードバックが答えるべき3つの問いを提示した。</p>
+<table>
+<thead>
+<tr>
+<th>問い</th>
+<th>意味</th>
+<th>対応する機能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Where am I going?</strong></td>
+<td>学習目標は何か</td>
+<td>Feed-up（目標の明確化）</td>
+</tr>
+<tr>
+<td><strong>How am I going?</strong></td>
+<td>現在どこまで達成しているか</td>
+<td>Feed-back（現状の把握）</td>
+</tr>
+<tr>
+<td><strong>Where to next?</strong></td>
+<td>次に何をすべきか</td>
+<td>Feed-forward（次の一歩）</td>
+</tr>
+</tbody>
+</table>
+<p>さらに、フィードバックの4つのレベルを区別した:</p>
+<ol>
+<li><strong>課題レベル（Task）</strong>: 正誤や課題の出来に対するフィードバック</li>
+<li><strong>プロセスレベル（Process）</strong>: 課題を解くための方略・手順に対するフィードバック</li>
+<li><strong>自己調整レベル（Self-regulation）</strong>: 学習の計画・監視・修正に対するフィードバック</li>
+<li><strong>自己レベル（Self）</strong>: 「よくできたね」などの人格への言及（学習効果は最も低い）</li>
+</ol>
+<p><strong>本ガイドブックへの示唆:</strong><br />
+- 「知識・技能」の評価 → 主に課題レベルのフィードバック
+- 「思考・判断・表現」の評価 → プロセスレベルのフィードバック
+- 「主体的に学習に取り組む態度」の評価 → <strong>自己調整レベル</strong>のフィードバックが鍵</p>
+<blockquote>
+<p>Hattie, J., &amp; Timperley, H. (2007). The Power of Feedback. <em>Review of Educational Research</em>, 77(1), 81–112.</p>
+</blockquote>
+<h3 id="3.-自己調整学習（Self-Regulated-Learning）──-Zimmerman,-Pintrich,-Winne-&-Hadwin">3. 自己調整学習（Self-Regulated Learning）── Zimmerman, Pintrich, Winne &amp; Hadwin</h3>
+<p>「主体的に学習に取り組む態度」評価の理論的基盤の中核となるのが<strong>自己調整学習（SRL: Self-Regulated Learning）</strong>である。SRLには複数の代表モデルがあり、それぞれが「生徒のつまずき」を診断する別々のレンズとして機能する。</p>
+<h4>Zimmermanの循環的3フェーズモデル</h4>
+<p>Bandura の社会的認知理論を基盤に、Zimmerman は学習を時間軸に沿った循環プロセスとしてモデル化した。</p>
+<pre><code>┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  予見段階    │ ──→ │  遂行段階    │ ──→ │  自己省察段階 │
 │ (Forethought)│     │(Performance) │     │(Self-Reflection)│
-│              │     │              │     │               │
-│ ・目標設定   │     │ ・注意集中   │     │ ・自己評価    │
-│ ・方略計画   │     │ ・方略の使用 │     │ ・原因帰属    │
-│ ・自己効力感 │     │ ・自己モニタ │     │ ・適応的修正  │
-│ ・動機づけ   │     │  リング     │     │               │
-└─────────────┘     └─────────────┘     └──────────────┘
-         ↑                                       │
-         └───────────────────────────────────────┘</div>
-      <p><strong>本ガイドブックへの示唆:</strong> 「主体的に学習に取り組む態度」の評価は、この3段階のいずれかに対応する行動・思考を捉えるべきである。「ノートを出したかどうか」ではなく、「自分の学びをどのように調整しているか」を見る。</p>
-      <div class="citation">Zimmerman, B. J. (2002). Becoming a Self-Regulated Learner: An Overview. <em>Theory Into Practice</em>, 41(2), 64–70.</div>
-    </div>
-
-    <!-- Theory 4 -->
-    <h3 id="theory-4">4. 自己決定理論（Self-Determination Theory）── Deci & Ryan (2000)</h3>
-    <div class="card card-theory">
-      <div class="card-title">&#128218; 理論の概要</div>
-      <p>内発的動機づけを支える3つの基本的心理欲求:</p>
-      <ul>
-        <li><strong>自律性（Autonomy）</strong>: 自分の行動を自分で選択・決定している感覚</li>
-        <li><strong>有能感（Competence）</strong>: 課題に対して「できる」と感じる感覚</li>
-        <li><strong>関係性（Relatedness）</strong>: 他者とつながっている感覚</li>
-      </ul>
-      <p><strong>本ガイドブックへの示唆:</strong> 評価方法自体が児童生徒の自律性・有能感・関係性を損なわないよう設計する必要がある。罰則的な評価（ノート未提出で減点など）は外発的動機づけを強化し、主体性の育成を妨げる。</p>
-      <div class="citation">Deci, E. L., & Ryan, R. M. (2000). The "What" and "Why" of Goal Pursuits. <em>Psychological Inquiry</em>, 11(4), 227–268.</div>
-    </div>
-
-    <!-- Theory 5 -->
-    <h3 id="theory-5">5. 逆向き設計（Backward Design）── Wiggins & McTighe (2005)</h3>
-    <div class="card card-theory">
-      <div class="card-title">&#128218; 理論の概要</div>
-      <p>従来の授業設計が「活動→評価→目標」の順で考えがちであるのに対し、逆向き設計は以下の順序を取る:</p>
-      <ol>
-        <li><strong>求められる成果（目標）を明確にする</strong></li>
-        <li><strong>目標達成の証拠となる評価方法を設計する</strong></li>
-        <li><strong>学習活動を計画する</strong></li>
-      </ol>
-      <p><strong>本ガイドブックへの示唆:</strong> 3観点の評価を設計する際は、まず「この単元で何を評価したいのか」を明確にし、その証拠となるパフォーマンスや成果物を定め、そこから逆算して授業を設計する。</p>
-      <div class="citation">Wiggins, G., & McTighe, J. (2005). <em>Understanding by Design</em> (2nd ed.). ASCD.</div>
-    </div>
-
-    <!-- Theory 6 -->
-    <h3 id="theory-6">6. 知識の深さ（Depth of Knowledge）── Webb (1997)</h3>
-    <div class="card card-theory">
-      <div class="card-title">&#128218; 理論の概要</div>
-      <p>Norman Webbは、認知的複雑さの4段階を示した:</p>
-      <table>
-        <thead><tr><th>DOKレベル</th><th>名称</th><th>内容</th></tr></thead>
-        <tbody>
-          <tr><td>Level 1</td><td>再生（Recall）</td><td>事実・用語の想起、単純な手続き</td></tr>
-          <tr><td>Level 2</td><td>技能・概念（Skill/Concept）</td><td>概念の説明、データの解釈、要約</td></tr>
-          <tr><td>Level 3</td><td>戦略的思考（Strategic Thinking）</td><td>知識を新しい場面に適用、複数の手順を統合</td></tr>
-          <tr><td>Level 4</td><td>拡張的思考（Extended Thinking）</td><td>探究・創造・複合的問題解決</td></tr>
-        </tbody>
-      </table>
-      <p><strong>本ガイドブックへの示唆:</strong></p>
-      <ul>
-        <li>「知識・技能」の評価 → DOK Level 1–2が中心</li>
-        <li>「思考・判断・表現」の評価 → DOK Level 2–4を含むべき</li>
-        <li>評価課題がすべてLevel 1に偏っていないかをチェックする指標として活用</li>
-      </ul>
-      <div class="citation">Webb, N. L. (1997). Criteria for Alignment of Expectations and Assessments in Mathematics and Science Education. <em>NISE Research Monograph No. 6</em>.</div>
-    </div>
-
-    <!-- Theory 7 -->
-    <h3 id="theory-7">7. 形成的評価の設計原則 ── Sadler (1989)</h3>
-    <div class="card card-theory">
-      <div class="card-title">&#128218; 理論の概要</div>
-      <p>Sadlerは、形成的評価が機能するための3条件を示した:</p>
-      <ol>
-        <li><strong>学習者が到達目標の質的水準を理解していること</strong></li>
-        <li><strong>自分の現在のパフォーマンスと目標との差を認識できること</strong></li>
-        <li><strong>その差を埋めるための行動を取れること</strong></li>
-      </ol>
-      <p><strong>本ガイドブックへの示唆:</strong> 児童生徒自身が「何がよい成果なのか」を理解し、自分の現状と比較し、改善行動を起こせるようにすること――これこそが「主体性」の核心であり、評価はこのプロセスを支援する道具として機能すべきである。</p>
-      <div class="citation">Sadler, D. R. (1989). Formative assessment and the design of instructional systems. <em>Instructional Science</em>, 18, 119–144.</div>
-    </div>
-
-    <!-- Three Purposes of Assessment -->
-    <h3 id="three-purposes">評価の3つの目的 ── of / for / as Learning</h3>
-
-    <p>ここまで7つの海外理論を紹介してきたが、これらの理論を<strong>日々の授業でどう使い分けるか</strong>を考えるとき、最も実用的な整理の枠組みが「評価の3つの目的」である。初任者はまずこの3つを理解することで、7つの理論がどこに位置づくかが一気に見通せるようになる。</p>
-
-    <div class="card card-note">
-      <div class="card-title">&#128161; 初任者のためのたとえ話</div>
-      <p>「評価」と聞くと「テストで点数をつけること」をイメージしがちですが、それは評価の一面にすぎません。評価には<strong>3つの使い方</strong>があります。料理にたとえるなら:</p>
-      <ul>
-        <li><strong>Assessment of Learning</strong> = 料理が完成した後に「おいしいかどうか」を判定する（<strong>味見係による最終判定</strong>）</li>
-        <li><strong>Assessment for Learning</strong> = 料理の途中で味見して「もう少し塩を足そう」と調整する（<strong>料理人自身の途中の味見</strong>）</li>
-        <li><strong>Assessment as Learning</strong> = 自分で味見しながら「なぜこの味になったのか」を考え、次の料理に活かす力をつける（<strong>味覚そのものを鍛えること</strong>）</li>
-      </ul>
-    </div>
-
-    <h4>3つの評価の全体像</h4>
-    <table>
-      <thead>
-        <tr>
-          <th style="width:20%"></th>
-          <th style="background:#fee2e2;">Assessment of Learning<br><small>学習の評価</small></th>
-          <th style="background:#dbeafe;">Assessment for Learning<br><small>学習のための評価</small></th>
-          <th style="background:#dcfce7;">Assessment as Learning<br><small>学習としての評価</small></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>ひとことで</strong></td>
-          <td>「どこまでできたか」を<strong>確認する</strong>評価</td>
-          <td>「次にどうすればいいか」を<strong>導く</strong>評価</td>
-          <td>「自分の学びを自分で見つめる」ことが<strong>学びそのもの</strong>になる評価</td>
-        </tr>
-        <tr>
-          <td><strong>いつ行うか</strong></td>
-          <td>単元の終わり、学期末</td>
-          <td>授業の途中、単元の途中</td>
-          <td>学習のあらゆる場面で</td>
-        </tr>
-        <tr>
-          <td><strong>誰のために</strong></td>
-          <td>保護者・学校・社会への報告</td>
-          <td>教師が指導を改善するため</td>
-          <td>児童生徒自身が成長するため</td>
-        </tr>
-        <tr>
-          <td><strong>主な担い手</strong></td>
-          <td>教師</td>
-          <td>教師（→児童生徒へフィードバック）</td>
-          <td><strong>児童生徒自身</strong></td>
-        </tr>
-        <tr>
-          <td><strong>具体例</strong></td>
-          <td>定期テスト、通知表、学力調査</td>
-          <td>小テスト、机間指導での声かけ、ワークシートへのコメント</td>
-          <td>振り返りカード、自己評価シート、学習ポートフォリオ</td>
-        </tr>
-        <tr>
-          <td><strong>対応する3観点</strong></td>
-          <td>3観点すべて（総括的に）</td>
-          <td>主に「知識・技能」「思考・判断・表現」</td>
-          <td>特に<strong>「主体的に学習に取り組む態度」</strong></td>
-        </tr>
-        <tr>
-          <td><strong>関連する理論</strong></td>
-          <td>Webb DOK（認知的複雑さの確認）</td>
-          <td>Black & Wiliam（形成的評価）、Hattie & Timperley（フィードバック）、Sadler（3条件）</td>
-          <td>Zimmerman（自己調整学習）、Deci & Ryan（自己決定理論）</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <h4>なぜ3つとも必要なのか？</h4>
-
-    <div class="card card-theory">
-      <div class="card-title">&#128218; Earl (2003) の主張</div>
-      <p>Lorna Earlは著書 <em>Assessment as Learning</em> で、3つの評価目的はどれか1つに偏るのではなく、<strong>バランスよく統合する</strong>ことが重要だと述べている。</p>
-      <p>現実の学校では <strong>Assessment of Learning（テストで成績をつける）に偏りがち</strong> である。しかし、学力向上に最も効果が大きいのは Assessment for Learning（形成的評価）であり（Black & Wiliam, 1998）、そして生涯学び続ける力を育てるのは <strong>Assessment as Learning（学習者自身が評価の主体になること）</strong> である。</p>
-      <div class="citation">Earl, L. M. (2003). <em>Assessment as Learning: Using Classroom Assessment to Maximize Student Learning</em>. Thousand Oaks, CA: Corwin Press.</div>
-    </div>
-
-    <h4>初任者が明日からできる「3つの評価」の使い分け</h4>
-
-    <table>
-      <thead>
-        <tr><th>場面</th><th>やること</th><th>評価の種類</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>単元の始め</strong></td>
-          <td>この単元のゴール（ルーブリック）を児童生徒と共有する</td>
-          <td>for Learning の準備<br><small>（Sadlerの条件1: 目標の理解）</small></td>
-        </tr>
-        <tr>
-          <td><strong>毎時間の授業中</strong></td>
-          <td>机間指導で「ここまではできているね。次は〇〇を試してみよう」と声をかける</td>
-          <td>for Learning<br><small>（Hattieの Feed-forward）</small></td>
-        </tr>
-        <tr>
-          <td><strong>毎時間の終わり</strong></td>
-          <td>振り返りカードに「今日の工夫」「次にやりたいこと」を書かせる</td>
-          <td><strong>as Learning</strong><br><small>（Zimmermanの自己省察段階）</small></td>
-        </tr>
-        <tr>
-          <td><strong>単元の終わり</strong></td>
-          <td>テストやパフォーマンス課題で到達度を確認する</td>
-          <td>of Learning</td>
-        </tr>
-        <tr>
-          <td><strong>単元の終わり</strong></td>
-          <td>自己評価シートで「目標と現状のギャップ」「次の単元への作戦」を書かせる</td>
-          <td><strong>as Learning</strong><br><small>（Sadlerの条件2・3）</small></td>
-        </tr>
-      </tbody>
-    </table>
-
-    <div class="card card-note">
-      <div class="card-title">&#9888; よくある誤解</div>
-      <p><strong>「Assessment of Learning（テスト）は悪いものだ」という誤解</strong> ―― そうではありません。通知表や入試に必要な総括的評価は学校教育に不可欠です。問題は、of Learning <strong>だけ</strong> に偏ることです。for Learning と as Learning を日常的に取り入れることで、of Learning の結果（テストの成績）も自然と向上します。Black & Wiliamの研究では、形成的評価を充実させた学校で<strong>効果量 0.4〜0.7</strong> の学力向上が報告されています。</p>
-    </div>
-
-    <h4>3つの評価と「主体的に学習に取り組む態度」の関係</h4>
-
-    <p>本ガイドブックで最も重視する「主体的に学習に取り組む態度」の評価は、<strong>Assessment as Learning の考え方そのもの</strong>である。</p>
-
-    <table>
-      <thead>
-        <tr><th>Assessment as Learning の要素</th><th>「主体的に学習に取り組む態度」で見取る姿</th><th>対応する理論</th></tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>自分の学習を<strong>モニタリング</strong>する</td>
-          <td>「今の自分はどこまでわかっているか」を把握している</td>
-          <td>Zimmerman ── 遂行段階の自己モニタリング</td>
-        </tr>
-        <tr>
-          <td>目標と現状の<strong>ギャップを認識</strong>する</td>
-          <td>「ここがまだできていない」と自覚している</td>
-          <td>Sadler ── 条件2（ギャップの認識）</td>
-        </tr>
-        <tr>
-          <td>ギャップを埋めるために<strong>行動を調整</strong>する</td>
-          <td>「別のやり方を試してみよう」と方略を切り替えている</td>
-          <td>Zimmerman ── 自己省察段階の適応的修正</td>
-        </tr>
-        <tr>
-          <td>自分の意志で<strong>学びを駆動</strong>する</td>
-          <td>「自分はこれを学びたい」と内発的に動いている</td>
-          <td>Deci & Ryan ── 自律性の欲求</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <p>つまり、「主体的に学習に取り組む態度」を正しく評価するとは、<strong>児童生徒が Assessment as Learning を実践できているかどうかを見取ること</strong>に他ならない。振り返りカードや自己評価シートは、そのための具体的な手段である。</p>
-
-    <!-- ===== 第1部 小学校編 ===== -->
-    <div class="part-header" id="es">
-      <h2 style="margin-top:0;">第1部　小学校編</h2>
-      <p>小学校では、評価が「学びの楽しさ」を損なわないことが最も重要である。児童はまだメタ認知能力が発達途上にあり、具体的な行動レベルで観察し、肯定的なフィードバックとともに成長を促すことが求められる。</p>
-    </div>
-
-    <!-- ES 1-1 -->
-    <h3 id="es-1">1-1. 「知識・技能」の評価（小学校）</h3>
-    <h4>評価の考え方</h4>
-    <p>「知識・技能」は、個別の事実や概念の理解（知識）と、それを使って実際に操作・表現できる力（技能）の両方を含む。小学校では、ペーパーテストだけでなく、実際の活動場面での観察が不可欠である。</p>
-
-    <h4>評価方法の具体例</h4>
-    <table>
-      <thead><tr><th>教科</th><th>知識の評価</th><th>技能の評価</th></tr></thead>
-      <tbody>
-        <tr><td>国語</td><td>漢字の読み書き、語彙の意味理解</td><td>音読の流暢さ、原稿用紙の使い方</td></tr>
-        <tr><td>算数</td><td>公式・計算方法の理解</td><td>計算の正確さと速さ、作図の技能</td></tr>
-        <tr><td>理科</td><td>実験器具の名称と用途の理解</td><td>実験器具の正しい操作、安全な取り扱い</td></tr>
-        <tr><td>体育</td><td>ルールの理解</td><td>運動技能の実演（逆上がり、泳法など）</td></tr>
-        <tr><td>音楽</td><td>音符・記号の名称と意味</td><td>リコーダーの演奏技能、正確な音程での歌唱</td></tr>
-      </tbody>
-    </table>
-
-    <div class="card card-bad">
-      <div class="card-title">&#10060; 不適切な例：算数「かけ算」の単元</div>
-      <p>九九のペーパーテストのみで「知識・技能」を評価し、100点なら「A」、80点以上なら「B」、それ以下は「C」とする。</p>
-      <p><strong>問題点:</strong></p>
-      <ul>
-        <li>技能（実際に九九を使って問題を解く力）が評価されていない</li>
-        <li>「覚えている」ことと「使える」ことの区別がない</li>
-        <li>Webb DOK Level 1（再生）のみの評価になっている</li>
-      </ul>
-    </div>
-
-    <div class="card card-good">
-      <div class="card-title">&#9989; ふさわしい例：算数「かけ算」の単元</div>
-      <p>以下の複数の方法を組み合わせて評価する:</p>
-      <ol>
-        <li><strong>九九カードの暗唱テスト</strong>（知識: 基本的事実の定着確認）</li>
-        <li><strong>文章題への適用</strong>（技能: 場面に応じてかけ算を選択し活用する力）</li>
-        <li><strong>買い物ごっこの活動観察</strong>（技能: 実生活場面での活用）</li>
-      </ol>
-      <p><strong>優れている点:</strong> 知識と技能を分けて多面的に把握 / DOK Level 1〜2を含む / 逆向き設計に基づき「九九が使える」から評価を設計</p>
-    </div>
-
-    <!-- ES 1-2 -->
-    <h3 id="es-2">1-2. 「思考・判断・表現」の評価（小学校）</h3>
-    <h4>評価の考え方</h4>
-    <p>「思考・判断・表現」は、知識・技能を活用して課題を解決したり、自分の考えを形成し表現したりする力である。児童が「なぜそう考えたのか」を説明できる場面を意図的に設ける必要がある。</p>
-
-    <h4>評価方法の具体例</h4>
-    <table>
-      <thead><tr><th>教科</th><th>評価場面の例</th><th>評価の観点</th></tr></thead>
-      <tbody>
-        <tr><td>国語</td><td>物語を読んで登場人物の気持ちを考え、根拠を示して話し合う</td><td>叙述に基づいた根拠の提示、多様な解釈の検討</td></tr>
-        <tr><td>算数</td><td>自分の解き方を図や式で友達に説明する</td><td>思考過程の可視化、複数の解法の比較</td></tr>
-        <tr><td>理科</td><td>実験結果から考察を書く</td><td>結果と考察の区別、根拠に基づく推論</td></tr>
-        <tr><td>社会</td><td>地域の課題についてグループで調べ発表する</td><td>情報の取捨選択、相手意識のある表現</td></tr>
-        <tr><td>図工</td><td>作品について「工夫したこと」を説明する</td><td>意図と表現の一貫性、創造的な発想</td></tr>
-      </tbody>
-    </table>
-
-    <div class="card card-bad">
-      <div class="card-title">&#10060; 不適切な例：国語「ごんぎつね」の単元</div>
-      <p>ワークシートで「ごんの気持ちを書きましょう」と指示し、模範解答に近い内容が書けているかどうかで評価する。</p>
-      <p><strong>問題点:</strong></p>
-      <ul>
-        <li>「正解」が一つに限定されており、思考の多様性が認められない</li>
-        <li>叙述のどの部分を根拠にしたかが問われていない</li>
-        <li>「表現」の側面（自分の言葉でどう伝えるか）が評価されていない</li>
-        <li>実質的に「知識の再生」（DOK Level 1）である</li>
-      </ul>
-    </div>
-
-    <div class="card card-good">
-      <div class="card-title">&#9989; ふさわしい例：国語「ごんぎつね」の単元</div>
-      <p>以下のルーブリックを児童にも共有したうえで評価する:</p>
-      <table class="rubric">
-        <thead><tr><th>評価基準</th><th>A（十分満足）</th><th>B（おおむね満足）</th><th>C（努力を要する）</th></tr></thead>
-        <tbody>
-          <tr><td>思考</td><td>複数の叙述を根拠に、ごんの気持ちの変化を自分なりに解釈している</td><td>叙述を根拠に、ごんの気持ちを説明している</td><td>ごんの気持ちについて述べているが、叙述との結びつきが不明確</td></tr>
-          <tr><td>表現</td><td>友達との対話で異なる意見を取り入れ、自分の考えを深めている</td><td>自分の考えを友達に伝えている</td><td>自分の考えを表現することに困難がある</td></tr>
-        </tbody>
-      </table>
-      <p><strong>優れている点:</strong> ルーブリックを事前共有しSadlerの3条件を満たす / 「根拠に基づく解釈の質」を評価 / DOK Level 2–3に対応</p>
-    </div>
-
-    <!-- ES 1-3 -->
-    <h3 id="es-3">1-3. 「主体的に学習に取り組む態度」の評価（小学校）</h3>
-
-    <div class="card card-note">
-      <div class="card-title">&#9888; 最重要ポイント</div>
-      <p>これは「自主性の確認」ではなく<strong>「主体性の評価」</strong>である。</p>
-    </div>
-
-    <h4>評価の考え方</h4>
-    <p>小学校の児童であっても、自分の学びを振り返り、調整しようとする姿勢は観察可能である。ただし、児童の発達段階を考慮し、「学びに向かう姿勢の芽生え」を丁寧に捉える。</p>
-
-    <p>Zimmermanの自己調整学習モデルを小学校段階に翻訳すると:</p>
-    <table>
-      <thead><tr><th>自己調整学習の段階</th><th>小学校で観察される姿</th></tr></thead>
-      <tbody>
-        <tr><td><strong>予見段階</strong></td><td>「今日はここをがんばる」と自分なりの目標を立てている</td></tr>
-        <tr><td><strong>遂行段階</strong></td><td>困ったときに教科書を見直す、友達に聞く、別のやり方を試すなど、方略を使っている</td></tr>
-        <tr><td><strong>自己省察段階</strong></td><td>「前よりここができるようになった」「次はこうしたい」と振り返っている</td></tr>
-      </tbody>
-    </table>
-
-    <div class="card card-bad">
-      <div class="card-title">&#10060; 不適切な例</div>
-      <p>以下の項目で「主体的に学習に取り組む態度」を評価する:</p>
-      <ul>
-        <li>忘れ物をしない ……… 5点</li>
-        <li>授業中に手を挙げる … 5点</li>
-        <li>ノートを丁寧に書く … 5点</li>
-        <li>宿題を毎日出す ……… 5点</li>
-      </ul>
-      <p><strong>問題点:</strong></p>
-      <ul>
-        <li>これは「自主性」「従順さ」「几帳面さ」の評価であり、「主体性」の評価ではない</li>
-        <li>Deci & Ryanの理論に照らすと、外発的動機づけを強化し、内発的動機づけを阻害する</li>
-        <li>忘れ物の有無は家庭環境に依存する場合があり、公平性の問題がある</li>
-        <li>Hattie & Timplerleyの分類では最も効果の低い「自己レベル」の評価にとどまる</li>
-      </ul>
-    </div>
-
-    <div class="card card-good">
-      <div class="card-title">&#9989; ふさわしい例：学習カード（振り返りカード）を活用した評価</div>
-      <p>毎時間の終わりに、以下のような簡単な振り返りカードを記入させる:</p>
-
-      <div class="sheet">
-        <div class="sheet-title">ふりかえりカード（低学年用）</div>
-        <div class="sheet-item">
-          <label>きょうの がくしゅうで がんばったことは？</label>
-          <div class="field">&#128522; / &#128528; / &#128546; から選択 + ひとこと</div>
-        </div>
-        <div class="sheet-item">
-          <label>つぎに やってみたいことは？</label>
-          <div class="field"></div>
-        </div>
-      </div>
-
-      <div class="sheet">
-        <div class="sheet-title">振り返りカード（中・高学年用）</div>
-        <div class="sheet-item">
-          <label>今日の学習で、自分はどんな工夫をしましたか？</label>
-          <div class="field"></div>
-        </div>
-        <div class="sheet-item">
-          <label>難しかったところはどこですか？どうやって乗り越えましたか（乗り越えようとしましたか）？</label>
-          <div class="field"></div>
-        </div>
-        <div class="sheet-item">
-          <label>次の時間に向けて、自分なりのめあてを書きましょう。</label>
-          <div class="field"></div>
-        </div>
-      </div>
-
-      <h4>評価のルーブリック（教師用）</h4>
-      <table class="rubric">
-        <thead><tr><th>評価基準</th><th>A（十分満足）</th><th>B（おおむね満足）</th><th>C（努力を要する）</th></tr></thead>
-        <tbody>
-          <tr><td>学びの調整</td><td>自分の学習を振り返り、具体的な方略の工夫や改善点を挙げている</td><td>自分の学習を振り返り、感想や気づきを述べている</td><td>振り返りの記述が乏しい、または活動の事実のみの記述</td></tr>
-          <tr><td>粘り強さ</td><td>困難に直面しても別の方法を試したり、友達と相談したりして取り組み続けている</td><td>課題に最後まで取り組もうとしている</td><td>困難に直面すると諦める傾向がある</td></tr>
-        </tbody>
-      </table>
-
-      <p><strong>優れている点:</strong> Zimmermanの3段階に対応 / 「方略の工夫」を評価 / 学びの過程そのものを評価 / Deci & Ryanの自律性を損なわない</p>
-    </div>
-
-    <!-- ===== 第2部 中学校編 ===== -->
-    <div class="part-header" id="ms">
-      <h2 style="margin-top:0;">第2部　中学校編</h2>
-      <p>中学校では、教科の専門性が高まり、抽象的思考が可能になる時期である。メタ認知能力の発達に伴い、自己調整学習のより本格的な姿が期待できる。一方で、定期テストの比重が大きくなりやすく、「知識・技能」偏重の評価に陥りやすい点に注意が必要である。</p>
-    </div>
-
-    <!-- MS 2-1 -->
-    <h3 id="ms-1">2-1. 「知識・技能」の評価（中学校）</h3>
-    <h4>評価の考え方</h4>
-    <p>中学校では教科の系統性が明確になるため、知識と知識のつながり（概念的理解）や、技能の正確性・熟達度がより重要になる。定期テストは有効な手段の一つだが、それだけでは技能面の評価が不十分になる。</p>
-
-    <table>
-      <thead><tr><th>教科</th><th>知識の評価</th><th>技能の評価</th></tr></thead>
-      <tbody>
-        <tr><td>国語</td><td>文法事項、語彙、文学史的知識</td><td>書写の技能、聞き取りの正確さ</td></tr>
-        <tr><td>数学</td><td>定理・公式の理解、数学的概念</td><td>作図技能、グラフの作成、計算の正確性</td></tr>
-        <tr><td>理科</td><td>科学的概念・法則の理解</td><td>実験の操作技能、顕微鏡操作、データの記録</td></tr>
-        <tr><td>英語</td><td>語彙・文法知識</td><td>音読・発音の正確さ、筆記の正確さ</td></tr>
-        <tr><td>技術・家庭</td><td>材料・道具に関する知識</td><td>製作技能、調理技能の実技</td></tr>
-      </tbody>
-    </table>
-
-    <div class="card card-bad">
-      <div class="card-title">&#10060; 不適切な例：理科「化学変化」の単元</div>
-      <p>定期テストの点数のみで「知識・技能」を評価する。テストには用語の穴埋め問題と化学反応式を書かせる問題のみを出題。</p>
-      <p><strong>問題点:</strong></p>
-      <ul>
-        <li>技能（実験操作能力）がまったく評価されていない</li>
-        <li>用語の暗記（DOK Level 1）に偏重している</li>
-        <li>「化学変化の概念的理解」と「用語の記憶」を区別していない</li>
-      </ul>
-    </div>
-
-    <div class="card card-good">
-      <div class="card-title">&#9989; ふさわしい例：理科「化学変化」の単元</div>
-      <p>以下の3つの場面で評価する:</p>
-      <ol>
-        <li><strong>定期テスト</strong>（知識: 化学反応式、質量保存の法則の説明 → DOK Level 1–2）</li>
-        <li><strong>実験レポート</strong>（知識: 実験の原理の説明 / 技能: データの正確な記録と整理）</li>
-        <li><strong>実技テスト</strong>（技能: ガスバーナーの操作、試薬の正確な量り取り → 実技チェックリスト使用）</li>
-      </ol>
-      <p><strong>優れている点:</strong> 知識と技能を明確に分けて複数の方法で把握 / 実技チェックリストで技能を可視化 / 逆向き設計に基づく</p>
-    </div>
-
-    <!-- MS 2-2 -->
-    <h3 id="ms-2">2-2. 「思考・判断・表現」の評価（中学校）</h3>
-    <h4>評価の考え方</h4>
-    <p>「根拠に基づく論理的思考」「複数の情報を関連づける力」「適切な方法を選択・判断する力」「目的や相手に応じた表現力」がより明確に求められる。定期テストにおいても、思考力を問う問題を出題する工夫が必要である。</p>
-
-    <div class="card card-bad">
-      <div class="card-title">&#10060; 不適切な例：社会科（歴史）「明治維新」の単元</div>
-      <p>定期テストで「明治維新の三大改革を答えなさい」「廃藩置県は何年に行われましたか」といった問題のみで「思考・判断・表現」も評価する。</p>
-      <p><strong>問題点:</strong> すべて知識の再生（DOK Level 1）であり、思考・判断・表現を測っていない。「知識・技能」と「思考・判断・表現」の評価場面が区別されていない。</p>
-    </div>
-
-    <div class="card card-good">
-      <div class="card-title">&#9989; ふさわしい例：社会科（歴史）「明治維新」の単元</div>
-      <p><strong>「知識・技能」と「思考・判断・表現」を明確に分けて評価する:</strong></p>
-      <p><strong>〈知識・技能を評価する問題〉</strong></p>
-      <ul>
-        <li>廃藩置県の内容を説明しなさい。</li>
-        <li>明治政府が実施した主な改革を3つ挙げなさい。</li>
-      </ul>
-      <p><strong>〈思考・判断・表現を評価する問題〉</strong></p>
-      <ul>
-        <li>「もしあなたが明治政府の指導者だったら、廃藩置県と版籍奉還のどちらを先に実施しますか。根拠を示して論じなさい。」（DOK Level 3）</li>
-        <li>資料A（人口推移）と資料B（産業構造の変化）から読み取れることを関連づけて、明治維新が人々の生活に与えた影響を述べなさい。（DOK Level 3）</li>
-      </ul>
-      <table class="rubric">
-        <thead><tr><th>評価基準</th><th>A（十分満足）</th><th>B（おおむね満足）</th><th>C（努力を要する）</th></tr></thead>
-        <tbody>
-          <tr><td>思考・判断</td><td>複数の根拠を示し、多面的に論じている</td><td>根拠を示して自分の考えを述べている</td><td>根拠が不明確、または知識の羅列にとどまる</td></tr>
-          <tr><td>表現</td><td>論理的な構成で、読み手を意識した文章になっている</td><td>自分の考えが伝わる文章になっている</td><td>文意が不明確で、考えが十分に伝わらない</td></tr>
-        </tbody>
-      </table>
-      <p><strong>優れている点:</strong> 「どの観点を評価する問題か」が明確 / Webb DOKの多層的活用 / 資料活用型の問題で「判断」の側面も評価</p>
-    </div>
-
-    <!-- MS 2-3 -->
-    <h3 id="ms-3">2-3. 「主体的に学習に取り組む態度」の評価（中学校）</h3>
-    <h4>評価の考え方</h4>
-    <p>中学生はメタ認知能力がさらに発達し、自分の学習過程を言語化できるようになる。ただし、思春期特有の「人前で頑張る姿を見せたくない」心理にも配慮が必要であり、挙手や発言の多さを評価指標にすることは特に不適切である。</p>
-
-    <div class="card card-bad">
-      <div class="card-title">&#10060; 不適切な例</div>
-      <ul>
-        <li>授業中の発言回数を記録し、多い生徒を高く評価する</li>
-        <li>自主学習ノートのページ数で評価する（ページが多いほど高評価）</li>
-        <li>定期テストの点数が高い生徒は「意欲もある」と見なしてA評価にする</li>
-      </ul>
-      <p><strong>問題点:</strong> 発言回数は性格・文化的背景に依存 / ページ数は「量」であり「質」を反映しない / テスト成績の代用は二重評価の問題 / 量的競争は外発的動機づけを強化</p>
-    </div>
-
-    <div class="card card-good">
-      <div class="card-title">&#9989; ふさわしい例：学習ポートフォリオ + 自己評価シート</div>
-      <p>各単元の終わりに、以下の「自己評価シート」を記入させ、ポートフォリオに蓄積する:</p>
-
-      <div class="sheet">
-        <div class="sheet-title">自己評価シート（中学校用）</div>
-        <div class="sheet-item">
-          <label>1. この単元で自分が立てた目標は何でしたか？</label>
-          <div class="field"></div>
-        </div>
-        <div class="sheet-item">
-          <label>2. 目標に対して、どのくらい達成できましたか？（1──2──3──4──5）</label>
-          <div class="field">その理由:</div>
-        </div>
-        <div class="sheet-item">
-          <label>3. 学習中に困ったとき、どのような工夫をしましたか？</label>
-          <div class="field"></div>
-        </div>
-        <div class="sheet-item">
-          <label>4. 前の単元と比べて、自分の学び方で変わったことはありますか？</label>
-          <div class="field"></div>
-        </div>
-        <div class="sheet-item">
-          <label>5. 次の単元に向けて、どのように取り組みたいですか？</label>
-          <div class="field"></div>
-        </div>
-      </div>
-
-      <table class="rubric">
-        <thead><tr><th>評価基準</th><th>A（十分満足）</th><th>B（おおむね満足）</th><th>C（努力を要する）</th></tr></thead>
-        <tbody>
-          <tr><td>自己調整</td><td>学習方略を意識的に選択・修正し、その効果を振り返っている</td><td>自分なりの工夫をしており、振り返りができている</td><td>学習の振り返りが表面的で、具体的な方略への言及がない</td></tr>
-          <tr><td>粘り強い取組</td><td>困難な課題に対して複数の方略を試し、改善を重ねている</td><td>困難に直面しても課題に取り組み続けている</td><td>困難に直面すると早い段階で取り組みを止めてしまう</td></tr>
-          <tr><td>学びの見通し</td><td>前の学習経験を活かして次の目標を具体的に設定している</td><td>次の学習への目標や見通しをもっている</td><td>次の学習への見通しがもてていない</td></tr>
-        </tbody>
-      </table>
-      <p><strong>優れている点:</strong> Zimmermanの3段階すべてに対応（Q1・5→予見、Q3→遂行、Q2・4→自己省察） / 「質」を評価 / Sadlerの3条件を満たす / 経時的な変化をポートフォリオで捉える</p>
-    </div>
-
-    <!-- ===== 第3部 高校編 ===== -->
-    <div class="part-header" id="hs">
-      <h2 style="margin-top:0;">第3部　高校編</h2>
-      <p>高等学校では、教科の専門性がさらに深まり、生徒は自らの進路を見据えた学びを展開する。大学入試との関係から「点数至上主義」に陥りやすい現状があるが、3観点の評価を「学びの質の向上」のために機能させる視点が不可欠である。</p>
-    </div>
-
-    <!-- HS 3-1 -->
-    <h3 id="hs-1">3-1. 「知識・技能」の評価（高校）</h3>
-    <h4>評価の考え方</h4>
-    <p>高校段階の「知識・技能」は、個々の事実的知識にとどまらず、<strong>概念的知識</strong>（複数の知識を関連づけた体系的理解）や<strong>手続き的知識</strong>（特定の課題を遂行するための方法論的知識）を含む。</p>
-
-    <div class="card card-bad">
-      <div class="card-title">&#10060; 不適切な例：英語コミュニケーション「関係代名詞」の単元</div>
-      <p>定期テストで、関係代名詞の空所補充問題と和訳問題のみを出題し、「知識・技能」を評価する。</p>
-      <p><strong>問題点:</strong> 文法知識の再生（DOK Level 1）のみ / 「知っている」と「使える」を区別していない / 受動的な知識のみで産出的技能が測定されない</p>
-    </div>
-
-    <div class="card card-good">
-      <div class="card-title">&#9989; ふさわしい例：英語コミュニケーション「関係代名詞」の単元</div>
-      <table>
-        <thead><tr><th>評価場面</th><th>観点</th><th>内容</th></tr></thead>
-        <tbody>
-          <tr><td>定期テスト（筆記）</td><td>知識</td><td>関係代名詞の用法の理解（空所補充、誤り訂正）</td></tr>
-          <tr><td>定期テスト（筆記）</td><td>技能</td><td>関係代名詞を用いた英作文（好きな人物を紹介する文章を3文以上）</td></tr>
-          <tr><td>パフォーマンステスト</td><td>技能</td><td>ペアで「おすすめの本・映画」を紹介し合うスピーキング活動</td></tr>
-        </tbody>
-      </table>
-      <table class="rubric">
-        <thead><tr><th>評価基準</th><th>A</th><th>B</th><th>C</th></tr></thead>
-        <tbody>
-          <tr><td>正確さ</td><td>関係代名詞を正確に用い、文構造の誤りがほとんどない</td><td>関係代名詞を概ね正確に用いている</td><td>関係代名詞の使用に大きな誤りがある、または使用を避けている</td></tr>
-          <tr><td>流暢さ</td><td>自然なペースで、相手の反応を見ながら伝えている</td><td>やや途切れるが、内容を伝えることができている</td><td>発話が断片的で、内容が伝わりにくい</td></tr>
-        </tbody>
-      </table>
-      <p><strong>優れている点:</strong> 知識と技能を明確に区別 / DOK Level 1とLevel 2を組み合わせ / パフォーマンス評価で実際のコミュニケーション技能を測定</p>
-    </div>
-
-    <!-- HS 3-2 -->
-    <h3 id="hs-2">3-2. 「思考・判断・表現」の評価（高校）</h3>
-    <h4>評価の考え方</h4>
-    <p><strong>批判的思考（Critical Thinking）</strong>、<strong>創造的思考（Creative Thinking）</strong>、<strong>複数の情報源を統合する力</strong>、<strong>立場や文脈を踏まえた判断力</strong>が求められる。Webb DOK Level 3–4に対応する課題を意図的に設定すべきである。</p>
-
-    <div class="card card-bad">
-      <div class="card-title">&#10060; 不適切な例：地理総合「地球環境問題」の単元</div>
-      <p>定期テストで「温室効果ガスの種類を3つ挙げなさい」「京都議定書は何年に採択されましたか」といった問題で「思考・判断・表現」を評価する。</p>
-      <p><strong>問題点:</strong> すべてDOK Level 1（事実の再生）/ 「知識・技能」と「思考・判断・表現」の評価場面が混同されている</p>
-    </div>
-
-    <div class="card card-good">
-      <div class="card-title">&#9989; ふさわしい例：地理総合「地球環境問題」の単元</div>
-      <p><strong>〈定期テスト内の思考問題〉</strong></p>
-      <p>「以下の2つの資料を読み、先進国と途上国の間で気候変動対策についてどのような対立が生じているか、その原因を分析し、あなたなりの解決策を300字以内で提案しなさい。」</p>
-      <p><strong>〈パフォーマンス課題〉（DOK Level 4）</strong></p>
-      <p>「あなたはCOP（気候変動枠組条約締約国会議）の交渉官です。割り当てられた国の立場に立って、具体的な提案を作成し、他国の交渉官（クラスメート）と交渉してください。最終的に合意文書を作成しなさい。」</p>
-      <table class="rubric">
-        <thead><tr><th>評価基準</th><th>A（十分満足）</th><th>B（おおむね満足）</th><th>C（努力を要する）</th></tr></thead>
-        <tbody>
-          <tr><td>思考の深さ</td><td>自国と他国の立場を多角的に分析し、データに基づいた根拠ある提案を行っている</td><td>自国の立場を理解し、根拠ある提案を行っている</td><td>立場の理解が表面的で、根拠が不十分</td></tr>
-          <tr><td>判断の適切さ</td><td>対立する利害を調整し、現実的かつ創造的な妥協案を導いている</td><td>相手の立場を考慮した妥協案を提示している</td><td>一方的な主張にとどまり、判断の柔軟性に欠ける</td></tr>
-          <tr><td>表現の質</td><td>交渉場面にふさわしい論理構成と表現を用い、説得力がある</td><td>自分の考えを筋道立てて伝えている</td><td>主張が断片的で、論理構成が不十分</td></tr>
-        </tbody>
-      </table>
-      <p><strong>優れている点:</strong> DOK Level 4の課題を含む / 「正解のない問い」に対する総合的評価 / Sadlerの3条件を満たす / 交渉の過程で形成的評価も可能</p>
-    </div>
-
-    <!-- HS 3-3 -->
-    <h3 id="hs-3">3-3. 「主体的に学習に取り組む態度」の評価（高校）</h3>
-    <h4>評価の考え方</h4>
-    <p>この段階での評価は、<strong>自分の学びを俯瞰的にモニタリングし、学習方略を戦略的に選択・修正し、長期的な学習計画を自律的に遂行する力</strong>を捉えるべきである。自己調整学習の力は生涯にわたる学びの基盤となる。</p>
-
-    <div class="card card-bad">
-      <div class="card-title">&#10060; 不適切な例</div>
-      <ul>
-        <li>予習ノートの提出状況（提出率で数値化）</li>
-        <li>授業態度の点数（居眠りしない＝5点、私語なし＝5点、など）</li>
-        <li>定期テストの成績上位者に自動的にA評価を付与</li>
-      </ul>
-      <p><strong>問題点:</strong> 「指示への従順さ」の評価 / 秩序維持の指標 / テスト成績の代用は二重評価 / 監視・罰則型は自律性を著しく阻害</p>
-    </div>
-
-    <div class="card card-good">
-      <div class="card-title">&#9989; ふさわしい例：「学習マネジメントシート」+「学びの振り返りレポート」</div>
-
-      <div class="sheet">
-        <div class="sheet-title">学習マネジメントシート（各単元の開始時に記入）</div>
-        <div class="sheet-item">
-          <label>1. この単元で達成したい目標（自分の言葉で）:</label>
-          <div class="field"></div>
-        </div>
-        <div class="sheet-item">
-          <label>2. その目標を達成するために、どのような学習方略を使うか:</label>
-          <div class="field">例: 要約を作る、練習問題を反復する、関連する資料を探す、誰かに説明してみる</div>
-        </div>
-        <div class="sheet-item">
-          <label>3. 前の単元での振り返りを踏まえて、今回改善したいこと:</label>
-          <div class="field"></div>
-        </div>
-      </div>
-
-      <div class="sheet">
-        <div class="sheet-title">学びの振り返りレポート（各単元の終了時に記入）</div>
-        <div class="sheet-item">
-          <label>1. 設定した目標に対して、どの程度達成できたか。達成の根拠を具体的に示すこと。</label>
-          <div class="field"></div>
-        </div>
-        <div class="sheet-item">
-          <label>2. 計画した学習方略は効果的だったか。うまくいったこと・いかなかったことを分析せよ。</label>
-          <div class="field"></div>
-        </div>
-        <div class="sheet-item">
-          <label>3. 学習の過程で、当初の計画を修正した場面はあったか。あれば、何がきっかけで、どう修正したか。</label>
-          <div class="field"></div>
-        </div>
-        <div class="sheet-item">
-          <label>4. この単元の学びから得た教訓を、次の学習にどう活かすか。</label>
-          <div class="field"></div>
-        </div>
-      </div>
-
-      <table class="rubric">
-        <thead><tr><th>評価基準</th><th>A（十分満足）</th><th>B（おおむね満足）</th><th>C（努力を要する）</th></tr></thead>
-        <tbody>
-          <tr><td>目標設定と計画</td><td>自分の現状を分析した上で、具体的かつ到達可能な目標を設定し、適切な方略を選択している</td><td>目標を設定し、学習方略を考えている</td><td>目標が漠然としている、または方略の計画がない</td></tr>
-          <tr><td>方略の実行と調整</td><td>学習方略の効果を途中で評価し、必要に応じて修正・改善している</td><td>計画した方略を用いて学習に取り組んでいる</td><td>方略を意識した学習が見られない</td></tr>
-          <tr><td>振り返りと転移</td><td>学習過程を多角的に分析し、得られた教訓を次の学習に具体的に結びつけている</td><td>学習過程を振り返り、次への見通しをもっている</td><td>振り返りが表面的で、次の学習への具体的な展望がない</td></tr>
-          <tr><td>粘り強い取組</td><td>困難に直面しても原因を分析し、多様な方略を試して課題に取り組み続けている</td><td>困難な課題にも粘り強く取り組んでいる</td><td>困難に直面すると取り組みを止めてしまう傾向がある</td></tr>
-        </tbody>
-      </table>
-      <p><strong>優れている点:</strong> Zimmermanモデルを忠実に反映（マネジメントシート=予見段階、レポートQ2・3=遂行段階、Q1・4=自己省察段階） / 「振り返りの質」で評価 / 縦断的な成長を追跡可能 / Deci & Ryanの自律性を保障 / Feed-forwardのコメントが可能</p>
-    </div>
-
-    <!-- ===== 終章 ===== -->
-    <h2 id="conclusion">終章　評価の改善に向けて</h2>
-
-    <h3 id="principles">3観点の評価を支える5つの原則</h3>
-
-    <div class="principle">
-      <span class="principle-num">1</span>
-      <h4>逆向き設計で評価を計画する（Wiggins & McTighe）</h4>
-      <p>「何を教えるか」からではなく、「何を評価するか（＝何ができるようになってほしいか）」から単元を設計する。3観点それぞれについて、評価の場面と方法を単元の最初に計画しておく。</p>
-    </div>
-
-    <div class="principle">
-      <span class="principle-num">2</span>
-      <h4>形成的評価と総括的評価を区別する（Black & Wiliam）</h4>
-      <p>成績をつけるための評価（総括的評価）と、学びを改善するための評価（形成的評価）は目的が異なる。授業中の観察、振り返りカード、自己評価シートなどは形成的評価として活用し、生徒への即時フィードバックにつなげる。</p>
-    </div>
-
-    <div class="principle">
-      <span class="principle-num">3</span>
-      <h4>フィードバックは「課題」「プロセス」「自己調整」に焦点化する（Hattie & Timperley）</h4>
-      <p>「すごいね」「がんばったね」といった自己レベルのフィードバックは学習効果が最も低い。3観点に対応して:</p>
-      <ul>
-        <li><strong>知識・技能</strong> → 「ここの計算は正確だが、ここで符号の間違いがある」（課題レベル）</li>
-        <li><strong>思考・判断・表現</strong> → 「根拠は明確だが、反対の立場からの検討を加えるとさらに説得力が増す」（プロセスレベル）</li>
-        <li><strong>主体的態度</strong> → 「前の単元で見つけた"図を描いてから考える"という方略が今回も効いているね」（自己調整レベル）</li>
-      </ul>
-    </div>
-
-    <div class="principle">
-      <span class="principle-num">4</span>
-      <h4>認知的複雑さの多層性を意識する（Webb DOK）</h4>
-      <p>評価課題がDOK Level 1（再生）に偏っていないかを常にチェックする。特に「思考・判断・表現」の評価にはLevel 2以上、できればLevel 3–4の課題を含める。</p>
-    </div>
-
-    <div class="principle">
-      <span class="principle-num">5</span>
-      <h4>評価は児童生徒の自律性・有能感・関係性を支えるものであるべき（Deci & Ryan）</h4>
-      <p>罰則的な評価、量的競争、監視型の評価は外発的動機づけを強化し、内発的な学びへの動機を阻害する。自律的な選択の余地を保障し、失敗を許容し、成長のプロセスを肯定する仕組みが不可欠である。</p>
-    </div>
-
-    <!-- Checklist -->
-    <h3 id="checklist">校種別の評価設計チェックリスト</h3>
-
-    <h4>全校種共通</h4>
-    <ul class="checklist">
-      <li>単元の評価計画を、授業計画より先に（または同時に）作成しているか</li>
-      <li>3観点それぞれについて、異なる評価場面・方法を設定しているか</li>
-      <li>ルーブリックや評価基準を児童生徒に事前に共有しているか（Sadlerの条件）</li>
-      <li>「知識・技能」の評価で、技能面の評価が抜け落ちていないか</li>
-      <li>「思考・判断・表現」の評価が、知識の再生問題で代替されていないか</li>
-      <li>「主体的に学習に取り組む態度」の評価が、「忘れ物チェック」や「挙手の回数」になっていないか</li>
-      <li>一つの観点が他の観点のデータで代替されていないか（二重評価の回避）</li>
-    </ul>
-
-    <h4>小学校</h4>
-    <ul class="checklist">
-      <li>児童の発達段階に応じた振り返りの方法を用意しているか（低学年は選択式など）</li>
-      <li>学びの楽しさを損なわない肯定的なフィードバックを意識しているか</li>
-      <li>家庭環境に依存する項目（忘れ物、宿題の量）を態度の評価に含めていないか</li>
-    </ul>
-
-    <h4>中学校</h4>
-    <ul class="checklist">
-      <li>定期テストに「知識の再生」だけでなく「思考を問う問題」を含めているか</li>
-      <li>実技教科で、実技の評価を適切に行っているか</li>
-      <li>ポートフォリオや自己評価シートなど、経時的な変化を捉える方法を取り入れているか</li>
-      <li>思春期の生徒の心理に配慮し、発言回数等を態度の指標にしていないか</li>
-    </ul>
-
-    <h4>高校</h4>
-    <ul class="checklist">
-      <li>大学入試対策に偏らず、3観点のバランスのとれた評価を実施しているか</li>
-      <li>DOK Level 3–4の課題を意図的に組み込んでいるか</li>
-      <li>生徒の自己調整学習を促す仕組み（マネジメントシート等）を導入しているか</li>
-      <li>教科横断的な資質・能力の評価を視野に入れているか</li>
-    </ul>
-
-    <!-- Do/Don't -->
-    <h3 id="dodont">「主体的に学習に取り組む態度」評価の Do / Don't 一覧</h3>
-    <table class="do-dont">
-      <thead><tr><th>Do（推奨）</th><th>Don't（回避）</th></tr></thead>
-      <tbody>
-        <tr><td>振り返りの「質」を評価する</td><td>振り返りカードの「提出の有無」で評価する</td></tr>
-        <tr><td>学習方略の選択・修正を見る</td><td>発言回数・挙手回数を数える</td></tr>
-        <tr><td>粘り強さを「困難への対処法」で捉える</td><td>「最後まで座っていたか」で判断する</td></tr>
-        <tr><td>単元を超えた成長過程を追跡する</td><td>1回のテストや1時間の授業で判定する</td></tr>
-        <tr><td>自己評価・相互評価を取り入れる</td><td>教師の主観のみで判断する</td></tr>
-        <tr><td>自律的な目標設定を促す</td><td>一律の課題量（ページ数等）を課す</td></tr>
-        <tr><td>失敗からの学びを肯定する</td><td>間違いや未達成を減点する</td></tr>
-        <tr><td>多様な表現方法を認める</td><td>特定のフォーマットでの表現のみを評価する</td></tr>
-      </tbody>
-    </table>
-
-    <!-- References -->
-    <h2 id="references">参考文献</h2>
-
-    <h3>海外の主要文献</h3>
-    <ol class="ref-list">
-      <li><strong>Black, P., & Wiliam, D. (1998).</strong> Assessment and Classroom Learning. <em>Assessment in Education: Principles, Policy & Practice</em>, 5(1), 7–74.<br>→ 形成的評価の有効性を実証した歴史的メタ分析</li>
-      <li><strong>Hattie, J., & Timperley, H. (2007).</strong> The Power of Feedback. <em>Review of Educational Research</em>, 77(1), 81–112.<br>→ フィードバックの3つの問いと4つのレベルを提示</li>
-      <li><strong>Zimmerman, B. J. (2002).</strong> Becoming a Self-Regulated Learner: An Overview. <em>Theory Into Practice</em>, 41(2), 64–70.<br>→ 自己調整学習の3段階モデルを体系化</li>
-      <li><strong>Deci, E. L., & Ryan, R. M. (2000).</strong> The "What" and "Why" of Goal Pursuits. <em>Psychological Inquiry</em>, 11(4), 227–268.<br>→ 自律性・有能感・関係性の3つの基本的心理欲求</li>
-      <li><strong>Wiggins, G., & McTighe, J. (2005).</strong> <em>Understanding by Design</em> (2nd ed.). Alexandria, VA: ASCD.<br>→ 逆向き設計による単元構成とパフォーマンス評価</li>
-      <li><strong>Webb, N. L. (1997).</strong> Criteria for Alignment of Expectations and Assessments in Mathematics and Science Education. <em>NISE Research Monograph No. 6</em>.<br>→ 知識の深さ（DOK）の4段階モデル</li>
-      <li><strong>Sadler, D. R. (1989).</strong> Formative assessment and the design of instructional systems. <em>Instructional Science</em>, 18, 119–144.<br>→ 形成的評価が機能するための3条件</li>
-      <li><strong>OECD (2005).</strong> <em>Formative Assessment: Improving Learning in Secondary Classrooms</em>. Paris: OECD Publishing.<br>→ 各国の形成的評価の実践事例と政策分析</li>
-      <li><strong>Niemiec, C. P., & Ryan, R. M. (2009).</strong> Autonomy, competence, and relatedness in the classroom. <em>Theory and Research in Education</em>, 7(2), 133–144.<br>→ 自己決定理論の教育実践への適用</li>
-      <li><strong>Earl, L. M. (2003).</strong> <em>Assessment as Learning: Using Classroom Assessment to Maximize Student Learning</em>. Thousand Oaks, CA: Corwin Press.<br>→ Assessment of / for / as Learning の3分類を体系化</li>
-      <li><strong>Biggs, J. B., & Collis, K. F. (1982).</strong> <em>Evaluating the Quality of Learning: The SOLO Taxonomy</em>. New York: Academic Press.<br>→ 思考の深さを5段階で構造的に捉えるモデル</li>
-      <li><strong>OECD (2019).</strong> <em>OECD Learning Compass 2030</em>.<br>→ Student Agency（生徒のエージェンシー）の国際的枠組み</li>
-    </ol>
-
-    <h3>国内の関連資料</h3>
-    <ol class="ref-list" style="counter-reset: ref 11;">
-      <li>国立教育政策研究所 (2020). 『「指導と評価の一体化」のための学習評価に関する参考資料』</li>
-      <li>文部科学省 (2019). 『学習評価の在り方ハンドブック（小・中学校編）』</li>
-      <li>文部科学省 (2019). 『学習評価の在り方ハンドブック（高等学校編）』</li>
-      <li>中央教育審議会 (2019). 『児童生徒の学習評価の在り方について（報告）』</li>
-    </ol>
-
-  </div>
-
-  <div class="footer">
-    <p>本ガイドブックは、教育現場での評価の質的向上を目的として作成されたものです。<br>各学校・教科の実態に応じて適宜修正・活用してください。</p>
-    <p style="margin-top:12px;"><em>Assessment Guidebook v2.0 — 学習評価の3観点を正しく実践するために</em></p>
-  </div>
-
+│              │     │              │     │              │
+│ ・目標設定   │     │ ・注意集中   │     │ ・自己評価   │
+│ ・方略計画   │     │ ・方略の使用 │     │ ・原因帰属   │
+│ ・自己効力感 │     │ ・自己モニタ │     │ ・適応的修正 │
+│ ・動機づけ   │     │  リング     │     │              │
+└─────────────┘     └─────────────┘     └─────────────┘
+         ↑                                      │
+         └──────────────────────────────────────┘
+</code></pre>
+<p>最も重要なのは、<strong>自己省察段階での原因帰属</strong>が次の予見段階の動機づけに直接フィードバックされる点である。失敗を「能力不足（統制不可能）」に帰属させると学習性無力感に陥る。「努力・戦略の不適切さ（統制可能）」に帰属させれば、改善行動が生まれる。教師の声かけはここに介入できる。</p>
+<h4>Pintrich の「フェーズ × 領域」マトリックス</h4>
+<p>Pintrich はSRLを「4つのフェーズ（予見・モニタリング・コントロール・省察）×4つの制御領域（認知・動機づけ/感情・行動・文脈）」で立体的に整理した。これは生徒の不調を診断する地図として有用である:</p>
+<ul>
+<li>認知領域のつまずき → 学習方略の指導が必要</li>
+<li>動機づけ/感情領域のつまずき → 自己効力感の支援、感情調整の指導</li>
+<li>行動領域のつまずき → 時間管理、援助要請（help-seeking）の指導</li>
+<li>文脈領域のつまずき → 学習環境の整え方の指導</li>
+</ul>
+<p>「なぜか勉強が続かない」という生徒に対して、領域を特定せずに「努力しろ」と言うのは無効である。Pintrich のマトリックスはこの粗雑な指導を防ぐ。</p>
+<h4>Winne &amp; Hadwin の COPES モデル</h4>
+<p>情報処理アプローチに立つこのモデルは、<strong>メタ認知的モニタリング</strong>をシステムの中心ハブに置く。学習者は常に「現在の産出物（Products）」と「基準（Standards）」のズレ（Discrepancy）を検出し、戦略変更や基準修正を発動する。これが学習の正体である。LMSの操作ログ（トレースデータ）の活用と相性が良く、デジタル評価環境ではこのモデルの解像度が活きる。</p>
+<h4>社会的共有調整学習（SSRL）</h4>
+<p>協働学習の場では、個人のSRLを超えて、グループ全体が「私たち」として目標・戦略・基準を共有する<strong>SSRL（Socially Shared Regulated Learning）</strong>が成功の鍵となる。グループワークの評価において、「個人の貢献度」だけでなく「グループとして調整できたか」を見る視点を提供する。</p>
+<h4>脳科学的基盤：実行機能（Executive Function）</h4>
+<p>SRLの実行は前頭前野が司る<strong>実行機能</strong>——抑制（衝動を抑える）、ワーキングメモリ（情報を保持・操作する）、認知的柔軟性（戦略を切り替える）——に依存する。前頭前野は20代半ばまで発達が続くため、<strong>特に小中学生のSRLには「外部足場かけ（external scaffolding）」が必須</strong>である。教師や環境が一時的に前頭前野の代わりを務める。</p>
+<p>中学校期は<strong>情動系（線条体・扁桃体）の発達が制御系（前頭前野）の発達を上回る非同期的発達</strong>が起こる。リスクテイキングや動機低下の神経科学的根拠であり、「やる気がない」と決めつける前に、発達的に説明可能な現象として理解すべきである。</p>
+<h4>MSLQ：SRLを測定する尺度</h4>
+<p>Pintrich らの開発した <strong>MSLQ（Motivated Strategies for Learning Questionnaire）</strong>は、SRLの動機づけ・学習方略を質問紙で測定する世界標準ツールである。日本語版（J-MSLQ）も検証されている。学期の最初と最後に実施し、指導の効果を客観的に把握できる。</p>
+<p><strong>本ガイドブックへの示唆:</strong>
+- 「主体的に学習に取り組む態度」の評価は、3段階×4領域のいずれかに対応する具体的な行動・思考を捉えるべきである
+- 「ノートを出したかどうか」ではなく、「自分の学びをどのように調整しているか」を見る
+- 発達段階によってスキャフォルディングの濃度は変える(小学校：環境構造化と共調整 → 中学校：自律性支援とSSRL → 高校：メタ認知の明示化と援助要請の促進)
+- 詳細な発達段階別の支援戦略は <strong>第10章「自己調整学習で『主体的態度』評価を設計する」</strong> で扱う</p>
+<blockquote>
+<p>Zimmerman, B. J. (2002). Becoming a Self-Regulated Learner: An Overview. <em>Theory Into Practice</em>, 41(2), 64–70.
+Pintrich, P. R. (2000). The role of goal orientation in self-regulated learning. In M. Boekaerts et al. (Eds.), <em>Handbook of Self-Regulation</em>.
+Winne, P. H., &amp; Hadwin, A. F. (1998). Studying as self-regulated learning. In <em>Metacognition in Educational Theory and Practice</em>.</p>
+</blockquote>
+<h3 id="4.-自己決定理論（Self-Determination-Theory）──-Deci-&-Ryan-(2000)">4. 自己決定理論（Self-Determination Theory）── Deci &amp; Ryan (2000)</h3>
+<p>Deci &amp; Ryanは、内発的動機づけを支える3つの基本的心理欲求を提唱した。</p>
+<ul>
+<li><strong>自律性（Autonomy）</strong>: 自分の行動を自分で選択・決定している感覚</li>
+<li><strong>有能感（Competence）</strong>: 課題に対して「できる」と感じる感覚</li>
+<li><strong>関係性（Relatedness）</strong>: 他者とつながっている感覚</li>
+</ul>
+<p><strong>本ガイドブックへの示唆:</strong><br />
+「主体的に学習に取り組む態度」を育て、かつ正しく評価するには、評価方法自体が児童生徒の自律性・有能感・関係性を損なわないよう設計する必要がある。罰則的な評価（ノート未提出で減点など）は外発的動機づけを強化し、主体性の育成を妨げる。</p>
+<blockquote>
+<p>Deci, E. L., &amp; Ryan, R. M. (2000). The "What" and "Why" of Goal Pursuits. <em>Psychological Inquiry</em>, 11(4), 227–268.</p>
+</blockquote>
+<h3 id="5.-逆向き設計（Backward-Design）──-Wiggins-&-McTighe-(2005)">5. 逆向き設計（Backward Design）── Wiggins &amp; McTighe (2005)</h3>
+<p>従来の授業設計が「活動→評価→目標」の順で考えがちであるのに対し、逆向き設計は以下の順序を取る:</p>
+<ol>
+<li><strong>求められる成果（目標）を明確にする</strong></li>
+<li><strong>目標達成の証拠となる評価方法を設計する</strong></li>
+<li><strong>学習活動を計画する</strong></li>
+</ol>
+<p><strong>本ガイドブックへの示唆:</strong><br />
+3観点の評価を設計する際は、まず「この単元で何を評価したいのか」を明確にし、その証拠となるパフォーマンスや成果物を定め、そこから逆算して授業を設計する。</p>
+<blockquote>
+<p>Wiggins, G., &amp; McTighe, J. (2005). <em>Understanding by Design</em> (2nd ed.). ASCD.</p>
+</blockquote>
+<h3 id="6.-知識の深さ（Depth-of-Knowledge）──-Webb-(1997)">6. 知識の深さ（Depth of Knowledge）── Webb (1997)</h3>
+<p>Norman Webbは、課題が要求する<strong>認知的複雑さ（Cognitive Complexity）</strong>の4段階を示した。詳細は本書の <strong>第8章「DOKで評価課題を診断する」</strong> で深く扱うが、理論編では本ガイドブックの3観点評価との接続点を整理する。</p>
+<table>
+<thead>
+<tr>
+<th>DOKレベル</th>
+<th>名称</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Level 1</td>
+<td>再生・想起（Recall &amp; Reproduction）</td>
+<td>事実・用語・定義の想起、単純な手続きの実行</td>
+</tr>
+<tr>
+<td>Level 2</td>
+<td>スキル・概念（Skills &amp; Concepts）</td>
+<td>概念の説明、データの解釈、比較、要約、複数手順</td>
+</tr>
+<tr>
+<td>Level 3</td>
+<td>戦略的思考（Strategic Thinking）</td>
+<td>非定型問題の解決、推論、根拠に基づく論証</td>
+</tr>
+<tr>
+<td>Level 4</td>
+<td>拡張的思考（Extended Thinking）</td>
+<td>長期にわたる探究、複数領域の統合、独創的成果物</td>
+</tr>
+</tbody>
+</table>
+<h4>「難易度（Difficulty）」と「複雑さ（Complexity）」を混同しない</h4>
+<p>DOKが測るのは「<strong>どのような頭の使い方</strong>を要求しているか」であり、課題の難しさではない。たとえば「47都道府県の県庁所在地を暗唱する」は<strong>難しいがDOK-1</strong>（記憶の再生）であり、「ペットボトルと輪ゴムで遠くまで飛ぶおもちゃを設計し、なぜその設計にしたかを説明する」は<strong>身近だがDOK-3</strong>（仮説・試行・正当化）である。教師が「思考力を鍛える」と称して難易度ばかりを上げると、量的暗記に偏り、生徒は高次思考の機会を失う。</p>
+<h4>「DOKホイール」の罠</h4>
+<p>ネット上で広く流布する「DOKホイール」（動詞をDOKレベルに固定的に割り当てた円グラフ）は、<strong>Webb博士自身が推奨していない</strong>ことに留意すべきである。同じ動詞「説明する」でも、文脈によってレベルは劇的に変わる:
+- 「変成岩の特徴を3つ説明する」 → DOK-1（事実の想起）
+- 「変成岩と火成岩の違いを説明する」 → DOK-2（比較・関係性）
+- 「岩石サイクルを表現するモデルを説明する」 → DOK-3(抽象システムの戦略的説明)</p>
+<p>動詞ではなく、<strong>動詞の後に続く文脈</strong>でレベルを判断する。</p>
+<p><strong>本ガイドブックへの示唆:</strong>
+- 「知識・技能」の評価 → DOK Level 1–2が中心
+- 「思考・判断・表現」の評価 → DOK Level 2–4を含むべき（Level 1の知識問題で代替されていないか要チェック）
+- DOKは生徒を分類するラベルではなく、<strong>カリキュラム・デザインのツール</strong>である
+- DOKは階段ではない。低学年でもDOK-3/4の探究的問いに触れる機会を意図的に保障する</p>
+<blockquote>
+<p>Webb, N. L. (1997). Criteria for Alignment of Expectations and Assessments in Mathematics and Science Education. <em>NISE Research Monograph No. 6</em>.</p>
+</blockquote>
+<h3 id="7.-形成的評価の設計原則-──-Sadler-(1989)">7. 形成的評価の設計原則 ── Sadler (1989)</h3>
+<p>Sadlerは、形成的評価が機能するための3条件を示した:</p>
+<ol>
+<li><strong>学習者が到達目標の質的水準を理解していること</strong></li>
+<li><strong>自分の現在のパフォーマンスと目標との差を認識できること</strong></li>
+<li><strong>その差を埋めるための行動を取れること</strong></li>
+</ol>
+<p><strong>本ガイドブックへの示唆:</strong><br />
+児童生徒自身が「何がよい成果なのか」を理解し、自分の現状と比較し、改善行動を起こせるようにすること――これこそが「主体性」の核心であり、評価はこのプロセスを支援する道具として機能すべきである。</p>
+<blockquote>
+<p>Sadler, D. R. (1989). Formative assessment and the design of instructional systems. <em>Instructional Science</em>, 18, 119–144.</p>
+</blockquote>
+<h3 id="評価の3つの目的-──-of--for--as-Learning">評価の3つの目的 ── of / for / as Learning</h3>
+<p>ここまで7つの海外理論を紹介してきたが、これらの理論を<strong>日々の授業でどう使い分けるか</strong>を考えるとき、最も実用的な整理の枠組みが「評価の3つの���的」である。初任者はまずこの3つを理解することで、7つの理論がどこに位置づくかが一気に見通せるようになる。</p>
+<h4>初任者のためのたとえ話</h4>
+<p>「評価」と聞くと「テストで点数をつけること」をイメージしがちだが、それは評価の一面にすぎない。評価には<strong>3つの使い方</strong>がある。料理にたとえるなら:</p>
+<ul>
+<li><strong>Assessment of Learning</strong> = 料理が完成した後に「おいしいかどうか」を判定する（<strong>味見係による最終判定</strong>）</li>
+<li><strong>Assessment for Learning</strong> = 料理の途中で味見して「もう少し塩を足そう」と調整する（<strong>料理人自身の途中の味見</strong>）</li>
+<li><strong>Assessment as Learning</strong> = 自分で味見しながら「なぜこの味になったのか」を考え、次の料理に活��す力をつける（<strong>味覚そのものを鍛えること</strong>）</li>
+</ul>
+<h4>3つの評価の全体像</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Assessment of Learning（学習の評価）</th>
+<th>Assessment for Learning（学習のための評価）</th>
+<th>Assessment as Learning（学習としての評価）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ひとことで</strong></td>
+<td>「どこまでできたか」を<strong>確認する</strong>評価</td>
+<td>「次にどうすればいいか」を<strong>導く</strong>評��</td>
+<td>「自分の学びを自分で見つめる」ことが<strong>学びそのもの</strong>になる評価</td>
+</tr>
+<tr>
+<td><strong>��つ行うか</strong></td>
+<td>単元の終わり、学期末</td>
+<td>授業の途中、単元の途中</td>
+<td>学習のあらゆる場面で</td>
+</tr>
+<tr>
+<td><strong>誰のた��に</strong></td>
+<td>保護者・学校・社会へ���報告</td>
+<td>教師が指導を改善するため</td>
+<td>児童生徒自身が成長するため</td>
+</tr>
+<tr>
+<td><strong>主な担い手</strong></td>
+<td>教師</td>
+<td>教師（→児童生徒へフィードバック）</td>
+<td><strong>児童生徒自身</strong></td>
+</tr>
+<tr>
+<td><strong>具体例</strong></td>
+<td>定期テスト、通��表、学���調査</td>
+<td>小テスト、机間指導での声かけ、ワークシートへのコメント</td>
+<td>振り返りカード、自己評価シート、学習ポートフォリオ</td>
+</tr>
+<tr>
+<td><strong>対応する3観点</strong></td>
+<td>3観点すべて（総括的に）</td>
+<td>主に「知識・技能」「思考・判断・表現」</td>
+<td>特に<strong>「主体的に学習に取り組む態度」</strong></td>
+</tr>
+<tr>
+<td><strong>関連する理論</strong></td>
+<td>Webb DOK（認知的複雑さの確認）</td>
+<td>Black &amp; Wiliam（形成��評価）、Hattie &amp; Timperley（フィードバック）、Sadler（3条件）</td>
+<td>Zimmerman（自己調整学習）、Deci &amp; Ryan（自己決定理論）</td>
+</tr>
+</tbody>
+</table>
+<h4>なぜ3つとも必要なのか？── Earl (2003)</h4>
+<p>Lorna Earlは著書 <em>Assessment as Learning</em> で、3つの評価目的はどれか1つに偏るのではなく、<strong>バランスよく統合する</strong>ことが重��だと述べている。</p>
+<p>現実の学校では <strong>Assessment of Learning（テストで成績をつける）に偏りがち</strong> である。しかし、学力向上に最も効果が大きいのは Assessment for Learning（形成���評価）であり（Black &amp; Wiliam, 1998）、そして生涯学び続ける力を育てるのは <strong>Assessment as Learning（学習者自身が評価の主体になること）</strong> である。</p>
+<blockquote>
+<p>Earl, L. M. (2003). <em>Assessment as Learning: Using Classroom Assessment to Maximize Student Learning</em>. Thousand Oaks, CA: Corwin Press.</p>
+</blockquote>
+<h4>初任者が明日からできる「3つの評価」の使い分け</h4>
+<table>
+<thead>
+<tr>
+<th>場面</th>
+<th>やること</th>
+<th>評価の種類</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>単元の始め</strong></td>
+<td>この単元のゴール（ルーブリック）を児童生徒と共有する</td>
+<td>for Learning の準備（Sadlerの条件1）</td>
+</tr>
+<tr>
+<td><strong>毎時間の授業中</strong></td>
+<td>机間指導で「ここまではできているね。次は〇〇を試してみよう」と声をか��る</td>
+<td>for Learning（Hattieの Feed-forward）</td>
+</tr>
+<tr>
+<td><strong>毎時間の終わり</strong></td>
+<td>振り返りカ��ドに「今日の工夫」「次にやりたいこと」を書かせる</td>
+<td><strong>as Learning</strong>（Zimmermanの自己省察段階）</td>
+</tr>
+<tr>
+<td><strong>単元の終わり</strong></td>
+<td>テストやパフォーマンス課題で到達度を確認する</td>
+<td>of Learning</td>
+</tr>
+<tr>
+<td><strong>単元の終わり</strong></td>
+<td>自己評価シートで「目標と現状の���ャップ」「次の単元への作戦」を書かせる</td>
+<td><strong>as Learning</strong>（Sadlerの条件2・3）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>よくある誤解:</strong>「Assessment of Learning（テスト）は悪いものだ」―― そうではない。通知表や入試に必要な総括的評価は学校教育に不可欠である。問題は、of Learning <strong>だけ</strong> に偏ることである。for Learning と as Learning を日常的に取り入れることで、of Learning の結果（テストの成績）も自然と向上する。Black &amp; Wiliamの研究では、形成的評価を充��させた学校で<strong>効果量 0.4〜0.7</strong> の学力向上が��告されている。</p>
+</blockquote>
+<h4>3つの評価と「主体的に学習に取り組む態度」の関係</h4>
+<p>本ガイドブックで最も重視する「主体的に学習に取り組む態度」の評価は、<strong>Assessment as Learning の考え方そ��もの</strong>である。</p>
+<table>
+<thead>
+<tr>
+<th>Assessment as Learning の要素</th>
+<th>���主体的に学習に取り組む態度」で見取る姿</th>
+<th>対応する理論</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自分の学習を<strong>��ニタリング</strong>する</td>
+<td>「今の自分はどこまでわかっているか」を把握している</td>
+<td>Zimmerman ── 遂行段階の自己モニタリング</td>
+</tr>
+<tr>
+<td>���標と現状の<strong>ギャッ���を認識</strong>する</td>
+<td>���ここがまだでき��いない」と自覚している</td>
+<td>Sadler ── 条件2（ギャップの認識）</td>
+</tr>
+<tr>
+<td>ギャップを埋めるために<strong>行動を調整</strong>する</td>
+<td>「別のやり方を試し��みよう」と���略を切り替えている</td>
+<td>Zimmerman ── 自己省察段階の適応的修正</td>
+</tr>
+<tr>
+<td>自分の意志��<strong>学びを駆動</strong>する</td>
+<td>「自分はこれを学びたい」と内発的に動いている</td>
+<td>Deci &amp; Ryan ── 自律性の欲求</td>
+</tr>
+</tbody>
+</table>
+<p>つまり、「主体的に学習に取り組む態度」を���しく評価するとは、<strong>児童生徒が Assessment as Learning を実践できているかどうかを見取ること</strong>に他ならない。振��返りカードや自己評価シートは、そ��ための具体的な手段で���る。</p>
+<hr />
+<h2 id="第1部-小学校編">第1部　小学校編</h2>
+<h3 id="概要">概要</h3>
+<p>小学校では、評価が「学びの楽しさ」を損なわないことが最も重要である。児童はまだメタ認知能力が発達途上にあり、抽象的な自己評価は困難な場合が多い。具体的な行動レベルで観察し、肯定的なフィードバックとともに成長を促すことが求められる。</p>
+<hr />
+<h3 id="1-1.-「知識・技能」の評価（小学校）">1-1. 「知識・技能」の評価（小学校）</h3>
+<h4>評価の考え方</h4>
+<p>「知識・技能」は、個別の事実や概念の理解（知識）と、それを使って実際に操作・表現できる力（技能）の両方を含む。小学校では、ペーパーテストだけでなく、実際の活動場面での観察が不可欠である。</p>
+<h4>評価方法の具体例</h4>
+<table>
+<thead>
+<tr>
+<th>教科</th>
+<th>知識の評価</th>
+<th>技能の評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>国語</td>
+<td>漢字の読み書き、語彙の意味理解</td>
+<td>音読の流暢さ、原稿用紙の使い方</td>
+</tr>
+<tr>
+<td>算数</td>
+<td>公式・計算方法の理解</td>
+<td>計算の正確さと速さ、作図の技能</td>
+</tr>
+<tr>
+<td>理科</td>
+<td>実験器具の名称と用途の理解</td>
+<td>実験器具の正しい操作、安全な取り扱い</td>
+</tr>
+<tr>
+<td>体育</td>
+<td>ルールの理解</td>
+<td>運動技能の実演（逆上がり、泳法など）</td>
+</tr>
+<tr>
+<td>音楽</td>
+<td>音符・記号の名称と意味</td>
+<td>リコーダーの演奏技能、正確な音程での歌唱</td>
+</tr>
+</tbody>
+</table>
+<h4>不適切な例とふさわしい例</h4>
+<blockquote class="callout callout-bad"><p><strong>【不適切な例】算数「かけ算」の単元</strong></p>
+<p>九九のペーパーテストのみで「知識・技能」を評価し、100点なら「A」、80点以上なら「B」、それ以下は「C」とする。</p>
+<p><strong>問題点:</strong>
+- 技能（実際に九九を使って問題を解く力）が評価されていない
+- 「覚えている」ことと「使える」ことの区別がない
+- Webb DOK Level 1（再生）のみの評価になっている</p></blockquote>
+<blockquote class="callout callout-good"><p><strong>【ふさわしい例】算数「かけ算」の単元</strong></p>
+<p>以下の複数の方法を組み合わせて評価する:
+1. <strong>九九カードの暗唱テスト</strong>（知識: 基本的事実の定着確認）
+2. <strong>文章題への適用</strong>（技能: 場面に応じてかけ算を選択し活用する力）
+3. <strong>買い物ごっこの活動観察</strong>（技能: 実生活場面での活用）</p>
+<p><strong>優れている点:</strong>
+- 知識と技能を分けて多面的に把握している
+- DOK Level 1（暗唱）とLevel 2（文章題での活用）を含む
+- Wiggins &amp; McTigheの逆向き設計に基づき、「九九が使える」というゴールから評価を設計している</p></blockquote>
+<hr />
+<h3 id="1-2.-「思考・判断・表現」の評価（小学校）">1-2. 「思考・判断・表現」の評価（小学校）</h3>
+<h4>評価の考え方</h4>
+<p>「思考・判断・表現」は、知識・技能を活用して課題を解決したり、自分の考えを形成し表現したりする力である。小学校では、児童が「なぜそう考えたのか」を説明できる場面を意図的に設ける必要がある。</p>
+<h4>評価方法の具体例</h4>
+<table>
+<thead>
+<tr>
+<th>教科</th>
+<th>評価場面の例</th>
+<th>評価の観点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>国語</td>
+<td>物語を読んで登場人物の気持ちを考え、根拠を示して話し合う</td>
+<td>叙述に基づいた根拠の提示、多様な解釈の検討</td>
+</tr>
+<tr>
+<td>算数</td>
+<td>自分の解き方を図や式で友達に説明する</td>
+<td>思考過程の可視化、複数の解法の比較</td>
+</tr>
+<tr>
+<td>理科</td>
+<td>実験結果から考察を書く</td>
+<td>結果と考察の区別、根拠に基づく推論</td>
+</tr>
+<tr>
+<td>社会</td>
+<td>地域の課題についてグループで調べ発表する</td>
+<td>情報の取捨選択、相手意識のある表現</td>
+</tr>
+<tr>
+<td>図工</td>
+<td>作品について「工夫したこと」を説明する</td>
+<td>意図と表現の一貫性、創造的な発想</td>
+</tr>
+</tbody>
+</table>
+<h4>不適切な例とふさわしい例</h4>
+<blockquote class="callout callout-bad"><p><strong>【不適切な例】国語「ごんぎつね」の単元</strong></p>
+<p>ワークシートで「ごんの気持ちを書きましょう」と指示し、模範解答に近い内容が書けているかどうかで評価する。</p>
+<p><strong>問題点:</strong>
+- 「正解」が一つに限定されており、思考の多様性が認められない
+- 叙述のどの部分を根拠にしたかが問われていない
+- 「表現」の側面（自分の言葉でどう伝えるか）が評価されていない
+- これは実質的に「知識の再生」（DOK Level 1）である</p></blockquote>
+<blockquote class="callout callout-good"><p><strong>【ふさわしい例】国語「ごんぎつね」の単元</strong></p>
+<p>以下のルーブリックを児童にも共有したうえで評価する:</p>
+<table>
+<thead>
+<tr>
+<th>評価基準</th>
+<th>A（十分満足）</th>
+<th>B（おおむね満足）</th>
+<th>C（努力を要する）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>思考</td>
+<td>複数の叙述を根拠に、ごんの気持ちの変化を自分なりに解釈している</td>
+<td>叙述を根拠に、ごんの気持ちを説明している</td>
+<td>ごんの気持ちについて述べているが、叙述との結びつきが不明確</td>
+</tr>
+<tr>
+<td>表現</td>
+<td>友達との対話で異なる意見を取り入れ、自分の考えを深めている</td>
+<td>自分の考えを友達に伝えている</td>
+<td>自分の考えを表現することに困難がある</td>
+</tr>
+</tbody>
+</table>
+<p><strong>優れている点:</strong>
+- ルーブリックを事前共有することで、Sadlerの3条件（目標の理解・ギャップの認識・行動）を満たす
+- 「正解」ではなく「根拠に基づく解釈の質」を評価している
+- DOK Level 2–3に対応する思考を求めている</p></blockquote>
+<hr />
+<h3 id="1-3.-「主体的に学習に取り組む態度」の評価（小学校）">1-3. 「主体的に学習に取り組む態度」の評価（小学校）</h3>
+<h4>評価の考え方</h4>
+<p><strong>最重要ポイント: これは「自主性の確認」ではなく「主体性の評価」である。</strong></p>
+<p>小学校の児童であっても、自分の学びを振り返り、調整しようとする姿勢は観察可能である。ただし、児童の発達段階を考慮し、高度なメタ認知を求めるのではなく、「学びに向かう姿勢の芽生え」を丁寧に捉える。</p>
+<p>Zimmermanの自己調整学習モデルを小学校段階に翻訳すると:</p>
+<table>
+<thead>
+<tr>
+<th>自己調整学習の段階</th>
+<th>小学校で観察される姿</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>予見段階</strong></td>
+<td>「今日はここをがんばる」と自分なりの目標を立てている</td>
+</tr>
+<tr>
+<td><strong>遂行段階</strong></td>
+<td>困ったときに教科書を見直す、友達に聞く、別のやり方を試すなど、方略を使っている</td>
+</tr>
+<tr>
+<td><strong>自己省察段階</strong></td>
+<td>「前よりここができるようになった」「次はこうしたい」と振り返っている</td>
+</tr>
+</tbody>
+</table>
+<h4>不適切な例とふさわしい例</h4>
+<blockquote class="callout callout-bad"><p><strong>【不適切な例】</strong></p>
+<p>以下の項目で「主体的に学習に取り組む態度」を評価する:
+- 忘れ物をしない ……… 5点
+- 授業中に手を挙げる … 5点
+- ノートを丁寧に書く … 5点
+- 宿題を毎日出す ……… 5点</p>
+<p><strong>問題点:</strong>
+- これは「自主性」「従順さ」「几帳面さ」の評価であり、「主体性」の評価ではない
+- Deci &amp; Ryanの自己決定理論に照らすと、外発的動機づけ（減点されないように行動する）を強化する仕組みであり、内発的動機づけを阻害する
+- 忘れ物の有無は家庭環境に依存する場合があり、公平性の問題がある
+- Hattie &amp; Timplerleyの分類では最も効果の低い「自己レベル」の評価にとどまる</p></blockquote>
+<blockquote class="callout callout-good"><p><strong>【ふさわしい例】</strong></p>
+<p><strong>学習カード（振り返りカード）を活用した評価:</strong></p>
+<p>毎時間の終わりに、以下のような簡単な振り返りカードを記入させる（低学年は選択式、中・高学年は記述式）:</p>
+<p><strong>〈低学年用〉</strong>
+- きょうの がくしゅうで がんばったことは？ 　→ 😊 / 😐 / 😢 から選択 + ひとこと
+- つぎに やってみたいことは？</p>
+<p><strong>〈中・高学年用〉</strong>
+- 今日の学習で、自分はどんな工夫をしましたか？
+- 難しかったところはどこですか？どうやって乗り越えましたか（乗り越えようとしましたか）？
+- 次の時間に向けて、自分なりのめあてを書きましょう。</p>
+<p><strong>評価のルーブリック（教師用）:</strong></p>
+<table>
+<thead>
+<tr>
+<th>評価基準</th>
+<th>A（十分満足）</th>
+<th>B（おおむね満足）</th>
+<th>C（努力を要する）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>学びの調整</td>
+<td>自分の学習を振り返り、具体的な方略の工夫や改善点を挙げている</td>
+<td>自分の学習を振り返り、感想や気づきを述べている</td>
+<td>振り返りの記述が乏しい、または活動の事実のみの記述</td>
+</tr>
+<tr>
+<td>粘り強さ</td>
+<td>困難に直面しても別の方法を試したり、友達と相談したりして取り組み続けている</td>
+<td>課題に最後まで取り組もうとしている</td>
+<td>困難に直面すると諦める傾向がある</td>
+</tr>
+</tbody>
+</table>
+<p><strong>優れている点:</strong>
+- Zimmermanの自己調整学習の3段階（予見・遂行・省察）に対応している
+- 「方略の工夫」を評価することで、Hattie &amp; Timplerleyのプロセスレベル・自己調整レベルのフィードバックにつながる
+- 「忘れ物」や「挙手」ではなく、学びの過程そのものを評価している
+- Deci &amp; Ryanの自律性の欲求を損なわない（選択の余地がある、罰則的でない）</p></blockquote>
+<hr />
+<h2 id="第2部-中学校編">第2部　中学校編</h2>
+<h3 id="概要">概要</h3>
+<p>中学校では、教科の専門性が高まり、抽象的思考が可能になる時期である。メタ認知能力の発達に伴い、自己調整学習のより本格的な姿が期待できる。一方で、定期テストの比重が大きくなりやすく、「知識・技能」偏重の評価に陥りやすい点に注意が必要である。</p>
+<hr />
+<h3 id="2-1.-「知識・技能」の評価（中学校）">2-1. 「知識・技能」の評価（中学校）</h3>
+<h4>評価の考え方</h4>
+<p>中学校では教科の系統性が明確になるため、知識と知識のつながり（概念的理解）や、技能の正確性・熟達度がより重要になる。定期テストは有効な手段の一つだが、それだけでは技能面の評価が不十分になる。</p>
+<h4>評価方法の具体例</h4>
+<table>
+<thead>
+<tr>
+<th>教科</th>
+<th>知識の評価</th>
+<th>技能の評価</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>国語</td>
+<td>文法事項、語彙、文学史的知識</td>
+<td>書写の技能、聞き取りの正確さ</td>
+</tr>
+<tr>
+<td>数学</td>
+<td>定理・公式の理解、数学的概念</td>
+<td>作図技能、グラフの作成、計算の正確性</td>
+</tr>
+<tr>
+<td>理科</td>
+<td>科学的概念・法則の理解</td>
+<td>実験の操作技能、顕微鏡操作、データの記録</td>
+</tr>
+<tr>
+<td>英語</td>
+<td>語彙・文法知識</td>
+<td>音読・発音の正確さ、筆記の正確さ</td>
+</tr>
+<tr>
+<td>技術・家庭</td>
+<td>材料・道具に関する知識</td>
+<td>製作技能、調理技能の実技</td>
+</tr>
+</tbody>
+</table>
+<h4>不適切な例とふさわしい例</h4>
+<blockquote class="callout callout-bad"><p><strong>【不適切な例】理科「化学変化」の単元</strong></p>
+<p>定期テストの点数のみで「知識・技能」を評価する。テストには用語の穴埋め問題と化学反応式を書かせる問題のみを出題。</p>
+<p><strong>問題点:</strong>
+- 技能（実験操作能力）がまったく評価されていない
+- 用語の暗記（DOK Level 1）に偏重している
+- 「化学変化の概念的理解」と「用語の記憶」を区別していない</p></blockquote>
+<blockquote class="callout callout-good"><p><strong>【ふさわしい例】理科「化学変化」の単元</strong></p>
+<p>以下の3つの場面で評価する:
+1. <strong>定期テスト</strong>（知識: 化学反応式、質量保存の法則の説明 → DOK Level 1–2）
+2. <strong>実験レポート</strong>（知識: 実験の原理の説明 / 技能: データの正確な記録と整理）
+3. <strong>実技テスト</strong>（技能: ガスバーナーの操作、試薬の正確な量り取り → 実技チェックリスト使用）</p>
+<p><strong>優れている点:</strong>
+- 知識と技能を明確に分けて複数の方法で把握している
+- 実技チェックリストにより、技能の達成状況を可視化している
+- Wiggins &amp; McTigheの逆向き設計：「化学変化を理解し、安全に実験を遂行できる」から逆算</p></blockquote>
+<hr />
+<h3 id="2-2.-「思考・判断・表現」の評価（中学校）">2-2. 「思考・判断・表現」の評価（中学校）</h3>
+<h4>評価の考え方</h4>
+<p>中学校では、「根拠に基づく論理的思考」「複数の情報を関連づける力」「適切な方法を選択・判断する力」「目的や相手に応じた表現力」がより明確に求められる。定期テストにおいても、単なる知識の再生ではなく、思考力を問う問題を出題する工夫が必要である。</p>
+<h4>不適切な例とふさわしい例</h4>
+<blockquote class="callout callout-bad"><p><strong>【不適切な例】社会科（歴史）「明治維新」の単元</strong></p>
+<p>定期テストで「明治維新の三大改革を答えなさい」「廃藩置県は何年に行われましたか」といった問題のみで「思考・判断・表現」も評価する。</p>
+<p><strong>問題点:</strong>
+- すべて知識の再生（DOK Level 1）であり、思考・判断・表現を測っていない
+- 「知識・技能」と「思考・判断・表現」の評価場面が区別されていない</p></blockquote>
+<blockquote class="callout callout-good"><p><strong>【ふさわしい例】社会科（歴史）「明治維新」の単元</strong></p>
+<p><strong>「知識・技能」と「思考・判断・表現」を明確に分けて評価する:</strong></p>
+<p><strong>〈知識・技能を評価する問題〉</strong>
+- 廃藩置県の内容を説明しなさい。
+- 明治政府が実施した主な改革を3つ挙げなさい。</p>
+<p><strong>〈思考・判断・表現を評価する問題〉</strong>
+- 「もしあなたが明治政府の指導者だったら、廃藩置県と版籍奉還のどちらを先に実施しますか。根拠を示して論じなさい。」（DOK Level 3: 戦略的思考）
+- 資料A（人口推移）と資料B（産業構造の変化）から読み取れることを関連づけて、明治維新が人々の生活に与えた影響を述べなさい。（DOK Level 3: 複数資料の統合）</p>
+<p><strong>ルーブリック:</strong></p>
+<table>
+<thead>
+<tr>
+<th>評価基準</th>
+<th>A（十分満足）</th>
+<th>B（おおむね満足）</th>
+<th>C（努力を要する）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>思考・判断</td>
+<td>複数の根拠を示し、多面的に論じている</td>
+<td>根拠を示して自分の考えを述べている</td>
+<td>根拠が不明確、または知識の羅列にとどまる</td>
+</tr>
+<tr>
+<td>表現</td>
+<td>論理的な構成で、読み手を意識した文章になっている</td>
+<td>自分の考えが伝わる文章になっている</td>
+<td>文意が不明確で、考えが十分に伝わらない</td>
+</tr>
+</tbody>
+</table>
+<p><strong>優れている点:</strong>
+- 3観点のうち「どの観点を評価する問題か」が明確
+- Webb DOKの多層的な活用（Level 1の知識問題とLevel 3の思考問題の区別）
+- 資料活用型の問題で「判断」の側面も評価</p></blockquote>
+<hr />
+<h3 id="2-3.-「主体的に学習に取り組む態度」の評価（中学校）">2-3. 「主体的に学習に取り組む態度」の評価（中学校）</h3>
+<h4>評価の考え方</h4>
+<p>中学生はメタ認知能力がさらに発達し、自分の学習過程を言語化できるようになる。したがって、小学校よりも高い水準の自己調整学習を評価できる。ただし、思春期特有の「人前で頑張る姿を見せたくない」心理にも配慮が必要であり、挙手や発言の多さを評価指標にすることは特に不適切である。</p>
+<h4>不適切な例とふさわしい例</h4>
+<blockquote class="callout callout-bad"><p><strong>【不適切な例】</strong></p>
+<p>以下の方法で「主体的に学習に取り組む態度」を評価する:
+- 授業中の発言回数を記録し、多い生徒を高く評価する
+- 自主学習ノートのページ数で評価する（ページが多いほど高評価）
+- 定期テストの点数が高い生徒は「意欲もある」と見なしてA評価にする</p>
+<p><strong>問題点:</strong>
+- 発言回数は性格・文化的背景に依存し、主体性の指標として不適切
+- ノートのページ数は「量」であり、学びの「質」や「調整」を反映しない
+- テストの点数は「知識・技能」「思考・判断・表現」の指標であり、態度の代用にはならない（二重評価の問題）
+- Deci &amp; Ryanの理論に照らすと、量的競争は外発的動機づけを強化し、自律性を阻害する</p></blockquote>
+<blockquote class="callout callout-good"><p><strong>【ふさわしい例】</strong></p>
+<p><strong>学習ポートフォリオ + 自己評価シートによる評価:</strong></p>
+<p>各単元の終わりに、以下の「自己評価シート」を記入させ、ポートフォリオに蓄積する:</p>
+<p><code>┌──────────────────────────────────────────────────────────────┐
+│ 自己評価シート（中学校用）                                    │
+├──────────────────────────────────────────────────────────────┤
+│ 1. この単元で自分が立てた目標は何でしたか？                    │
+│    → [                                                   ]  │
+│                                                              │
+│ 2. 目標に対して、どのくらい達成できましたか？                  │
+│    → 1──2──3──4──5                                         │
+│    その理由: [                                            ]  │
+│                                                              │
+│ 3. 学習中に困ったとき、どのような工夫をしましたか？            │
+│    → [                                                   ]  │
+│                                                              │
+│ 4. 前の単元と比べて、自分の学び方で変わったことはありますか？  │
+│    → [                                                   ]  │
+│                                                              │
+│ 5. 次の単元に向けて、どのように取り組みたいですか？            │
+│    → [                                                   ]  │
+└──────────────────────────────────────────────────────────────┘</code></p>
+<p><strong>教師の評価ルーブリック:</strong></p>
+<table>
+<thead>
+<tr>
+<th>評価基準</th>
+<th>A（十分満足）</th>
+<th>B（おおむね満足）</th>
+<th>C（努力を要する）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自己調整</td>
+<td>学習方略を意識的に選択・修正し、その効果を振り返っている</td>
+<td>自分なりの工夫をしており、振り返りができている</td>
+<td>学習の振り返りが表面的で、具体的な方略への言及がない</td>
+</tr>
+<tr>
+<td>粘り強い取組</td>
+<td>困難な課題に対して複数の方略を試し、改善を重ねている</td>
+<td>困難に直面しても課題に取り組み続けている</td>
+<td>困難に直面すると早い段階で取り組みを止めてしまう</td>
+</tr>
+<tr>
+<td>学びの見通し</td>
+<td>前の学習経験を活かして次の目標を具体的に設定している</td>
+<td>次の学習への目標や見通しをもっている</td>
+<td>次の学習への見通しがもてていない</td>
+</tr>
+</tbody>
+</table>
+<p><strong>優れている点:</strong>
+- Zimmermanの3段階すべてに対応:
+  - 質問1・5 → 予見段階（目標設定・計画）
+  - 質問3 → 遂行段階（方略の使用）
+  - 質問2・4 → 自己省察段階（自己評価・適応）
+- 「量」ではなく「質」を評価している
+- 生徒自身が自己評価の主体となることで、Sadlerの3条件を満たす
+- 経時的な変化（ポートフォリオ）で成長を捉える</p></blockquote>
+<hr />
+<h2 id="第3部-高校編">第3部　高校編</h2>
+<h3 id="概要">概要</h3>
+<p>高等学校では、教科の専門性がさらに深まり、生徒は自らの進路を見据えた学びを展開する。メタ認知能力が成熟に向かうこの段階では、より高度な自己調整学習が期待でき、評価もそれに応じた深さが求められる。同時に、大学入試との関係から「点数至上主義」に陥りやすい現状がある。3観点の評価を「入試対策のための序列づけ」ではなく「学びの質の向上」のために機能させる視点が不可欠である。</p>
+<hr />
+<h3 id="3-1.-「知識・技能」の評価（高校）">3-1. 「知識・技能」の評価（高校）</h3>
+<h4>評価の考え方</h4>
+<p>高校段階の「知識・技能」は、個々の事実的知識にとどまらず、<strong>概念的知識</strong>（複数の知識を関連づけた体系的理解）や<strong>手続き的知識</strong>（特定の課題を遂行するための方法論的知識）を含む。定期テストでも「暗記の再生」を超えた出題が望まれる。</p>
+<h4>不適切な例とふさわしい例</h4>
+<blockquote class="callout callout-bad"><p><strong>【不適切な例】英語コミュニケーション「関係代名詞」の単元</strong></p>
+<p>定期テストで、関係代名詞の空所補充問題と和訳問題のみを出題し、「知識・技能」を評価する。</p>
+<p><strong>問題点:</strong>
+- 文法知識の再生（DOK Level 1）のみで、「技能」（実際にコミュニケーションで使えるか）が評価されていない
+- 「知っている」と「使える」を区別していない
+- 受動的な知識のみの評価で、産出的な技能が測定されない</p></blockquote>
+<blockquote class="callout callout-good"><p><strong>【ふさわしい例】英語コミュニケーション「関係代名詞」の単元</strong></p>
+<p><strong>知識と技能を明確に分けて評価:</strong></p>
+<table>
+<thead>
+<tr>
+<th>評価場面</th>
+<th>観点</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>定期テスト（筆記）</td>
+<td>知識</td>
+<td>関係代名詞の用法の理解（空所補充、誤り訂正）</td>
+</tr>
+<tr>
+<td>定期テスト（筆記）</td>
+<td>技能</td>
+<td>関係代名詞を用いた英作文（自分の好きな人物を紹介する文章を3文以上書く）</td>
+</tr>
+<tr>
+<td>パフォーマンステスト</td>
+<td>技能</td>
+<td>関係代名詞を用いてペアで「おすすめの本・映画」を紹介し合うスピーキング活動</td>
+</tr>
+</tbody>
+</table>
+<p>スピーキング活動の評価基準:</p>
+<table>
+<thead>
+<tr>
+<th>評価基準</th>
+<th>A</th>
+<th>B</th>
+<th>C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正確さ</td>
+<td>関係代名詞を正確に用い、文構造の誤りがほとんどない</td>
+<td>関係代名詞を概ね正確に用いている</td>
+<td>関係代名詞の使用に大きな誤りがある、または使用を避けている</td>
+</tr>
+<tr>
+<td>流暢さ</td>
+<td>自然なペースで、相手の反応を見ながら伝えている</td>
+<td>やや途切れるが、内容を伝えることができている</td>
+<td>発話が断片的で、内容が伝わりにくい</td>
+</tr>
+</tbody>
+</table>
+<p><strong>優れている点:</strong>
+- 「知識（文法理解）」と「技能（運用能力）」を明確に区別
+- DOK Level 1（文法知識の再生）とLevel 2（知識の活用・産出）を組み合わせている
+- パフォーマンス評価により、実際のコミュニケーション場面での技能を測定</p></blockquote>
+<hr />
+<h3 id="3-2.-「思考・判断・表現」の評価（高校）">3-2. 「思考・判断・表現」の評価（高校）</h3>
+<h4>評価の考え方</h4>
+<p>高校段階では、<strong>批判的思考（Critical Thinking）</strong>、<strong>創造的思考（Creative Thinking）</strong>、<strong>複数の情報源を統合する力</strong>、<strong>立場や文脈を踏まえた判断力</strong> がより明確に求められる。Webb DOK Level 3–4に対応する課題を意図的に設定すべきである。</p>
+<h4>不適切な例とふさわしい例</h4>
+<blockquote class="callout callout-bad"><p><strong>【不適切な例】地理総合「地球環境問題」の単元</strong></p>
+<p>定期テストで「温室効果ガスの種類を3つ挙げなさい」「京都議定書は何年に採択されましたか」といった問題で「思考・判断・表現」を評価する。</p>
+<p><strong>問題点:</strong>
+- すべてDOK Level 1（事実の再生）であり、思考力を測定していない
+- 「知識・技能」と「思考・判断・表現」の評価場面が混同されている</p></blockquote>
+<blockquote class="callout callout-good"><p><strong>【ふさわしい例】地理総合「地球環境問題」の単元</strong></p>
+<p><strong>多角的な評価課題の設計:</strong></p>
+<p><strong>〈定期テスト内の思考問題〉</strong></p>
+<p>「以下の2つの資料を読み、先進国と途上国の間で気候変動対策についてどのような対立が生じているか、その原因を分析し、あなたなりの解決策を300字以内で提案しなさい。」
+（資料A: 国別CO2排出量の推移グラフ / 資料B: 途上国代表のスピーチ要旨）</p>
+<p><strong>〈パフォーマンス課題〉</strong></p>
+<p>「あなたはCOP（気候変動枠組条約締約国会議）の交渉官です。割り当てられた国の立場に立って、具体的な提案を作成し、他国の交渉官（クラスメート）と交渉してください。最終的に合意文書を作成しなさい。」（DOK Level 4: 拡張的思考）</p>
+<p><strong>パフォーマンス課題のルーブリック:</strong></p>
+<table>
+<thead>
+<tr>
+<th>評価基準</th>
+<th>A（十分満足）</th>
+<th>B（おおむね満足）</th>
+<th>C（努力を要する）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>思考の深さ</td>
+<td>自国と他国の立場を多角的に分析し、データに基づいた根拠ある提案を行っている</td>
+<td>自国の立場を理解し、根拠ある提案を行っている</td>
+<td>立場の理解が表面的で、根拠が不十分</td>
+</tr>
+<tr>
+<td>判断の適切さ</td>
+<td>対立する利害を調整し、現実的かつ創造的な妥協案を導いている</td>
+<td>相手の立場を考慮した妥協案を提示している</td>
+<td>一方的な主張にとどまり、判断の柔軟性に欠ける</td>
+</tr>
+<tr>
+<td>表現の質</td>
+<td>交渉場面にふさわしい論理構成と表現を用い、説得力がある</td>
+<td>自分の考えを筋道立てて伝えている</td>
+<td>主張が断片的で、論理構成が不十分</td>
+</tr>
+</tbody>
+</table>
+<p><strong>優れている点:</strong>
+- DOK Level 4の課題（実社会の複雑な問題に対する探究的取組）を含む
+- 「正解のない問い」に対する思考・判断・表現を総合的に評価
+- ルーブリックの事前共有により、Sadlerの3条件を満たす
+- Black &amp; Wiliamの形成的評価の知見を活かし、交渉の過程でもフィードバックを提供できる</p></blockquote>
+<hr />
+<h3 id="3-3.-「主体的に学習に取り組む態度」の評価（高校）">3-3. 「主体的に学習に取り組む態度」の評価（高校）</h3>
+<h4>評価の考え方</h4>
+<p>高校生は自己調整学習の各段階を高い水準で実行できる可能性をもつ。この段階での「主体的に学習に取り組む態度」の評価は、<strong>自分の学びを俯瞰的にモニタリングし、学習方略を戦略的に選択・修正し、長期的な学習計画を自律的に遂行する力</strong>を捉えるべきである。</p>
+<p>進路選択を控える高校生にとって、自己調整学習の力は生涯にわたる学びの基盤となる。この観点の評価は「高校の成績をつけるため」を超えた意義をもつ。</p>
+<h4>不適切な例とふさわしい例</h4>
+<blockquote class="callout callout-bad"><p><strong>【不適切な例】</strong></p>
+<p>以下の方法で「主体的に学習に取り組む態度」を評価する:
+- 予習ノートの提出状況（提出率で数値化）
+- 授業態度の点数（居眠りしない＝5点、私語なし＝5点、など）
+- 定期テストの成績上位者に自動的にA評価を付与</p>
+<p><strong>問題点:</strong>
+- 予習ノートの提出は「指示への従順さ」の評価であり、主体性ではない
+- 「居眠りしない」「私語なし」は学校の秩序維持の指標であり、学習への主体的取組の指標ではない
+- テスト成績の高さは「知識・技能」や「思考・判断・表現」の評価に帰属すべきであり、「態度」の代用は二重評価（ダブルカウント）になる
+- Deci &amp; Ryanの自己決定理論に照らすと、監視・罰則型の評価は自律性の欲求を著しく阻害し、「やらされる学び」を強化する</p></blockquote>
+<blockquote class="callout callout-good"><p><strong>【ふさわしい例】</strong></p>
+<p><strong>「学習マネジメントシート」+「学びの振り返りレポート」による評価:</strong></p>
+<p><strong>〈学習マネジメントシート：各単元の開始時に記入〉</strong></p>
+<p><code>┌──────────────────────────────────────────────────────────────┐
+│ 学習マネジメントシート                                        │
+├──────────────────────────────────────────────────────────────┤
+│ 1. この単元で達成したい目標（自分の言葉で）:                   │
+│    → [                                                   ]  │
+│                                                              │
+│ 2. その目標を達成するために、どのような学習方略を使うか:        │
+│    （例: 要約を作る、練習問題を反復する、                     │
+│          関連する資料を探す、誰かに説明してみる）             │
+│    → [                                                   ]  │
+│                                                              │
+│ 3. 前の単元での振り返りを踏まえて、今回改善したいこと:        │
+│    → [                                                   ]  │
+└──────────────────────────────────────────────────────────────┘</code></p>
+<p><strong>〈学びの振り返りレポート：各単元の終了時に記入〉</strong></p>
+<p><code>┌──────────────────────────────────────────────────────────────┐
+│ 学びの振り返りレポート                                        │
+├──────────────────────────────────────────────────────────────┤
+│ 1. 設定した目標に対して、どの程度達成できたか。                │
+│    達成の根拠を具体的に示すこと。                              │
+│    → [                                                   ]  │
+│                                                              │
+│ 2. 計画した学習方略は効果的だったか。                          │
+│    うまくいったこと・いかなかったことを分析せよ。              │
+│    → [                                                   ]  │
+│                                                              │
+│ 3. 学習の過程で、当初の計画を修正した場面はあったか。          │
+│    あれば、何がきっかけで、どう修正したか。                    │
+│    → [                                                   ]  │
+│                                                              │
+│ 4. この単元の学びから得た教訓を、次の学習にどう活かすか。      │
+│    → [                                                   ]  │
+└──────────────────────────────────────────────────────────────┘</code></p>
+<p><strong>教師の評価ルーブリック:</strong></p>
+<table>
+<thead>
+<tr>
+<th>評価基準</th>
+<th>A（十分満足）</th>
+<th>B（おおむね満足）</th>
+<th>C（努力を要する）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目標設定と計画</td>
+<td>自分の現状を分析した上で、具体的かつ到達可能な目標を設定し、適切な方略を選択している</td>
+<td>目標を設定し、学習方略を考えている</td>
+<td>目標が漠然としている、または方略の計画がない</td>
+</tr>
+<tr>
+<td>方略の実行と調整</td>
+<td>学習方略の効果を途中で評価し、必要に応じて修正・改善している</td>
+<td>計画した方略を用いて学習に取り組んでいる</td>
+<td>方略を意識した学習が見られない</td>
+</tr>
+<tr>
+<td>振り返りと転移</td>
+<td>学習過程を多角的に分析し、得られた教訓を次の学習に具体的に結びつけている</td>
+<td>学習過程を振り返り、次への見通しをもっている</td>
+<td>振り返りが表面的で、次の学習への具体的な展望がない</td>
+</tr>
+<tr>
+<td>粘り強い取組</td>
+<td>困難に直面しても原因を分析し、多様な方略を試して課題に取り組み続けている</td>
+<td>困難な課題にも粘り強く取り組んでいる</td>
+<td>困難に直面すると取り組みを止めてしまう傾向がある</td>
+</tr>
+</tbody>
+</table>
+<p><strong>優れている点:</strong>
+- Zimmermanの自己調整学習モデルを忠実に反映:
+  - マネジメントシート = 予見段階（目標設定・方略計画）
+  - 振り返りレポート質問2・3 = 遂行段階の省察（モニタリング・方略修正）
+  - 振り返りレポート質問1・4 = 自己省察段階（自己評価・転移）
+- 「提出したかどうか」ではなく「振り返りの質」で評価する
+- 単元をまたぐ<strong>縦断的な成長</strong>を追跡できる（質問3で前の単元を参照させる）
+- 生徒自身が学びの主体となる設計（Deci &amp; Ryanの自律性を保障）
+- Hattie &amp; Timplerleyのフィードバックモデルに基づき、教師は「Where to next?（Feed-forward）」のコメントを記入できる</p></blockquote>
+<hr />
+<h2 id="第4部-評価設計を深化させる4つのフレームワーク">第4部　評価設計を深化させる4つのフレームワーク</h2>
+<p>第1〜3部では、3観点評価を校種別に「正しく」実践する方法を扱った。第4部では、その質をさらに高めるための4つのフレームワークを紹介する。いずれも、既存の3観点評価を<strong>置き換える</strong>ものではなく、<strong>評価課題を診断・設計するレンズ</strong>として機能する。</p>
+<table>
+<thead>
+<tr>
+<th>章</th>
+<th>フレームワーク</th>
+<th>主な貢献</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第8章</td>
+<td>Webb の DOK</td>
+<td>評価課題の認知的複雑さを4段階で点検する</td>
+</tr>
+<tr>
+<td>第9章</td>
+<td>認知的厳密性マトリックス（CRM）</td>
+<td>ブルーム×DOKで思考の「種類」と「深さ」を立体把握</td>
+</tr>
+<tr>
+<td>第10章</td>
+<td>自己調整学習（SRL）</td>
+<td>「主体的態度」評価を発達段階別に設計する</td>
+</tr>
+<tr>
+<td>第11章</td>
+<td>SAMR×ブルーム・デジタル・タクソノミー</td>
+<td>GIGA端末時代のICT活用課題を評価する</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="第8章-DOKで評価課題を診断する">第8章　DOKで評価課題を診断する</h3>
+<p>理論編で述べた通り、Webb の DOK は「<strong>何を要求しているか</strong>」をレベルで可視化する。本章は、それを評価設計の実務に落とし込む。</p>
+<h4>8-1. DOK4レベルの評価課題例（教科横断）</h4>
+<table>
+<thead>
+<tr>
+<th>教科</th>
+<th>DOK-1（再生）</th>
+<th>DOK-2（スキル・概念）</th>
+<th>DOK-3（戦略的思考）</th>
+<th>DOK-4（拡張的思考）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>国語</td>
+<td>登場人物の名前を答える</td>
+<td>あらすじを自分の言葉で要約する</td>
+<td>作者の意図を本文を根拠に論じる</td>
+<td>異時代の文学を比較しレポート化</td>
+</tr>
+<tr>
+<td>社会</td>
+<td>都道府県と県庁所在地</td>
+<td>二つの時代の文化を比較する</td>
+<td>歴史事件を複数資料から再解釈する</td>
+<td>地域課題を調査し政策提言を作成</td>
+</tr>
+<tr>
+<td>数学</td>
+<td>公式を暗唱する</td>
+<td>グラフから傾向を説明する</td>
+<td>解法の定まらない問題に戦略を立てる</td>
+<td>現実問題を解決する数理モデル構築</td>
+</tr>
+<tr>
+<td>理科</td>
+<td>元素記号を答える</td>
+<td>実験結果を解釈し説明する</td>
+<td>仮説を検証する実験を設計する</td>
+<td>1年間の環境調査を論文化</td>
+</tr>
+<tr>
+<td>英語</td>
+<td>単語の意味を答える</td>
+<td>文脈から未知語を推測する</td>
+<td>複数記事から意見文を書く</td>
+<td>社会問題で英語ドキュメンタリー制作</td>
+</tr>
+</tbody>
+</table>
+<h4>8-2. 単元設計でのDOKバランス</h4>
+<p>質の高い単元は、DOKレベルが偏らない。標準的な進行例:</p>
+<ol>
+<li><strong>導入（DOK-3/4）</strong>: 単元冒頭に挑戦的な探究問いを提示（「理想のエネルギー政策とは？」）</li>
+<li><strong>展開（DOK-1/2）</strong>: その問いに答えるために必要な知識・スキルを習得</li>
+<li><strong>探究（DOK-3）</strong>: 習得した知識を使い、自分なりの答えを構築</li>
+<li><strong>まとめ（DOK-4）</strong>: 成果を作品・提言・発表として統合</li>
+</ol>
+<p>低学年だからDOK-1のみ、ということは絶対にやってはならない。<strong>全校種・全学年で、DOK-3/4の挑戦機会を意図的に保障する</strong>。</p>
+<h4>8-3. 評価への応用：ルーブリックへのDOK埋め込み</h4>
+<p>第1〜3部で示したルーブリックには、暗黙にDOKレベルが埋め込まれている。これを<strong>明示化</strong>することで、評価の妥当性が高まる。</p>
+<p>例：社会科レポートの評価ルーブリック（DOK明記版）</p>
+<table>
+<thead>
+<tr>
+<th>観点</th>
+<th>A（十分満足）</th>
+<th>B（おおむね満足）</th>
+<th>C（努力を要する）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>問題分析の深さ</td>
+<td>複数情報源を批判的に検討し多面的に分析 <strong>(DOK-3)</strong></td>
+<td>複数情報源を比較し原因と結果を説明 <strong>(DOK-2)</strong></td>
+<td>単一情報源から事実を記述 <strong>(DOK-1)</strong></td>
+</tr>
+<tr>
+<td>提案の独創性</td>
+<td>代替案を評価し独創的な解決策を提案 <strong>(DOK-4)</strong></td>
+<td>一般的解決策を理由付きで挙げる <strong>(DOK-3)</strong></td>
+<td>解決策を挙げるが根拠が不十分 <strong>(DOK-2)</strong></td>
+</tr>
+</tbody>
+</table>
+<p>教師は「私のテストはDOK-1ばかりではないか」を学期ごとに点検すべきである。</p>
+<hr />
+<h3 id="第9章-認知的厳密性マトリックス（CRM）でブルーム×DOKを統合する">第9章　認知的厳密性マトリックス（CRM）でブルーム×DOKを統合する</h3>
+<h4>9-1. なぜ動詞だけでは不十分か</h4>
+<p>「分析する」「説明する」「評価する」などの動詞は、ブルームのタキソノミーで思考の<strong>種類</strong>を分類する。しかし同じ「分析する」でも、文脈によって認知的複雑さは大きく異なる:
+- 「グラフから情報を特定する分析」→ DOK-1相当
+- 「概念間の相互関係を分析する」→ DOK-3相当
+- 「複雑な抽象テーマを多角的に分析する」→ DOK-4相当</p>
+<p>つまり、ブルームだけでは思考の<strong>深さ</strong>は測れない。Karin Hess が提唱した<strong>認知的厳密性マトリックス（Cognitive Rigor Matrix, CRM）</strong>は、ブルーム（縦軸：思考の種類）×DOK（横軸：思考の深さ）を交差させた診断ツールである。</p>
+<h4>9-2. CRM早見表（要約版）</h4>
+<table>
+<thead>
+<tr>
+<th>ブルーム ＼ DOK</th>
+<th>DOK-1 再生</th>
+<th>DOK-2 スキル・概念</th>
+<th>DOK-3 戦略的思考</th>
+<th>DOK-4 拡張的思考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>記憶する</td>
+<td>事実・用語の想起</td>
+<td>—</td>
+<td>—</td>
+<td>—</td>
+</tr>
+<tr>
+<td>理解する</td>
+<td>誰が・何を答える</td>
+<td>関係性を説明・要約</td>
+<td>証拠で考えを関連付け</td>
+<td>概念を他領域へ応用</td>
+</tr>
+<tr>
+<td>応用する</td>
+<td>定型手順の実行</td>
+<td>特徴を使い情報を解釈</td>
+<td>新文脈で概念適用</td>
+<td>多選択肢からアプローチ考案</td>
+</tr>
+<tr>
+<td>分析する</td>
+<td>グラフから情報特定</td>
+<td>関連/無関連を区別</td>
+<td>概念間相互関係の分析</td>
+<td>複雑・抽象テーマの多角分析</td>
+</tr>
+<tr>
+<td>評価する</td>
+<td>—</td>
+<td>(単純基準の)正誤判定</td>
+<td>結論を正当化・批評</td>
+<td>新方法で理解を応用し正当化</td>
+</tr>
+<tr>
+<td>創造する</td>
+<td>アイデアをブレスト</td>
+<td>仮説を立てる</td>
+<td>複雑モデルを開発</td>
+<td>新視点・新知識を表現</td>
+</tr>
+</tbody>
+</table>
+<p>空欄は「論理的に成立しにくい組み合わせ」を表す。たとえば DOK-1 で「評価する」ことは、評価の本質と矛盾する。</p>
+<h4>9-3. CRMの実践的価値</h4>
+<p><strong>(1) 課題の真の負荷を可視化する</strong>: 「分析する」と書かれた課題でも、CRMで見ると DOK-1 相当の浅い分析だったということが起こる。これを発見すれば、課題を上方修正できる。</p>
+<p><strong>(2) 学習の進行を設計する</strong>: 単元冒頭は左下（記憶×DOK-1）から始めても、最終的な評価課題は右上（評価/創造×DOK-3/4）に置く。途中の足場かけを意図的に配置する。</p>
+<p><strong>(3) 動詞の罠を回避する</strong>: 同じ「説明する」を異なるDOKレベルで設計し分けることができる。</p>
+<h4>9-4. CRMを用いた単元設計例（中学校社会科）</h4>
+<p>単元「第一次世界大戦の原因」での進行:</p>
+<table>
+<thead>
+<tr>
+<th>ステップ</th>
+<th>ブルーム×DOK</th>
+<th>活動</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>記憶×DOK-1</td>
+<td>三国同盟・三国協商などの用語をリストアップ</td>
+</tr>
+<tr>
+<td>2</td>
+<td>理解×DOK-2</td>
+<td>各原因がどう出来事に繋がったかを要約</td>
+</tr>
+<tr>
+<td>3</td>
+<td>分析×DOK-3</td>
+<td>戦勝国/敗戦国の資料を比較し、視点と偏見を分析</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>評価×DOK-3（パフォーマンス評価）</strong></td>
+<td><strong>「最も重要な原因は何か？」を複数資料から論証する小論文</strong></td>
+</tr>
+</tbody>
+</table>
+<p>最終課題が右上に置かれ、そこに到達するための足場が左下から順に積まれている。これがCRMによる<strong>意図的な認知的厳密性の設計</strong>である。</p>
+<h4>9-5. CRMルーブリック（汎用）</h4>
+<table>
+<thead>
+<tr>
+<th>レベル</th>
+<th>記述</th>
+<th>DOK対応</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>卓越</td>
+<td>複数情報源を統合し独自の洞察・解決策を論理的に構築</td>
+<td>DOK-4</td>
+</tr>
+<tr>
+<td>達成</td>
+<td>適切な根拠に基づき妥当な結論を論理的に提示</td>
+<td>DOK-3</td>
+</tr>
+<tr>
+<td>概ね達成</td>
+<td>基礎概念は理解しているが根拠提示が弱い</td>
+<td>DOK-2</td>
+</tr>
+<tr>
+<td>努力要</td>
+<td>断片的な知識の再生に留まる</td>
+<td>DOK-1</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3 id="第10章-自己調整学習で「主体的態度」評価を設計する">第10章　自己調整学習で「主体的態度」評価を設計する</h3>
+<p>第1〜3部の各「主体的に学習に取り組む態度」セクションで提示した振り返りカード・自己評価シート・学習マネジメントシートは、<strong>Zimmermanの3フェーズ × 発達段階</strong>で意図的に設計されたものである。本章ではその設計原理を体系化する。</p>
+<h4>10-1. 発達段階別スキャフォルディング戦略</h4>
+<table>
+<thead>
+<tr>
+<th>段階</th>
+<th>脳科学的特徴</th>
+<th>SRL支援の重点</th>
+<th>教師の主な役割</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>小学校</td>
+<td>前頭前野（PFC）未熟、抑制機能弱い</td>
+<td>環境の構造化と共調整</td>
+<td><strong>環境調整者・伴走者</strong></td>
+</tr>
+<tr>
+<td>中学校</td>
+<td>情動系＞制御系（非同期発達）</td>
+<td>自律性支援・社会的側面の活用（SSRL）</td>
+<td><strong>モチベーター・ガイド</strong></td>
+</tr>
+<tr>
+<td>高校</td>
+<td>PFC成熟進行、抽象思考可能</td>
+<td>メタ認知の明示化・個別化</td>
+<td><strong>コンサルタント・メンター</strong></td>
+</tr>
+</tbody>
+</table>
+<p>特に中学校期は、「やる気のなさ」を性格や努力不足に帰属させず、<strong>神経発達上の自然な現象</strong>として理解した上で、選択肢提供・社会的相互作用・感情調整の指導を行う。</p>
+<h4>10-2. SRL強化型振り返りシートの設計原則</h4>
+<p>単なる「感想カード」と「SRL強化型振り返りシート」の違いは以下の通り:</p>
+<table>
+<thead>
+<tr>
+<th>要素</th>
+<th>単なる感想カード</th>
+<th>SRL強化型振り返りシート</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Before（予見）</td>
+<td>なし</td>
+<td>目標・使用方略・自信度を宣言</td>
+</tr>
+<tr>
+<td>During（遂行）</td>
+<td>なし</td>
+<td>モニタリング欄、気づき欄</td>
+</tr>
+<tr>
+<td>After（省察）</td>
+<td>「楽しかった」</td>
+<td>達成度、原因分析、次のアクション</td>
+</tr>
+</tbody>
+</table>
+<p>第2部・第3部で示した中学校用・高校用シートは後者の設計に基づく。「次のアクション」を書かせることで、Hattie &amp; Timperley の <strong>Feed-forward</strong>（次への一歩）を生徒自身が生成する。</p>
+<h4>10-3. 評価への応用：MSLQ的観点</h4>
+<p>「主体的態度」を評価する際の観点は、MSLQで検証されたSRL構成要素に対応させると客観性が増す:</p>
+<table>
+<thead>
+<tr>
+<th>評価観点</th>
+<th>MSLQ の対応構成要素</th>
+<th>観察される具体的姿</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目標設定と計画</td>
+<td>価値、自己効力感、目標志向性</td>
+<td>自分の現状を分析し具体的目標を設定</td>
+</tr>
+<tr>
+<td>方略の実行と調整</td>
+<td>認知方略、メタ認知方略</td>
+<td>効果を途中評価し、必要に応じ修正</td>
+</tr>
+<tr>
+<td>振り返りと転移</td>
+<td>メタ認知、自己評価</td>
+<td>学習過程を分析し次の学習に結びつける</td>
+</tr>
+<tr>
+<td>粘り強い取組</td>
+<td>努力調整、援助要請</td>
+<td>困難に多様な方略・援助で対処</td>
+</tr>
+</tbody>
+</table>
+<h4>10-4. 生成AIを「メタ認知コーチ」として使う</h4>
+<p>生成AIを「答えを出す機械」ではなく、SRLの足場かけとして使う設計が広がっている:</p>
+<ul>
+<li><strong>計画支援</strong>: 「私は中学生で部活がある。来週のテストに向けた計画案を3つ作って、それぞれのメリットを教えて。直しや答えは出さないで」</li>
+<li><strong>モニタリング支援</strong>: 「私の作文を読んで、論理が飛躍している箇所をヒントだけ指摘して。直し方は教えないで」</li>
+</ul>
+<p>ただし<strong>認知的オフローディングのリスク</strong>（思考をAIに丸投げする）に注意し、AIの使用は「壁打ち・ヒント・検証」に限定するルール作りが必要である。</p>
+<h4>10-5. 学習ログ（トレースデータ）の活用</h4>
+<p>LMSやタブレットから得られる学習ログは、自己申告（質問紙）にバイアスがある場合の客観的補完となる。「データを見ると、月曜日は学習時間が短いね。なぜだろう？」という、<strong>証拠に基づく対話</strong>がメタ認知を起動する。</p>
+<hr />
+<h3 id="第11章-SAMR×ブルーム・デジタル・タクソノミーでICT課題を評価する">第11章　SAMR×ブルーム・デジタル・タクソノミーでICT課題を評価する</h3>
+<p>GIGAスクール構想で1人1台端末が普及したいま、評価ガイドブックがICT活用に触れないわけにはいかない。本章では、ICT課題を<strong>統合の深さ（SAMR）</strong>と<strong>思考の質（ブルーム改訂版＋デジタル・タクソノミー）</strong>の二軸で評価する方法を扱う。</p>
+<h4>11-1. SAMRモデル：ICT統合の4段階</h4>
+<p>Ruben Puentedura の SAMR は、ICT活用の深度を4段階で示す:</p>
+<table>
+<thead>
+<tr>
+<th>段階</th>
+<th>内容</th>
+<th>例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>S</strong>ubstitution（代替）</td>
+<td>既存ツールの単純な置き換え、機能変化なし</td>
+<td>紙の配布物をPDFに</td>
+</tr>
+<tr>
+<td><strong>A</strong>ugmentation（増強）</td>
+<td>機能改善あり（例：自動採点、即時フィードバック）</td>
+<td>Google Forms クイズ</td>
+</tr>
+<tr>
+<td><strong>M</strong>odification（変容）</td>
+<td>学習デザイン自体の再設計</td>
+<td>クラウド同時編集の協働学習</td>
+</tr>
+<tr>
+<td><strong>R</strong>edefinition（再定義）</td>
+<td>ICT無しでは不可能な新タスク</td>
+<td>海外校との共同制作、VR制作</td>
+</tr>
+</tbody>
+</table>
+<p>S/A は「強化（Enhancement）」、M/R は「変革（Transformation）」と総称される。<strong>重要なのは、すべての授業がRedefinitionを目指す必要はない</strong>ことである。学習目標に応じて最適な段階を選ぶ戦略的判断が求められる。</p>
+<h4>11-2. SAMRとブルームの対応</h4>
+<table>
+<thead>
+<tr>
+<th>SAMR段階</th>
+<th>主たるブルーム認知プロセス</th>
+<th>代表的な動詞</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Substitution</td>
+<td>記憶する・理解する</td>
+<td>検索する、要約する、暗記する</td>
+</tr>
+<tr>
+<td>Augmentation</td>
+<td>応用する・分析する</td>
+<td>計算する、分類する、比較する</td>
+</tr>
+<tr>
+<td>Modification</td>
+<td>評価する・分析する</td>
+<td>批判する、議論する、共同制作する</td>
+</tr>
+<tr>
+<td>Redefinition</td>
+<td>創造する</td>
+<td>設計する、構築する、映像化する、発信する</td>
+</tr>
+</tbody>
+</table>
+<h4>11-3. ブルーム・デジタル・タクソノミー（Churches）</h4>
+<p>Andrew Churches は、ブルーム改訂版の各レベルに対応するデジタル動詞を明示化した:</p>
+<table>
+<thead>
+<tr>
+<th>ブルーム</th>
+<th>デジタル動詞例</th>
+<th>評価のポイント</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>記憶する</td>
+<td>ブックマーク、検索、タグ付け</td>
+<td>タグの体系性、信頼できる情報源の識別</td>
+</tr>
+<tr>
+<td>理解する</td>
+<td>ブール検索、ブログ、注釈</td>
+<td>検索戦略の精度、要約の質</td>
+</tr>
+<tr>
+<td>応用する</td>
+<td>プレゼン作成、共同編集、ハッキング</td>
+<td>ツールの選択力、操作の自信</td>
+</tr>
+<tr>
+<td>分析する</td>
+<td>データ分析、リバースエンジニアリング、マッシュアップ</td>
+<td>誤差の認識、構造の解読</td>
+</tr>
+<tr>
+<td>評価する</td>
+<td>コメント、検証、モデレーション、テスト</td>
+<td>情報源の批判的検証、書誌情報の正確性</td>
+</tr>
+<tr>
+<td>創造する</td>
+<td>プログラミング、ポッドキャスト、リミックス</td>
+<td>オリジナリティ、著作権配慮、設計の意図</td>
+</tr>
+</tbody>
+</table>
+<p>「<strong>創造する</strong>」レベルでは<strong>著作権・引用倫理</strong>が評価項目に含まれる点が重要である。デジタル時代の創造とデジタル・シティズンシップは不可分である。</p>
+<h4>11-4. ICT課題の評価ルーブリック例（情報の検証）</h4>
+<p>「この主張の信憑性を検証しなさい」というデジタル課題のルーブリック:</p>
+<table>
+<thead>
+<tr>
+<th>レベル</th>
+<th>検証プロセス</th>
+<th>参考文献</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Lv4</td>
+<td>4つ以上の多様な情報源、一次資料・学術論文・公的統計を含む。バイアスについて裏付けある独自判断</td>
+<td>APA/MLA等正式書式で完全に体系化</td>
+</tr>
+<tr>
+<td>Lv3</td>
+<td>3〜4の情報源、Web/書籍/新聞など複数タイプ。政府機関等を含む</td>
+<td>標準書式を試みる、書誌情報あり</td>
+</tr>
+<tr>
+<td>Lv2</td>
+<td>複数情報源だがタイプが偏る</td>
+<td>URL/タイトルのみ、書誌情報不足</td>
+</tr>
+<tr>
+<td>Lv1</td>
+<td>単一・出所不明な情報源、額面通りに受容</td>
+<td>なし、またはURLのみ</td>
+</tr>
+</tbody>
+</table>
+<p>このルーブリックはWeb検索が日常になった全教科で活用できる。「ググる」を「批判的に検証する」へと引き上げる評価枠組みである。</p>
+<h4>11-5. SAMR×CRMによる課題診断（推奨運用）</h4>
+<p>ICT課題を設計したら、二つの軸で点検する:</p>
+<ul>
+<li><strong>SAMR軸</strong>: この課題はICTがなくてもできるか？（できるならSubstitution止まり）</li>
+<li><strong>CRM軸</strong>: この課題はDOK何レベル相当の思考を要求しているか？</li>
+</ul>
+<p>理想は <strong>Modification/Redefinition × DOK-3/4</strong> に位置する課題だが、すべての時間がそうである必要はない。学期や単元を通したバランスを点検することが本質である。</p>
+<h4>11-6. 教員自身のテクノフォビア対策</h4>
+<p>ICT活用が進まない最大の障壁は、教員の<strong>テクノフォビア（技術不安）</strong>である。これは性格の問題ではなく、自己効力感と認知の歪みの問題として対処できる:</p>
+<table>
+<thead>
+<tr>
+<th>自動思考</th>
+<th>認知の歪み</th>
+<th>適応的思考</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ICT が止まったら授業が崩壊する</td>
+<td>全か無か思考、破局視</td>
+<td>トラブルは生徒と問題解決を学ぶ機会。アナログの代替案も用意がある</td>
+</tr>
+<tr>
+<td>生徒の方が詳しいと威厳が保てない</td>
+<td>すべき思考</td>
+<td>教師は知識の所有者ではなくファシリテーター。操作は生徒に教えてもらえばよい</td>
+</tr>
+<tr>
+<td>他の先生は皆使いこなしている</td>
+<td>過度の一般化</td>
+<td>誰もが最初は初心者。出席確認のデジタル化（Substitution）から始める</td>
+</tr>
+</tbody>
+</table>
+<p>「Substitution から段階的に」という設計はSAMRの理論であると同時に、<strong>教員の心理的暴露療法</strong>としても機能する。</p>
+<hr />
+<h2 id="終章-評価の改善に向けて">終章　評価の改善に向けて</h2>
+<h3 id="3観点の評価を支える5つの原則">3観点の評価を支える5つの原則</h3>
+<p>海外の評価研究の知見を総合すると、3観点の評価を効果的に機能させるための原則は以下の5つにまとめられる。</p>
+<h4>原則1: 逆向き設計で評価を計画する（Wiggins &amp; McTighe）</h4>
+<p>「何を教えるか」からではなく、「何を評価するか（＝何ができるようになってほしいか）」から単元を設計する。3観点それぞれについて、評価の場面と方法を単元の最初に計画しておく。</p>
+<h4>原則2: 形成的評価と総括的評価を区別する（Black &amp; Wiliam）</h4>
+<p>成績をつけるための評価（総括的評価）と、学びを改善するための評価（形成的評価）は目的が異なる。授業中の観察、振り返りカード、自己評価シートなどは形成的評価として活用し、生徒への即時フィードバックにつなげる。</p>
+<h4>原則3: フィードバックは「課題」「プロセス」「自己調整」に焦点化する（Hattie &amp; Timperley）</h4>
+<p>「すごいね」「がんばったね」といった自己レベルのフィードバックは学習効果が最も低い。3観点に対応して:
+- 知識・技能 → 「ここの計算は正確だが、ここで符号の間違いがある」（課題レベル）
+- 思考・判断・表現 → 「根拠は明確だが、反対の立場からの検討を加えるとさらに説得力が増す」（プロセスレベル）
+- 主体的態度 → 「前の単元で見つけた"図を描いてから考える"という方略が今回も効いているね」（自己調整レベル）</p>
+<h4>原則4: 認知的複雑さの多層性を意識する（Webb DOK / Hess CRM）</h4>
+<p>評価課題がDOK Level 1（再生）に偏っていないかを常にチェックする。特に「思考・判断・表現」の評価にはLevel 2以上、できればLevel 3–4の課題を含める。さらに、ブルーム×DOKの<strong>認知的厳密性マトリックス</strong>を用いれば、「分析する」「評価する」と銘打った課題が実は浅い思考しか要求していない、といった見落としを発見できる（第8〜9章）。</p>
+<h4>原則5: 評価は児童生徒の自律性・有能感・関係性を支えるものであるべき（Deci &amp; Ryan）</h4>
+<p>罰則的な評価、量的競争、監視型の評価は外発的動機づけを強化し、内発的な学びへの動機を阻害する。特に「主体的に学習に取り組む態度」の評価においては、自律的な選択の余地を保障し、失敗を許容し、成長のプロセスを肯定する仕組みが不可欠である。</p>
+<h4>原則6: 「主体的態度」評価はSRL理論に基づき発達段階別に設計する（Zimmerman/Pintrich/Winne）</h4>
+<p>「主体的に学習に取り組む態度」の評価は、提出物のチェックや挙手回数の集計ではなく、<strong>自己調整学習（SRL）の3フェーズ × 4領域</strong>を発達段階に応じて見取る設計が不可欠である。小学校では環境構造化と共調整、中学校では自律性支援とSSRL、高校ではメタ認知の明示化と援助要請の促進——脳科学的発達と整合した支援が「主体性」を育てる（第10章）。</p>
+<h4>原則7: ICT活用課題はSAMR×CRMで二軸評価する</h4>
+<p>GIGA端末での課題設計では、「ICTがなくてもできるか（SAMR軸）」と「DOK何レベル相当か（CRM軸）」の二軸で点検する。Substitution止まりの代替活用と、Redefinitionでしか実現できない探究は同列に評価できない。デジタル時代の評価には、デジタル・タクソノミーが示す「情報の検証力」「書誌情報の正確性」「著作権配慮」など、新しい評価項目が含まれる（第11章）。</p>
+<hr />
+<h3 id="校種別の評価設計チェックリスト">校種別の評価設計チェックリスト</h3>
+<p>以下のチェックリストを用い、自校の評価計画を点検してほしい。</p>
+<h4>全校種共通</h4>
+<ul>
+<li>[ ] 単元の評価計画を、授業計画より先に（または同時に）作成しているか</li>
+<li>[ ] 3観点それぞれについて、異なる評価場面・方法を設定しているか</li>
+<li>[ ] ルーブリックや評価基準を児童生徒に事前に共有しているか（Sadlerの条件）</li>
+<li>[ ] 「知識・技能」の評価で、技能面の評価が抜け落ちていないか</li>
+<li>[ ] 「思考・判断・表現」の評価が、知識の再生問題で代替されていないか</li>
+<li>[ ] 「主体的に学習に取り組む態度」の評価が、「忘れ物チェック」や「挙手の回数」になっていないか</li>
+<li>[ ] 一つの観点が他の観点のデータで代替されていないか（二重評価の回避）</li>
+</ul>
+<h4>小学校</h4>
+<ul>
+<li>[ ] 児童の発達段階に応じた振り返りの方法を用意しているか（低学年は選択式など）</li>
+<li>[ ] 学びの楽しさを損なわない肯定的なフィードバックを意識しているか</li>
+<li>[ ] 家庭環境に依存する項目（忘れ物、宿題の量）を態度の評価に含めていないか</li>
+</ul>
+<h4>中学校</h4>
+<ul>
+<li>[ ] 定期テストに「知識の再生」だけでなく「思考を問う問題」を含めているか</li>
+<li>[ ] 実技教科で、実技の評価を適切に行っているか</li>
+<li>[ ] ポートフォリオや自己評価シートなど、経時的な変化を捉える方法を取り入れているか</li>
+<li>[ ] 思春期の生徒の心理に配慮し、発言回数等を態度の指標にしていないか</li>
+</ul>
+<h4>高校</h4>
+<ul>
+<li>[ ] 大学入試対策に偏らず、3観点のバランスのとれた評価を実施しているか</li>
+<li>[ ] DOK Level 3–4の課題を意図的に組み込んでいるか</li>
+<li>[ ] 生徒の自己調整学習を促す仕組み（マネジメントシート等）を導入しているか</li>
+<li>[ ] 教科横断的な資質・能力の評価を視野に入れているか</li>
+</ul>
+<hr />
+<h3 id="「主体的に学習に取り組む態度」評価のDo--Don't-一覧">「主体的に学習に取り組む態度」評価のDo / Don't 一覧</h3>
+<table>
+<thead>
+<tr>
+<th>Do（推奨）</th>
+<th>Don't（回避）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>振り返りの「質」を評価する</td>
+<td>振り返りカードの「提出の有無」で評価する</td>
+</tr>
+<tr>
+<td>学習方略の選択・修正を見る</td>
+<td>発言回数・挙手回数を数える</td>
+</tr>
+<tr>
+<td>粘り強さを「困難への対処法」で捉える</td>
+<td>「最後まで座っていたか」で判断する</td>
+</tr>
+<tr>
+<td>単元を超えた成長過程を追跡する</td>
+<td>1回のテストや1時間の授業で判定する</td>
+</tr>
+<tr>
+<td>自己評価・相互評価を取り入れる</td>
+<td>教師の主観のみで判断する</td>
+</tr>
+<tr>
+<td>自律的な目標設定を促す</td>
+<td>一律の課題量（ページ数等）を課す</td>
+</tr>
+<tr>
+<td>失敗からの学びを肯定する</td>
+<td>間違いや未達成を減点する</td>
+</tr>
+<tr>
+<td>多様な表現方法を認める</td>
+<td>特定のフォーマットでの表現のみを評価する</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="参考文献">参考文献</h2>
+<h3 id="海外の主要文献">海外の主要文献</h3>
+<ol>
+<li>
+<p><strong>Black, P., &amp; Wiliam, D. (1998).</strong> Assessment and Classroom Learning. <em>Assessment in Education: Principles, Policy &amp; Practice</em>, 5(1), 7–74.<br />
+   → 形成的評価の有効性を実証した歴史的メタ分析</p>
+</li>
+<li>
+<p><strong>Hattie, J., &amp; Timperley, H. (2007).</strong> The Power of Feedback. <em>Review of Educational Research</em>, 77(1), 81–112.<br />
+   → フィードバックの3つの問いと4つのレベルを提示</p>
+</li>
+<li>
+<p><strong>Zimmerman, B. J. (2002).</strong> Becoming a Self-Regulated Learner: An Overview. <em>Theory Into Practice</em>, 41(2), 64–70.<br />
+   → 自己調整学習の3段階モデルを体系化</p>
+</li>
+<li>
+<p><strong>Deci, E. L., &amp; Ryan, R. M. (2000).</strong> The "What" and "Why" of Goal Pursuits: Human Needs and the Self-Determination of Behavior. <em>Psychological Inquiry</em>, 11(4), 227–268.<br />
+   → 自律性・有能感・関係性の3つの基本的心理欲求</p>
+</li>
+<li>
+<p><strong>Wiggins, G., &amp; McTighe, J. (2005).</strong> <em>Understanding by Design</em> (2nd ed.). Alexandria, VA: ASCD.<br />
+   → 逆向き設計による単元構成とパフォーマンス評価</p>
+</li>
+<li>
+<p><strong>Webb, N. L. (1997).</strong> Criteria for Alignment of Expectations and Assessments in Mathematics and Science Education. <em>NISE Research Monograph No. 6</em>. University of Wisconsin–Madison.<br />
+   → 知識の深さ（DOK）の4段階モデル</p>
+</li>
+<li>
+<p><strong>Sadler, D. R. (1989).</strong> Formative assessment and the design of instructional systems. <em>Instructional Science</em>, 18, 119–144.<br />
+   → 形成的評価が機能するための3条件</p>
+</li>
+<li>
+<p><strong>OECD (2005).</strong> <em>Formative Assessment: Improving Learning in Secondary Classrooms</em>. Paris: OECD Publishing.<br />
+   → 各国の形成的評価の実践事例と政策分析</p>
+</li>
+<li>
+<p><strong>Niemiec, C. P., &amp; Ryan, R. M. (2009).</strong> Autonomy, competence, and relatedness in the classroom: Applying self-determination theory to educational practice. <em>Theory and Research in Education</em>, 7(2), 133–144.</p>
+</li>
+<li>
+<p><strong>Earl, L. M. (2003).</strong> <em>Assessment as Learning: Using Classroom Assessment to Maximize Student Learning</em>. Thousand Oaks, CA: Corwin Press.<br />
+    → Assessment of / for / as Learning の3分類を体系化<br />
+   → 自己決定理論の教育実践への適用</p>
+</li>
+<li>
+<p><strong>Biggs, J. B., &amp; Collis, K. F. (1982).</strong> <em>Evaluating the Quality of Learning: The SOLO Taxonomy</em>. New York: Academic Press.<br />
+    → 思考の深さを5段階で構造的に捉えるモデル</p>
+</li>
+<li>
+<p><strong>OECD (2019).</strong> <em>OECD Learning Compass 2030</em>.<br />
+    → Student Agency（生徒のエージェンシー）の国際的枠組み</p>
+</li>
+</ol>
+<h3 id="第4部「フレームワーク編」関連文献">第4部「フレームワーク編」関連文献</h3>
+<ol start="12">
+<li>
+<p><strong>Anderson, L. W., &amp; Krathwohl, D. R. (Eds.) (2001).</strong> <em>A Taxonomy for Learning, Teaching, and Assessing: A Revision of Bloom's Taxonomy of Educational Objectives</em>. New York: Longman.<br />
+    → ブルームの改訂版タキソノミー（思考の「種類」を6段階で分類）</p>
+</li>
+<li>
+<p><strong>Hess, K. K., Jones, B. S., Carlock, D., &amp; Walkup, J. R. (2009).</strong> <em>Cognitive Rigor: Blending the Strengths of Bloom's Taxonomy and Webb's Depth of Knowledge to Enhance Classroom-Level Processes</em>. ERIC ED517804.<br />
+    → 認知的厳密性マトリックス（CRM）の理論的基盤</p>
+</li>
+<li>
+<p><strong>Pintrich, P. R. (2000).</strong> The role of goal orientation in self-regulated learning. In M. Boekaerts, P. R. Pintrich, &amp; M. Zeidner (Eds.), <em>Handbook of Self-Regulation</em> (pp. 451–502). Academic Press.<br />
+    → SRLを「フェーズ×領域」で立体化した枠組み</p>
+</li>
+<li>
+<p><strong>Winne, P. H., &amp; Hadwin, A. F. (1998).</strong> Studying as self-regulated learning. In D. J. Hacker, J. Dunlosky, &amp; A. C. Graesser (Eds.), <em>Metacognition in Educational Theory and Practice</em> (pp. 277–304). Lawrence Erlbaum.<br />
+    → COPESモデル、メタ認知的モニタリングのハブ機能</p>
+</li>
+<li>
+<p><strong>Hadwin, A. F., Järvelä, S., &amp; Miller, M. (2011).</strong> Self-regulated, co-regulated, and socially shared regulation of learning. In B. J. Zimmerman &amp; D. H. Schunk (Eds.), <em>Handbook of Self-Regulation of Learning and Performance</em>. Routledge.<br />
+    → 社会的共有調整学習（SSRL）</p>
+</li>
+<li>
+<p><strong>Pintrich, P. R., Smith, D. A. F., García, T., &amp; McKeachie, W. J. (1991).</strong> <em>A Manual for the Use of the Motivated Strategies for Learning Questionnaire (MSLQ)</em>. University of Michigan.<br />
+    → SRL測定の標準尺度</p>
+</li>
+<li>
+<p><strong>Puentedura, R. R. (2006).</strong> <em>Transformation, Technology, and Education</em>.<br />
+    → SAMRモデル（ICT統合の4段階）</p>
+</li>
+<li>
+<p><strong>Mishra, P., &amp; Koehler, M. J. (2006).</strong> Technological pedagogical content knowledge: A framework for teacher knowledge. <em>Teachers College Record</em>, 108(6), 1017–1054.<br />
+    → TPACKモデル（教員の技術・指導法・教科の統合知識）</p>
+</li>
+<li>
+<p><strong>Churches, A. (2009).</strong> <em>Bloom's Digital Taxonomy</em>.<br />
+    → ブルーム改訂版にデジタル動詞をマッピングした拡張枠組み</p>
+</li>
+<li>
+<p><strong>Sweller, J., van Merriënboer, J. J. G., &amp; Paas, F. G. W. C. (1998).</strong> Cognitive architecture and instructional design. <em>Educational Psychology Review</em>, 10(3), 251–296.<br />
+    → 認知負荷理論（学習関連負荷と外在性負荷）</p>
+</li>
+<li>
+<p><strong>Miyake, A., Friedman, N. P., Emerson, M. J., et al. (2000).</strong> The unity and diversity of executive functions. <em>Cognitive Psychology</em>, 41(1), 49–100.<br />
+    → 実行機能の3要素（抑制・ワーキングメモリ・認知的柔軟性）モデル</p>
+</li>
+</ol>
+<h3 id="国内の関連資料">国内の関連資料</h3>
+<ol start="12">
+<li>国立教育政策研究所 (2020). 『「指導と評価の一体化」のための学習評価に関する参考資料』  </li>
+<li>文部科学省 (2019). 『学習評価の在り方ハンドブック（小・中学校編）』  </li>
+<li>文部科学省 (2019). 『学習評価の在り方ハンドブック（高等学校編）』  </li>
+<li>中央教育審議会 (2019). 『児童生徒の学習評価の在り方について（報告）』</li>
+</ol>
+<hr />
+<blockquote>
+<p><strong>本ガイドブックは、教育現場での評価の質的向上を目的として作成されたものです。各学校・教科の実態に応じて適宜修正・活用してください。</strong></p>
+</blockquote>
+<hr />
+<p><em>Assessment Guidebook v3.0 — 3観点の正しい実践 × 評価設計を深化させる4つのフレームワーク（DOK / CRM / SRL / SAMR×Digital Taxonomy）</em></p>
+  </main>
 </div>
-</div>
 
-<button class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">&#8593;</button>
+<footer class="site-footer">
+  <div class="site-footer-inner">
+    <p><strong>Assessment Guidebook v3.0</strong></p>
+    <p style="margin-top: 0.6rem;">3観点の正しい実践 × 評価設計を深化させる4つのフレームワーク（DOK / CRM / SRL / SAMR×Digital Taxonomy）</p>
+    <p style="margin-top: 1.2rem; opacity: 0.6;">本ガイドブックは、教育現場での評価の質的向上を目的として作成されたものです。各学校・教科の実態に応じて適宜修正・活用してください。</p>
+  </div>
+</footer>
 
 <script>
-// Back to top button visibility
-window.addEventListener('scroll', () => {
-  const btn = document.querySelector('.back-to-top');
-  btn.classList.toggle('visible', window.scrollY > 400);
-});
+// Highlight active TOC item on scroll
+(function() {
+  const tocLinks = document.querySelectorAll('.toc a[data-target]');
+  const targets = Array.from(tocLinks).map(a => ({
+    link: a,
+    el: document.getElementById(a.dataset.target)
+  })).filter(t => t.el);
 
-// Active sidebar link tracking
-const sections = document.querySelectorAll('h2[id], h3[id], .part-header[id]');
-const navLinks = document.querySelectorAll('.sidebar nav a');
-
-window.addEventListener('scroll', () => {
-  let current = '';
-  sections.forEach(section => {
-    const rect = section.getBoundingClientRect();
-    if (rect.top <= 120) current = section.id;
-  });
-  navLinks.forEach(link => {
-    link.classList.toggle('active', link.getAttribute('href') === '#' + current);
-  });
-});
-
-// Close mobile sidebar on link click
-navLinks.forEach(link => {
-  link.addEventListener('click', () => {
-    document.querySelector('.sidebar').classList.remove('open');
-  });
-});
+  function onScroll() {
+    const y = window.scrollY + 120;
+    let active = null;
+    for (const t of targets) {
+      if (t.el.offsetTop <= y) active = t;
+    }
+    tocLinks.forEach(a => a.classList.remove('active'));
+    if (active) active.link.classList.add('active');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+})();
 </script>
 
 </body>
